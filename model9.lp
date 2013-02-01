@@ -1,39 +1,83 @@
+% revolutionary idea
+%
+% Probably the GAC encoding of the AtMostSequcenConstraint
+
+%Input: 
+
+%class(C) :- class_count(C,_). 
+%last(N) :- N = #sum[class_count(_,K) = K ].
+%pos(1..L) :- first(F), last(L). 
+
+%     
+% option_window(Option,WMax),
+% option_max(Option,MMax),
+% class_option(Car,O).
 
 
-car(1..300). 
+%Idea and Model
+%the problem is given as window constraints
+%of the general form 
+%
+% counter(I,Q,M,S), 
+% with the meaning: 
+% I : identifier for the counter
+% Q: fixed window size
+% M: maximal value per window
+% S: exactly S occurences over the whole sequence
 
-{ succ(A,B) } :- car(A;B), A < B. 
+%test
+last(4). 
+pos(1..L) :- last(L). 
+counter(t,1,2,2). 
 
-:- car(A), 3 { succ(A,_), succ(_,A) }. 
+0 { c(I,P,N) } 1 :- 
+    counter(I,_,_,S), 
+    N = 1..S+1, 
+    pos(P). 
 
-in(A) :- succ(_,A). 
-out(A) :- succ(A,_). 
+%initalisation
 
-middle(A) :- in(A), out(A). 
+c(I,0,1) :- 
+    counter(I,_,_,_). 
 
-left_edge(A) :- car(A), not middle(A), 2 { succ(A,_) }. 
-right_edge(A) :- car(A), not middle(A), 2 { succ(_,A) }. 
+:-  last(P), 
+    counter(I,_,_,S),
+    not c(I,P,S).
 
-edge(A) :- left_edge(A).
-edge(A) :- right_edge(A).
+:-  counter(I,_,_,S),
+    c(I,P,S+1). 
 
-one(A) :- car(A), not middle(A), not edge(A). 
+% cumulative structure
+:-  c(I,P,N), 
+    not c(I,P+1,N). 
 
-:- not 2 { one(_) } 2. 
+:-  c(I,P,N),   
+    not c(I,P,N-1). 
 
-first(A) :- one(A;B), A < B. 
+%negative propagation
+:-  counter(I,_,M,R), 
+    pos(P),
+    N = 1..R, 
+    not c(I,P,N),
+    K = 1..M, 
+    c(I,P+K,N+K). 
 
-reached(A) :- first(A). 
-reached(B) :- succ(A,B), reached(A). 
-reached(B) :- succ(B,A), reached(A). 
+:-  counter(I,Q,M,R), 
+    pos(P),
+    N = 1..R, 
+    not c(I,P,N),
+    K = Q-M..Q+1,
+    c(I,P+K,N+M). 
 
-:- car(A), not reached(A). 
+%positive propagation
+:-  counter(I,_,M,_), 
+    c(I,P,N),
+    K = 1..M, 
+    not c(I,P-K,N-K). 
 
-left(A) :- in(A), first(A). 
-right(A) :- out(A), first(A).
+:-  counter(I,Q,M,_), 
+    c(I,P,N),
+    K = Q-M..Q+1,
+    not c(I,P-K,N-M). 
 
-left(A) :- left(B), succ(A,B), middle(A). 
-right(B) :- right(A), succ(A,B), middle(B). 
 
-%left(C) :- right(A), succ(A,B), succ(C,B), A!=C. 
-%right(C) :- left(A), succ(B,A), succ(B,C), A!=C. 
