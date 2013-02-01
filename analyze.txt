@@ -1,0 +1,60 @@
+pb_200_01.txt 0         pb_200_01.lp UNKNOWN      
+pb_300_01.txt 0         pb_300_01.lp UNKNOWN      
+pb_400_01.txt 1                                   
+pb_200_02.txt 2         pb_200_02.lp UNKNOWN      
+pb_300_02.txt 12        pb_300_02.lp UNKNOWN      
+pb_400_02.txt 16                                  
+pb_200_03.txt 4         pb_200_03.lp UNKNOWN      
+pb_300_03.txt 13    1   pb_300_03.lp UNSATISFIABLE
+pb_400_03.txt 9                                   
+pb_200_04.txt 7     1   pb_200_04.lp UNSATISFIABLE
+pb_300_04.txt 7     1   pb_300_04.lp UNSATISFIABLE
+pb_400_04.txt 19                                  
+pb_200_05.txt 6         pb_200_05.lp UNKNOWN      
+pb_300_05.txt 29    1   pb_300_05.lp UNSATISFIABLE
+pb_400_05.txt 0                                   
+pb_200_06.txt 6         pb_200_06.lp UNKNOWN      
+pb_300_06.txt 2         pb_300_06.lp UNKNOWN      
+pb_400_06.txt 0                                   
+pb_200_07.txt 0         pb_200_07.lp UNKNOWN      
+pb_300_07.txt 0         pb_300_07.lp UNKNOWN      
+pb_400_07.txt 4                                   
+pb_200_08.txt 8         pb_200_08.lp UNKNOWN      
+pb_300_08.txt 8     1   pb_300_08.lp UNSATISFIABLE
+pb_400_08.txt 4                                   
+pb_200_09.txt 10        pb_200_09.lp UNSATISFIABLE
+pb_300_09.txt 7         pb_300_09.lp UNKNOWN      
+pb_400_09.txt 5                                   
+pb_200_10.txt 19    1   pb_200_10.lp UNSATISFIABLE
+pb_300_10.txt 21    1   pb_300_10.lp UNSATISFIABLE
+pb_400_10.txt 0 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

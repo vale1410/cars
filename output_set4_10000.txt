@@ -1,0 +1,800 @@
+
+data/set4/pb_200_01.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 9999.989s (Solving: 9996.28s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39930.250s
+Choices     : 279096754
+Conflicts   : 125767084
+Restarts    : 109217 (Average: 1151.53 Last: 4601780)
+
+Atoms       : 62925  (Original: 53925 Auxiliary: 9000)
+Rules       : 131729 (1: 107729/131129 2: 400/0 3: 200/200)
+Bodies      : 93615 
+Equivalences: 96238  (Atom=Atom: 2340 Body=Body: 1412 Other: 92486)
+Tight       : Yes
+
+Variables   : 102045 (Eliminated: 46429 Frozen:    0)
+Constraints : 178880 (Binary: 40.7% Ternary: 55.4% Other:  3.9%)
+Lemmas      : 135264393 (Binary:  0.0% Ternary:  0.5% Other: 99.4%)
+  Conflict  : 125767069 (Average Length: 143.7) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 9497324 (Average Length: 8.6)
+  Deleted   : 133933105
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 3167999 (Ratio: 0.03 Average LBD: 3.62) 
+Integrated  : 9503995 (Ratio: 3.00 Unit: 132746 Average Jumps: 8.88)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_02.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.097s (Solving: 9996.36s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39931.850s
+Choices     : 287304962
+Conflicts   : 138628616
+Restarts    : 109162 (Average: 1269.93 Last: 5984958)
+
+Atoms       : 62745  (Original: 53745 Auxiliary: 9000)
+Rules       : 131767 (1: 107767/131167 2: 400/0 3: 200/200)
+Bodies      : 93251 
+Equivalences: 95878  (Atom=Atom: 2342 Body=Body: 1412 Other: 92124)
+Tight       : Yes
+
+Variables   : 101681 (Eliminated: 46524 Frozen:    0)
+Constraints : 177592 (Binary: 41.3% Ternary: 55.0% Other:  3.7%)
+Lemmas      : 144872977 (Binary:  0.0% Ternary:  0.5% Other: 99.4%)
+  Conflict  : 138628616 (Average Length: 158.4) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 6244361 (Average Length: 7.5)
+  Deleted   : 143538938
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 2082877 (Ratio: 0.02 Average LBD: 3.56) 
+Integrated  : 6248631 (Ratio: 3.00 Unit: 71949 Average Jumps: 12.27)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_03.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 9999.990s (Solving: 9996.44s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39932.850s
+Choices     : 275751130
+Conflicts   : 133418511
+Restarts    : 99185  (Average: 1345.15 Last: 3453655)
+
+Atoms       : 63007  (Original: 54007 Auxiliary: 9000)
+Rules       : 131495 (1: 107495/130895 2: 400/0 3: 200/200)
+Bodies      : 93783 
+Equivalences: 96402  (Atom=Atom: 2338 Body=Body: 1412 Other: 92652)
+Tight       : Yes
+
+Variables   : 102213 (Eliminated: 46422 Frozen:    0)
+Constraints : 179241 (Binary: 40.5% Ternary: 55.6% Other:  3.9%)
+Lemmas      : 141943616 (Binary:  0.0% Ternary:  0.6% Other: 99.4%)
+  Conflict  : 133418510 (Average Length: 161.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 8525106 (Average Length: 7.8)
+  Deleted   : 140482537
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 2843125 (Ratio: 0.02 Average LBD: 3.56) 
+Integrated  : 8529375 (Ratio: 3.00 Unit: 77883 Average Jumps: 9.76)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_04.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 6.767s (Solving: 3.12s 1st Model: 0.00s Unsat: 3.12s)
+CPU Time    : 13.260s
+Choices     : 603846
+Conflicts   : 59778
+Restarts    : 126    (Average: 474.41 Last: 5670)
+
+Atoms       : 62300  (Original: 53700 Auxiliary: 8600)
+Rules       : 130282 (1: 107282/129682 2: 400/0 3: 200/200)
+Bodies      : 93572 
+Equivalences: 96189  (Atom=Atom: 2335 Body=Body: 1411 Other: 92443)
+Tight       : Yes
+
+Variables   : 101403 (Eliminated: 46223 Frozen:    0)
+Constraints : 179305 (Binary: 40.0% Ternary: 56.2% Other:  3.8%)
+Lemmas      : 68505  (Binary:  1.4% Ternary:  6.3% Other: 92.3%)
+  Conflict  : 59765  (Average Length: 75.3) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 8740   (Average Length: 6.7)
+  Deleted   : 29457 
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 1
+Distributed : 4349   (Ratio: 0.07 Average LBD: 3.13) 
+Integrated  : 13036  (Ratio: 3.00 Unit: 1521 Average Jumps: 87.86)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_05.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 9999.990s (Solving: 9996.28s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39931.970s
+Choices     : 300843518
+Conflicts   : 167956642
+Restarts    : 110562 (Average: 1519.12 Last: 11857237)
+
+Atoms       : 60887  (Original: 52687 Auxiliary: 8200)
+Rules       : 128055 (1: 106055/127455 2: 400/0 3: 200/200)
+Bodies      : 91945 
+Equivalences: 94564  (Atom=Atom: 2334 Body=Body: 1410 Other: 90820)
+Tight       : Yes
+
+Variables   : 99177  (Eliminated: 46074 Frozen:    0)
+Constraints : 173916 (Binary: 40.4% Ternary: 56.0% Other:  3.6%)
+Lemmas      : 177136447 (Binary:  0.0% Ternary:  0.2% Other: 99.8%)
+  Conflict  : 167956633 (Average Length: 110.6) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 9179814 (Average Length: 9.0)
+  Deleted   : 176284692
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 3061740 (Ratio: 0.02 Average LBD: 3.73) 
+Integrated  : 9185208 (Ratio: 3.00 Unit: 147441 Average Jumps: 4.72)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_06.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.022s (Solving: 9996.41s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39932.460s
+Choices     : 286188310
+Conflicts   : 160922016
+Restarts    : 108040 (Average: 1489.47 Last: 7166342)
+
+Atoms       : 61209  (Original: 53009 Auxiliary: 8200)
+Rules       : 127306 (1: 105306/126706 2: 400/0 3: 200/200)
+Bodies      : 92603 
+Equivalences: 95208  (Atom=Atom: 2327 Body=Body: 1410 Other: 91471)
+Tight       : Yes
+
+Variables   : 99835  (Eliminated: 46040 Frozen:    0)
+Constraints : 175241 (Binary: 39.6% Ternary: 56.7% Other:  3.6%)
+Lemmas      : 165285477 (Binary:  0.0% Ternary:  0.1% Other: 99.8%)
+  Conflict  : 160922009 (Average Length: 130.3) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 4363468 (Average Length: 9.5)
+  Deleted   : 164584094
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 1456090 (Ratio: 0.01 Average LBD: 3.71) 
+Integrated  : 4368265 (Ratio: 3.00 Unit: 45000 Average Jumps: 7.50)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_07.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.026s (Solving: 9996.34s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39932.800s
+Choices     : 288822557
+Conflicts   : 119400730
+Restarts    : 99730  (Average: 1197.24 Last: 2792234)
+
+Atoms       : 60974  (Original: 52774 Auxiliary: 8200)
+Rules       : 127234 (1: 105234/126634 2: 400/0 3: 200/200)
+Bodies      : 92129 
+Equivalences: 94738  (Atom=Atom: 2329 Body=Body: 1410 Other: 90999)
+Tight       : Yes
+
+Variables   : 99361  (Eliminated: 46047 Frozen:    0)
+Constraints : 173735 (Binary: 39.9% Ternary: 56.4% Other:  3.7%)
+Lemmas      : 126948027 (Binary:  0.1% Ternary:  0.7% Other: 99.3%)
+  Conflict  : 119400718 (Average Length: 163.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 7547309 (Average Length: 7.6)
+  Deleted   : 125532367
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 2517430 (Ratio: 0.02 Average LBD: 3.55) 
+Integrated  : 7552290 (Ratio: 3.00 Unit: 113933 Average Jumps: 10.35)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_08.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.004s (Solving: 9996.40s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39932.760s
+Choices     : 293868253
+Conflicts   : 167245152
+Restarts    : 134955 (Average: 1239.27 Last: 13446586)
+
+Atoms       : 58170  (Original: 51170 Auxiliary: 7000)
+Rules       : 121035 (1: 102035/120435 2: 400/0 3: 200/200)
+Bodies      : 90142 
+Equivalences: 92733  (Atom=Atom: 2314 Body=Body: 1407 Other: 89012)
+Tight       : Yes
+
+Variables   : 95577  (Eliminated: 45458 Frozen:    0)
+Constraints : 167288 (Binary: 38.6% Ternary: 58.0% Other:  3.4%)
+Lemmas      : 179854938 (Binary:  0.0% Ternary:  0.3% Other: 99.7%)
+  Conflict  : 167245140 (Average Length: 88.0) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 12609798 (Average Length: 10.5)
+  Deleted   : 178788236
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 4204706 (Ratio: 0.03 Average LBD: 3.70) 
+Integrated  : 12614111 (Ratio: 3.00 Unit: 100500 Average Jumps: 5.29)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_09.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 5.010s (Solving: 1.47s 1st Model: 0.00s Unsat: 1.47s)
+CPU Time    : 6.660s
+Choices     : 398128
+Conflicts   : 21623
+Restarts    : 58     (Average: 372.78 Last: 1320)
+
+Atoms       : 62187  (Original: 53587 Auxiliary: 8600)
+Rules       : 130056 (1: 107056/129456 2: 400/0 3: 200/200)
+Bodies      : 93346 
+Equivalences: 95963  (Atom=Atom: 2335 Body=Body: 1411 Other: 92217)
+Tight       : Yes
+
+Variables   : 101177 (Eliminated: 46225 Frozen:    0)
+Constraints : 178384 (Binary: 40.1% Ternary: 56.1% Other:  3.8%)
+Lemmas      : 29766  (Binary:  3.8% Ternary: 15.8% Other: 80.3%)
+  Conflict  : 21613  (Average Length: 53.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 8153   (Average Length: 5.8)
+  Deleted   : 0     
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 0
+Distributed : 4184   (Ratio: 0.19 Average LBD: 2.97) 
+Integrated  : 12517  (Ratio: 2.99 Unit: 1687 Average Jumps: 91.27)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_200_10.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 4.036s (Solving: 0.29s 1st Model: 0.00s Unsat: 0.29s)
+CPU Time    : 1.870s
+Choices     : 75598
+Conflicts   : 4426
+Restarts    : 16     (Average: 276.56 Last: 226)
+
+Atoms       : 56637  (Original: 50037 Auxiliary: 6600)
+Rules       : 118369 (1: 100369/117769 2: 400/0 3: 200/200)
+Bodies      : 88277 
+Equivalences: 90868  (Atom=Atom: 2312 Body=Body: 1406 Other: 87150)
+Tight       : Yes
+
+Variables   : 93113  (Eliminated: 45263 Frozen:    0)
+Constraints : 160940 (Binary: 38.8% Ternary: 57.9% Other:  3.3%)
+Lemmas      : 7144   (Binary:  5.5% Ternary: 38.6% Other: 55.9%)
+  Conflict  : 4423   (Average Length: 20.8) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 2721   (Average Length: 2.7)
+  Deleted   : 0     
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 0
+Distributed : 1994   (Ratio: 0.45 Average LBD: 2.95) 
+Integrated  : 5967   (Ratio: 2.99 Unit: 657 Average Jumps: 41.03)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_01.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.106s (Solving: 9992.28s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39917.380s
+Choices     : 424074214
+Conflicts   : 155284919
+Restarts    : 117480 (Average: 1321.80 Last: 8740067)
+
+Atoms       : 123579 (Original: 110079 Auxiliary: 13500)
+Rules       : 256037 (1: 220037/255137 2: 600/0 3: 300/300)
+Bodies      : 198923
+Equivalences: 202746 (Atom=Atom: 3440 Body=Body: 2112 Other: 197194)
+Tight       : Yes
+
+Variables   : 211553 (Eliminated: 99629 Frozen:    0)
+Constraints : 382473 (Binary: 36.0% Ternary: 61.2% Other:  2.8%)
+Lemmas      : 165657417 (Binary:  0.0% Ternary:  0.4% Other: 99.6%)
+  Conflict  : 155284917 (Average Length: 124.3) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 10372500 (Average Length: 8.5)
+  Deleted   : 164452326
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 3458898 (Ratio: 0.02 Average LBD: 3.70) 
+Integrated  : 10376693 (Ratio: 3.00 Unit: 137323 Average Jumps: 13.80)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_02.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.039s (Solving: 9991.81s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39914.920s
+Choices     : 373401473
+Conflicts   : 136207116
+Restarts    : 94678  (Average: 1438.64 Last: 1562900)
+
+Atoms       : 122849 (Original: 109349 Auxiliary: 13500)
+Rules       : 254876 (1: 218876/253976 2: 600/0 3: 300/300)
+Bodies      : 197461
+Equivalences: 201286 (Atom=Atom: 3441 Body=Body: 2112 Other: 195733)
+Tight       : Yes
+
+Variables   : 210091 (Eliminated: 99568 Frozen:    0)
+Constraints : 377041 (Binary: 36.2% Ternary: 61.0% Other:  2.8%)
+Lemmas      : 161926952 (Binary:  0.0% Ternary:  1.2% Other: 98.8%)
+  Conflict  : 136207114 (Average Length: 103.1) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 25719838 (Average Length: 7.5)
+  Deleted   : 159303965
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 8574682 (Ratio: 0.06 Average LBD: 3.58) 
+Integrated  : 25724044 (Ratio: 3.00 Unit: 145828 Average Jumps: 14.12)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_03.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 50.068s (Solving: 41.98s 1st Model: 0.00s Unsat: 41.98s)
+CPU Time    : 169.430s
+Choices     : 5432659
+Conflicts   : 739088
+Restarts    : 817    (Average: 904.63 Last: 22836)
+
+Atoms       : 123105 (Original: 109605 Auxiliary: 13500)
+Rules       : 255986 (1: 219986/255086 2: 600/0 3: 300/300)
+Bodies      : 197969
+Equivalences: 201798 (Atom=Atom: 3443 Body=Body: 2112 Other: 196243)
+Tight       : Yes
+
+Variables   : 210599 (Eliminated: 99586 Frozen:    0)
+Constraints : 379682 (Binary: 36.2% Ternary: 61.0% Other:  2.8%)
+Lemmas      : 950151 (Binary:  0.8% Ternary:  5.9% Other: 93.4%)
+  Conflict  : 739076 (Average Length: 64.9) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 211075 (Average Length: 7.6)
+  Deleted   : 736226
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 0
+Distributed : 74177  (Ratio: 0.10 Average LBD: 3.29) 
+Integrated  : 221670 (Ratio: 2.99 Unit: 15246 Average Jumps: 38.90)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_04.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 8.632s (Solving: 0.60s 1st Model: 0.00s Unsat: 0.60s)
+CPU Time    : 4.150s
+Choices     : 135716
+Conflicts   : 6271
+Restarts    : 12     (Average: 522.42 Last: 2701)
+
+Atoms       : 121285 (Original: 108385 Auxiliary: 12900)
+Rules       : 252348 (1: 217848/251448 2: 600/0 3: 300/300)
+Bodies      : 196134
+Equivalences: 199959 (Atom=Atom: 3439 Body=Body: 2111 Other: 194409)
+Tight       : Yes
+
+Variables   : 207865 (Eliminated: 99275 Frozen:    0)
+Constraints : 373346 (Binary: 36.0% Ternary: 61.2% Other:  2.8%)
+Lemmas      : 12478  (Binary:  9.8% Ternary: 41.8% Other: 48.4%)
+  Conflict  : 6255   (Average Length: 39.3) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 6223   (Average Length: 3.1)
+  Deleted   : 0     
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 2
+Distributed : 3536   (Ratio: 0.57 Average LBD: 2.74) 
+Integrated  : 10579  (Ratio: 2.99 Unit: 1302 Average Jumps: 48.42)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_05.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 15.915s (Solving: 8.35s 1st Model: 0.00s Unsat: 8.35s)
+CPU Time    : 35.040s
+Choices     : 1221558
+Conflicts   : 63109
+Restarts    : 106    (Average: 595.35 Last: 3160)
+
+Atoms       : 116319 (Original: 105819 Auxiliary: 10500)
+Rules       : 240630 (1: 212130/239730 2: 600/0 3: 300/300)
+Bodies      : 193434
+Equivalences: 197231 (Atom=Atom: 3417 Body=Body: 2107 Other: 191707)
+Tight       : Yes
+
+Variables   : 201569 (Eliminated: 98047 Frozen:    0)
+Constraints : 365079 (Binary: 34.4% Ternary: 63.2% Other:  2.4%)
+Lemmas      : 98629  (Binary:  2.8% Ternary:  7.7% Other: 89.6%)
+  Conflict  : 63103  (Average Length: 45.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 35526  (Average Length: 11.2)
+  Deleted   : 34593 
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 0
+Distributed : 13858  (Ratio: 0.22 Average LBD: 3.00) 
+Integrated  : 41566  (Ratio: 3.00 Unit: 4932 Average Jumps: 119.55)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_06.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10000.006s (Solving: 9992.10s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39917.120s
+Choices     : 373562663
+Conflicts   : 148821527
+Restarts    : 101883 (Average: 1460.71 Last: 5280324)
+
+Atoms       : 123249 (Original: 109749 Auxiliary: 13500)
+Rules       : 254779 (1: 218779/253879 2: 600/0 3: 300/300)
+Bodies      : 198267
+Equivalences: 202086 (Atom=Atom: 3438 Body=Body: 2112 Other: 196536)
+Tight       : Yes
+
+Variables   : 210897 (Eliminated: 99625 Frozen:    0)
+Constraints : 379399 (Binary: 35.9% Ternary: 61.2% Other:  2.8%)
+Lemmas      : 154621136 (Binary:  0.0% Ternary:  0.4% Other: 99.6%)
+  Conflict  : 148821519 (Average Length: 124.8) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 5799617 (Average Length: 7.7)
+  Deleted   : 153381913
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 1934591 (Ratio: 0.01 Average LBD: 3.60) 
+Integrated  : 5803773 (Ratio: 3.00 Unit: 104323 Average Jumps: 16.21)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set4/pb_300_07.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+
+data/set5/pb_300_08.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 17.086s (Solving: 9.04s 1st Model: 0.00s Unsat: 9.04s)
+CPU Time    : 37.840s
+Choices     : 1629962
+Conflicts   : 113369
+Restarts    : 194    (Average: 584.37 Last: 12338)
+
+Atoms       : 120182 (Original: 107882 Auxiliary: 12300)
+Rules       : 248948 (1: 215948/248048 2: 600/0 3: 300/300)
+Bodies      : 195741
+Equivalences: 199554 (Atom=Atom: 3431 Body=Body: 2110 Other: 194013)
+Tight       : Yes
+
+Variables   : 206573 (Eliminated: 99042 Frozen:    0)
+Constraints : 371398 (Binary: 35.6% Ternary: 61.8% Other:  2.6%)
+Lemmas      : 142485 (Binary:  1.5% Ternary:  9.9% Other: 88.7%)
+  Conflict  : 113349 (Average Length: 68.7) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 29136  (Average Length: 6.4)
+  Deleted   : 73142 
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 2
+Distributed : 11555  (Ratio: 0.10 Average LBD: 3.17) 
+Integrated  : 34626  (Ratio: 3.00 Unit: 3345 Average Jumps: 105.72)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set5/pb_300_09.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 10001.091s (Solving: 9993.47s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 39916.370s
+Choices     : 317410243
+Conflicts   : 144501397
+Restarts    : 92386  (Average: 1564.10 Last: 7478534)
+
+Atoms       : 118130 (Original: 107030 Auxiliary: 11100)
+Rules       : 242755 (1: 212755/241855 2: 600/0 3: 300/300)
+Bodies      : 195261
+Equivalences: 199052 (Atom=Atom: 3416 Body=Body: 2108 Other: 193528)
+Tight       : Yes
+
+Variables   : 204295 (Eliminated: 98388 Frozen:    0)
+Constraints : 369728 (Binary: 34.4% Ternary: 63.1% Other:  2.5%)
+Lemmas      : 166812480 (Binary:  0.0% Ternary:  1.0% Other: 98.9%)
+  Conflict  : 144501393 (Average Length: 134.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 22311087 (Average Length: 7.4)
+  Deleted   : 164306574
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 7438452 (Ratio: 0.05 Average LBD: 3.57) 
+Integrated  : 22315351 (Ratio: 3.00 Unit: 104062 Average Jumps: 15.43)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+data/set5/pb_300_10.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 11.496s (Solving: 4.09s 1st Model: 0.00s Unsat: 4.09s)
+CPU Time    : 17.960s
+Choices     : 709043
+Conflicts   : 56512
+Restarts    : 111    (Average: 509.11 Last: 3720)
+
+Atoms       : 114680 (Original: 104780 Auxiliary: 9900)
+Rules       : 236158 (1: 209158/235258 2: 600/0 3: 300/300)
+Bodies      : 191969
+Equivalences: 195754 (Atom=Atom: 3409 Body=Body: 2106 Other: 190239)
+Tight       : Yes
+
+Variables   : 199205 (Eliminated: 97715 Frozen:    0)
+Constraints : 359043 (Binary: 33.9% Ternary: 63.7% Other:  2.4%)
+Lemmas      : 74963  (Binary:  2.2% Ternary:  9.3% Other: 88.5%)
+  Conflict  : 56488  (Average Length: 71.0) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 18475  (Average Length: 8.5)
+  Deleted   : 23126 
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : 1
+Distributed : 7668   (Ratio: 0.14 Average LBD: 3.12) 
+Integrated  : 22978  (Ratio: 3.00 Unit: 2209 Average Jumps: 86.51)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
+
+
+data/set5/pb_400_01.lp
+
+Option: --time-limit=10000 -t 4 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 5427.068s (Solving: 5412.17s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 21616.100s
+Choices     : 215197913
+Conflicts   : 49421323
+Restarts    : 38737  (Average: 1275.82 Last: 944988)
+
+Atoms       : 199193 (Original: 184523 Auxiliary: 14670)
+Rules       : 409319 (1: 368127/408119 2: 800/74 3: 400/400)
+Bodies      : 340815
+Equivalences: 345834 (Atom=Atom: 4538 Body=Body: 2812 Other: 338484)
+Tight       : Yes
+
+Variables   : 349431 (Eliminated: 170087 Frozen: 1851)
+Constraints : 645718 (Binary: 33.0% Ternary: 64.9% Other:  2.1%)
+Lemmas      : 55307289 (Binary:  0.1% Ternary:  2.3% Other: 97.6%)
+  Conflict  : 49421297 (Average Length: 139.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 5885992 (Average Length: 7.0)
+  Deleted   : 53556521
+
+============ PARALLEL STATISTICS ============
+
+Threads     : 4
+Winner      : -1
+Distributed : 1963485 (Ratio: 0.04 Average LBD: 3.45) 
+Integrated  : 5890439 (Ratio: 3.00 Unit: 111937 Average Jumps: 27.03)
+Splits      : 0
+Problems    : 4      (Average Length: 0.00) 
+
