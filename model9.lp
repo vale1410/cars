@@ -19,62 +19,38 @@ option(O) :- class_option(_,O).
 
 %Idea and Model
 
-% For each Option we need a total or of
-% classes and values for the channeling
-
-%option_succ(Option,C1,N1,C2,N2). 
-
-class_value(C,V) :- 
-    class_count(C,N), 
-    V = 1..N. 
-
-option_first(O,C,1) :-  
-    option(O), 
-    C = #min[class_option(X,O) = X].
-
-option_succ(O,C,V1,C,V1+1) :- 
-    class_option(C,O), 
-    class_value(C,V1;V1+1). 
-
-option_succ(O,C1,V,C2,1) :- 
-    class_option(C1,O), 
-    class_option(C2,O), 
-    C1 < C2,
-    class_value(C1,V), 
-    not class_value(C1,V+1), 
-    { class_option(C3,O):C3=C1+1..(C2-1) } 0. 
-
-option_node(O,C,V) :- 
-    option_first(O,C,V). 
-
-option_node(O,C,V) :- 
-    option_succ(O,_,_,C,V). 
-
-option_last(O,C,N) :- 
-    option_node(O,C,N), 
-    { option_succ(O,C,N,_,_) } 0. 
-
-class_option(C,e) :- class(C). 
-
-% e stands for exactly
+% We introduce an auxiliary option e
 % Exactly one car per position
-% which is modelled by aux option
+
 option_window(e,1). 
 option_max(e,1). 
 class_option(C,e) :- class(C). 
 
-%counter(c(C),1,1,N) :- 
-%    class_count(C,N). 
-%
-%counter(o(O),Q,M,N) :- 
-%    option_window(O,Q),
-%    option_max(O,M),
-%    N = #sum [class_count(C,T) = T : class_option(C,O)].
+counter(o(O),Q,M,N) :- 
+    option_window(O,Q),
+    option_max(O,M),
+    N = #sum [class_count(C,T) = T : class_option(C,O)].
 
-% Now we need to connect
-% con(Option,Position,Counter,Value). 
+counter(c(C),1,1,N) :- 
+    class_count(C,N). 
+    
+% Link between option and class
 
+o(P,o(O)) :- 
+    class_option(C,O),
+    pos(P;P+1),
+    not c(c(C),P,L),
+    c(c(C),P+1,L). 
 
+:-  pos(P;P+1),
+    o(P,O),
+    c(O,P,K),
+    not c(O,P+1,K+1).
+
+:-  pos(P;P+1),
+    not c(o(O),K,K),
+    c(o(O),P+1,K), 
+    not o(P+1,o(O)). 
 
 
 %%%%%%%%%%%%%%1%%
