@@ -19,13 +19,6 @@ option(O) :- class_option(_,O).
 
 %Idea and Model
 
-% We introduce an auxiliary option e
-% Exactly one car per position
-
-option_window(e,1). 
-option_max(e,1). 
-class_option(C,e) :- class(C). 
-
 counter(o(O),Q,M,N) :- 
     option_window(O,Q),
     option_max(O,M),
@@ -36,21 +29,33 @@ counter(c(C),1,1,N) :-
     
 % Link between option and class
 
-o(P,o(O)) :- 
+is_opt(o(O),P) :- 
     class_option(C,O),
     pos(P;P+1),
-    not c(c(C),P,L),
-    c(c(C),P+1,L). 
+    not is_c(c(C),P,L),
+    is_c(c(C),P+1,L). 
 
 :-  pos(P;P+1),
-    o(P,O),
-    c(O,P,K),
-    not c(O,P+1,K+1).
+    is_opt(O,P),
+    is_c(O,P,K),
+    not is_c(O,P+1,K+1).
 
 :-  pos(P;P+1),
-    not c(o(O),K,K),
-    c(o(O),P+1,K), 
-    not o(P+1,o(O)). 
+    not is_c(o(O),K,K),
+    is_c(o(O),P+1,K), 
+    not is_opt(o(O),P+1). 
+
+% what is missing: exactly one each day:
+
+ex(P,K) :- 
+    pos(P).
+    K=1..P. 
+
+% at most N for each counter missing!
+
+% do we need it?
+% no because we removed the need for them by 
+% omitting the variables 
 
 
 %%%%%%%%%%%%%%1%%
@@ -72,7 +77,7 @@ o(P,o(O)) :-
 %    counter(I,_,_,S), 
 %    N=1..S. 
 %
-%0 { c(I,P,N) } 1 :- 
+%0 { is_c(I,P,N) } 1 :- 
 %    val(I,N),
 %    pos(P). 
 %
@@ -80,40 +85,40 @@ o(P,o(O)) :-
 %
 %% lower left FALSE
 %:-  counter(I,_,_,_),
-%    c(I,0,1).
+%    is_c(I,0,1).
 %    
 %% upper right TRUE
 %:-  last(P), 
 %    counter(I,_,_,S),
-%    not c(I,P,S).
+%    not is_c(I,P,S).
 %
 %% cumulative structure
-%:-  c(I,P,N), 
-%    not c(I,P+1,N), 
+%:-  is_c(I,P,N), 
+%    not is_c(I,P+1,N), 
 %    pos(P;P+1).
 %
-%:-  c(I,P,N+1),   
-%    not c(I,P,N), 
+%:-  is_c(I,P,N+1),   
+%    not is_c(I,P,N), 
 %    val(I,N+1;N). 
 %
 %% propagation
 %:-  counter(I,_,M,_), 
 %    pos(P),
 %    val(I,N;N+K),
-%    not c(I,P,N),
+%    not is_c(I,P,N),
 %    K = 1..M, 
-%    c(I,P+K,N+K).
+%    is_c(I,P+K,N+K).
 %
 %:-  counter(I,Q,M,_), 
 %    val(I,N;N+M),
 %    pos(P),
-%    not c(I,P,N),
+%    not is_c(I,P,N),
 %    K = M+1..Q,
-%    c(I,P+K,N+M). 
+%    is_c(I,P+K,N+M). 
 %
 %%for debugging
-%%#minimize[c(I,P,N):val(I,N):pos(P)].
+%%#minimize[is_c(I,P,N):val(I,N):pos(P)].
 %
 %#hide.
-%#show c/3. 
+%#show is_c/3. 
 
