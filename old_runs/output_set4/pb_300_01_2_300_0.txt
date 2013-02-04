@@ -1,0 +1,29 @@
+Instance	:  data/set4/pb_300_01.lp
+Model		: model2.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=frumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 299.988s (Solving: 299.34s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 299.010s
+Choices     : 4443674
+Conflicts   : 2132813
+Restarts    : 22     (Average: 96946.05 Last: 1496178)
+
+Atoms       : 16676 
+Rules       : 28693  (1: 26850 2: 1543 3: 300)
+Bodies      : 12087 
+Equivalences: 31300  (Atom=Atom: 5506 Body=Body: 300 Other: 25494)
+Tight       : Yes
+
+Variables   : 11168  (Eliminated:    0 Frozen: 9943)
+Constraints : 22243  (Binary: 85.0% Ternary:  1.3% Other: 13.7%)
+Lemmas      : 2132813 (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 2132813 (Average Length: 281.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 2128448

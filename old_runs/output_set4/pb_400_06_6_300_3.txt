@@ -1,0 +1,29 @@
+Instance	:  data/set4/pb_400_06.lp
+Model		: model6.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 299.987s (Solving: 285.62s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 290.070s
+Choices     : 1618262
+Conflicts   : 762723
+Restarts    : 19     (Average: 40143.32 Last: 567271)
+
+Atoms       : 204105 (Original: 189468 Auxiliary: 14637)
+Rules       : 409248 (1: 368860/408048 2: 800/43 3: 400/400)
+Bodies      : 345541
+Equivalences: 355754 (Atom=Atom: 8515 Body=Body: 5596 Other: 341643)
+Tight       : Yes
+
+Variables   : 348872 (Eliminated: 170536 Frozen:  990)
+Constraints : 642903 (Binary: 32.6% Ternary: 65.3% Other:  2.0%)
+Lemmas      : 762723 (Binary:  0.0% Ternary:  0.2% Other: 99.8%)
+  Conflict  : 762723 (Average Length: 332.4) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 742607

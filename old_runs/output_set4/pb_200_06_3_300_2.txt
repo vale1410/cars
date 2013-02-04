@@ -1,0 +1,29 @@
+Instance	:  data/set4/pb_200_06.lp
+Model		: model3.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=handy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 299.965s (Solving: 298.31s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 298.170s
+Choices     : 8203022
+Conflicts   : 3218244
+Restarts    : 3400   (Average: 946.54 Last: 3196629)
+
+Atoms       : 15701  (Original: 15701 Auxiliary: 0)
+Rules       : 64092  (1: 58246/63446 2: 446/243 3: 200/200)
+Bodies      : 48594 
+Equivalences: 26829  (Atom=Atom: 6291 Body=Body: 1778 Other: 18760)
+Tight       : Yes
+
+Variables   : 20975  (Eliminated: 14378 Frozen: 4621)
+Constraints : 47107  (Binary: 75.7% Ternary: 19.6% Other:  4.7%)
+Lemmas      : 3218244 (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 3218244 (Average Length: 91.1) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 2969461

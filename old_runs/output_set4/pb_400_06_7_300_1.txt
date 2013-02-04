@@ -1,0 +1,29 @@
+Instance	:  data/set4/pb_400_06.lp
+Model		: model7.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=jumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 299.993s (Solving: 282.81s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 287.760s
+Choices     : 5899277
+Conflicts   : 725802
+Restarts    : 1533   (Average: 473.45 Last: 718343)
+
+Atoms       : 197333 (Original: 182696 Auxiliary: 14637)
+Rules       : 405266 (1: 364878/404066 2: 800/43 3: 400/400)
+Bodies      : 338773
+Equivalences: 365838 (Atom=Atom: 4529 Body=Body: 2810 Other: 358499)
+Tight       : Yes
+
+Variables   : 372002 (Eliminated: 170462 Frozen: 1032)
+Constraints : 642874 (Binary: 32.6% Ternary: 65.3% Other:  2.0%)
+Lemmas      : 725802 (Binary:  0.1% Ternary:  0.3% Other: 99.7%)
+  Conflict  : 725802 (Average Length: 174.7) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 695865

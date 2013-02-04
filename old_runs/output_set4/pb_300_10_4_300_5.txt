@@ -1,0 +1,28 @@
+Instance	:  data/set4/pb_300_10.lp
+Model		: model4.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=chatty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 106.051s (Solving: 105.15s 1st Model: 0.00s Unsat: 105.15s)
+CPU Time    : 105.180s
+Choices     : 2160292
+Conflicts   : 821410
+Restarts    : 20     (Average: 41070.45 Last: 156558)
+
+Atoms       : 23775  (Original: 23775 Auxiliary: 0)
+Rules       : 42351  (1: 35713/41413 2: 638/338 3: 300/300)
+Bodies      : 21870 
+Equivalences: 52039  (Atom=Atom: 10854 Body=Body: 4173 Other: 37012)
+Tight       : Yes
+
+Variables   : 15890  (Eliminated: 2996 Frozen: 6038)
+Constraints : 20979  (Binary: 79.9% Ternary: 10.0% Other: 10.2%)
+Lemmas      : 821409 (Binary:  0.2% Ternary:  0.1% Other: 99.7%)
+  Conflict  : 821409 (Average Length: 124.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 802613

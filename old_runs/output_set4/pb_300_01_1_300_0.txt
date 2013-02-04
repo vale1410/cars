@@ -1,0 +1,30 @@
+Instance	:  data/set4/pb_300_01.lp
+Model		: model1.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=frumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+Answer: 1
+is_car(300,23) is_car(299,8) is_car(298,12) is_car(297,9) is_car(296,19) is_car(295,0) is_car(294,23) is_car(293,6) is_car(292,12) is_car(291,9) is_car(290,20) is_car(289,0) is_car(288,22) is_car(287,6) is_car(286,12) is_car(285,11) is_car(284,19) is_car(283,0) is_car(282,22) is_car(281,6) is_car(280,14) is_car(279,9) is_car(278,19) is_car(277,0) is_car(276,22) is_car(275,8) is_car(274,12) is_car(273,9) is_car(272,19) is_car(271,0) is_car(270,23) is_car(269,6) is_car(268,12) is_car(267,9) is_car(266,20) is_car(265,0) is_car(264,22) is_car(263,6) is_car(262,12) is_car(261,11) is_car(260,19) is_car(259,0) is_car(258,22) is_car(257,6) is_car(256,14) is_car(255,9) is_car(254,19) is_car(253,0) is_car(252,22) is_car(251,7) is_car(250,13) is_car(249,9) is_car(248,19) is_car(247,0) is_car(246,23) is_car(245,6) is_car(244,12) is_car(243,9) is_car(242,20) is_car(241,0) is_car(240,22) is_car(239,6) is_car(238,12) is_car(237,11) is_car(236,19) is_car(235,0) is_car(234,22) is_car(233,5) is_car(232,15) is_car(231,9) is_car(230,19) is_car(229,0) is_car(228,22) is_car(227,7) is_car(226,13) is_car(225,9) is_car(224,19) is_car(223,0) is_car(222,23) is_car(221,5) is_car(220,13) is_car(219,9) is_car(218,20) is_car(217,0) is_car(216,22) is_car(215,5) is_car(214,13) is_car(213,11) is_car(212,19) is_car(211,0) is_car(210,22) is_car(209,5) is_car(208,15) is_car(207,9) is_car(206,19) is_car(205,0) is_car(204,22) is_car(203,7) is_car(202,13) is_car(201,9) is_car(200,19) is_car(199,0) is_car(198,23) is_car(197,5) is_car(196,13) is_car(195,9) is_car(194,20) is_car(193,0) is_car(192,22) is_car(191,5) is_car(190,13) is_car(189,11) is_car(188,19) is_car(187,0) is_car(186,22) is_car(185,5) is_car(184,15) is_car(183,9) is_car(182,14) is_car(181,5) is_car(180,22) is_car(179,1) is_car(178,19) is_car(177,11) is_car(176,12) is_car(175,5) is_car(174,22) is_car(173,1) is_car(172,20) is_car(171,9) is_car(170,12) is_car(169,5) is_car(168,23) is_car(167,1) is_car(166,19) is_car(165,9) is_car(164,12) is_car(163,7) is_car(162,21) is_car(161,2) is_car(160,19) is_car(159,5) is_car(158,17) is_car(157,7) is_car(156,19) is_car(155,3) is_car(154,19) is_car(153,7) is_car(152,17) is_car(151,5) is_car(150,19) is_car(149,2) is_car(148,21) is_car(147,7) is_car(146,16) is_car(145,5) is_car(144,19) is_car(143,4) is_car(142,21) is_car(141,5) is_car(140,16) is_car(139,5) is_car(138,20) is_car(137,4) is_car(136,19) is_car(135,5) is_car(134,16) is_car(133,7) is_car(132,21) is_car(131,2) is_car(130,19) is_car(129,5) is_car(128,17) is_car(127,7) is_car(126,19) is_car(125,2) is_car(124,19) is_car(123,7) is_car(122,18) is_car(121,5) is_car(120,19) is_car(119,2) is_car(118,20) is_car(117,7) is_car(116,16) is_car(115,5) is_car(114,19) is_car(113,4) is_car(112,21) is_car(111,5) is_car(110,16) is_car(109,5) is_car(108,20) is_car(107,4) is_car(106,19) is_car(105,5) is_car(104,16) is_car(103,7) is_car(102,21) is_car(101,2) is_car(100,19) is_car(99,5) is_car(98,17) is_car(97,7) is_car(96,19) is_car(95,2) is_car(94,19) is_car(93,7) is_car(92,18) is_car(91,5) is_car(90,19) is_car(89,2) is_car(88,20) is_car(87,7) is_car(86,16) is_car(85,5) is_car(84,19) is_car(83,4) is_car(82,20) is_car(81,5) is_car(80,16) is_car(79,5) is_car(78,20) is_car(77,2) is_car(76,20) is_car(75,5) is_car(74,16) is_car(73,7) is_car(72,19) is_car(71,2) is_car(70,20) is_car(69,5) is_car(68,16) is_car(67,7) is_car(66,19) is_car(65,2) is_car(64,20) is_car(63,5) is_car(62,16) is_car(61,7) is_car(60,19) is_car(59,2) is_car(58,20) is_car(57,5) is_car(56,14) is_car(55,10) is_car(54,12) is_car(53,5) is_car(52,14) is_car(51,11) is_car(50,13) is_car(49,5) is_car(48,12) is_car(47,11) is_car(46,14) is_car(45,5) is_car(44,13) is_car(43,9) is_car(42,14) is_car(41,5) is_car(40,14) is_car(39,10) is_car(38,12) is_car(37,5) is_car(36,14) is_car(35,11) is_car(34,12) is_car(33,5) is_car(32,12) is_car(31,11) is_car(30,14) is_car(29,5) is_car(28,12) is_car(27,10) is_car(26,14) is_car(25,5) is_car(24,14) is_car(23,5) is_car(22,12) is_car(21,11) is_car(20,12) is_car(19,5) is_car(18,14) is_car(17,10) is_car(16,14) is_car(15,5) is_car(14,12) is_car(13,11) is_car(12,12) is_car(11,5) is_car(10,12) is_car(9,11) is_car(8,12) is_car(7,5) is_car(6,12) is_car(5,5) is_car(4,2) is_car(3,12) is_car(2,5) is_car(1,24)
+SATISFIABLE
+
+Models      : 1+    
+Time        : 0.829s (Solving: 0.02s 1st Model: 0.02s Unsat: 0.00s)
+CPU Time    : 0.100s
+Choices     : 1250
+Conflicts   : 49
+Restarts    : 0     
+
+Atoms       : 10703 
+Rules       : 5627   (1: 3177 2: 2150 3: 300)
+Bodies      : 4601  
+Equivalences: 7354   (Atom=Atom: 1026 Body=Body: 300 Other: 6028)
+Tight       : Yes
+
+Variables   : 9675   (Eliminated:    0 Frozen: 9650)
+Constraints : 2150   (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+Lemmas      : 49     (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 49     (Average Length: 38.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 0     
