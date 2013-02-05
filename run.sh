@@ -22,7 +22,7 @@ esac
 instance=${1-test.lp}
 
 cat $instance | grep '^%'
-echo -e 'Instance\t: ' $instance >> $output
-echo -e 'Model\t\t:' model${2-1}.lp >> $output
-echo -e 'Option\t\t: ' $Option >> $output
-gringo $instance model${2-1}.lp | clasp $Option  >> $output
+echo -e 'Instance\t: ' $instance | tee -a  $output
+echo -e 'Model\t\t:' model${2-1}.lp | tee -a $output
+echo -e 'Option\t\t: ' $Option | tee -a $output
+gringo $instance model${2-1}.lp | clasp $Option  | tee -a $output
