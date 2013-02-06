@@ -104,13 +104,30 @@ lower(T,I,P-DP,N-DN) :-
     N = S-(D*M),
     P = L-(D*Q).
 
+upper(T,I,L-P,S-N+1) :- 
+    counter(T,I,_,_,S), 
+    last(L), 
+    lower(T,I,P,N).
+
+
 val(T,I,N) :- 
     counter(T,I,_,_,S), 
     N=1..S. 
 
+is_count(T,I,P,LN) :- 
+    lower(T,I,P,LN). 
+
 0 { is_count(T,I,P,N) } 1 :- 
-    val(T,I,N),
-    pos(P). 
+    upper(T,I,P,N). 
+
+:-  is_count(T,I,P,N), 
+    upper(T,I,P,N). 
+
+0 { is_count(T,I,P,N) } 1 :- 
+    lower(T,I,P,LN), 
+    upper(T,I,P,UN), 
+    val(T,I,N), 
+    LN < N, N < UN. 
 
 %%%initalisation
 %
