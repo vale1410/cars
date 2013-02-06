@@ -9,11 +9,10 @@ last(N) :- N = #sum[class_count(_,K) = K ].
 pos(0..L) :- last(L). 
 
 % mapping class to options
-% class_option(Car,O).
 
 option(O) :- class_option(_,O). 
 
-%%Idea and Model
+% model
 
 counter(o,O,Q,M,N) :- 
     option_window(O,Q),
@@ -52,38 +51,44 @@ counter(c,C,Q,M,N) :-
     last(L).
     
 % Link between option and class
-%%%
 %
-%is_car(C,P+1) :- 
-%    pos(P;P+1),
-%    not is_count(c,C,P,L),
-%    is_count(c,C,P+1,L).
-%
-%is_opt(O,P) :- 
-%    class_option(C,O),
-%    is_car(C,P).
-%
-%:-  pos(P;P+1),
-%    not is_count(o,O,P,K),
-%    is_count(o,O,P+1,K),
-%    not is_opt(O,P+1). 
+is_car(C,P+1) :- 
+    pos(P;P+1),
+    not is_count(c,C,P,L),
+    is_count(c,C,P+1,L).
+
+is_opt(O,P) :- 
+    class_option(C,O),
+    is_car(C,P).
+
+:-  pos(P;P+1),
+    not is_count(o,O,P,K),
+    is_count(o,O,P+1,K),
+    not is_opt(O,P+1). 
+
+% symmetry breaking
+:-  last(L), 
+    is_car(C1,1),
+    is_car(C2,L),
+    C2 < C1. 
 
 %%% what is missing: exactly one each day:
 %%
 %%% this needs improvement, flattening the encoding?
 
-%:- pos(P), P > 0, not 1 { is_car(_,P) } 1. 
+:- pos(P), P > 0, not 1 { is_car(_,P) } 1. 
 
-%
+
 %%%%%%%%%%%%%%%%%
 % AtMostSeqCard %
 %%%%%%%%%%%%%%%%%
 
-% counter(I,Q,M,S), 
+% counter(T,I,Q,M,S), 
 % with the meaning: 
+% T: type of counter, car or option (c/o)
 % I: identifier for the counter
 % Q: fixed window size
-% M: maximal value per window
+% M: maximal hits per window
 % S: exactly S occurences over the whole sequence
 
 delta(Q,M,D,D) :-
@@ -93,6 +98,11 @@ delta(Q,M,D,D) :-
 delta(Q,M,DP,M) :-
     counter(_,_,Q,M,_), 
     DP=M+1..Q-1.
+
+lower(T,I,P,0) :- 
+    pos(P),last(L),
+    counter(T,I,Q,M,S),
+    P <= L+Q-1-(Q*S)/M.
 
 lower(T,I,P-DP,N-DN) :- 
     counter(T,I,Q,M,S), 
@@ -109,62 +119,48 @@ upper(T,I,L-P,S-N+1) :-
     last(L), 
     lower(T,I,P,N).
 
-
 val(T,I,N) :- 
     counter(T,I,_,_,S), 
     N=1..S. 
 
-is_count(T,I,P,LN) :- 
-    lower(T,I,P,LN). 
+domain(T,I,P,N) :- 
+    lower(T,I,P,N).
 
-0 { is_count(T,I,P,N) } 1 :- 
+domain(T,I,P,N) :- 
     upper(T,I,P,N). 
 
-:-  is_count(T,I,P,N), 
-    upper(T,I,P,N). 
-
-0 { is_count(T,I,P,N) } 1 :- 
+domain(T,I,P,N) :- 
     lower(T,I,P,LN), 
     upper(T,I,P,UN), 
     val(T,I,N), 
     LN < N, N < UN. 
 
-%%%initalisation
-%
-%% lower left FALSE
-%:-  counter(T,I,_,_,_),
-%    is_count(T,I,0,1).
-%    
-%% upper right TRUE
-%:-  last(P), 
-%    counter(T,I,_,_,S),
-%    not is_count(T,I,P,S).
-%
-%% cumulative structure
-%:-  is_count(T,I,P,N), 
-%    not is_count(T,I,P+1,N), 
-%    pos(P;P+1).
+0 { is_count(T,I,P,N) } 1 :- 
+    domain(T,I,P,N). 
 
-% presumably not needed:
-%%:-  is_count(T,I,P,N+1),   
-%%    not is_count(T,I,P,N), 
-%%    val(T,I,N+1;N). 
-%
-%% propagation
-%:-  counter(T,I,_,M,_), 
-%    K = 1..M, 
-%    is_count(T,I,P+K,N+K),
-%    pos(P),val(T,I,N),
-%    not is_count(T,I,P,N).
-%
-%:-  counter(T,I,Q,M,_), 
-%    val(T,I,N), pos(P),
-%    not is_count(T,I,P,N),
-%    K = M+1..Q,
-%    is_count(T,I,P+K,N+M). 
+:-  not is_count(T,I,P,N), 
+    lower(T,I,P,N). 
 
-%for debugging
-%#minimize[is_count(T,I,P,N):val(T,I,N):pos(P)].
+:-  is_count(T,I,P,N), 
+    upper(T,I,P,N). 
+
+% propagation
+
+% right reasoning
+:-  is_count(T,I,P,N), 
+    domain(T,I,P+1,N),
+    not is_count(T,I,P+1,N).
+
+% left/down reasoning
+:-  is_count(T,I,P+1,N+1),   
+    domain(T,I,P,N),
+    not is_count(T,I,P,N).
+
+% steepness
+:-  counter(T,I,Q,M,_), 
+    is_count(T,I,P,N),
+    domain(T,I,P-Q,N-M),
+    not is_count(T,I,P-Q,N-M). 
 
 #hide.
 #show is_car/2. 

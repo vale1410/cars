@@ -89,10 +89,10 @@ is_option_counter(P2,O,W+1,M+1) :-
     option_max(O,M),
     option_window(O,W).
 
-%% symmetry breaking
-%
-%:- first(F), last(L), is_car(F,A), is_car(L,B), 
-%   A > B. 
+% symmetry breaking
+
+:- first(F), last(L), is_car(F,A), is_car(L,B), 
+   A > B. 
 %
 %% redundant constraints on options
 %%
