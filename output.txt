@@ -1588,3 +1588,33 @@ Lemmas      : 8      (Binary:  0.0% Ternary:  0.0% Other:100.0%)
   Loop      : 0      (Average Length: 0.0) 
   Other     : 0      (Average Length: 0.0)
   Deleted   : 0     
+Instance	: test.lp
+Model		: model1.lp
+Option		:  --time-limit=60 -t 1 --stats --trans-ext=all --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+Answer: 1
+is_car(10,5) is_car(9,3) is_car(8,4) is_car(7,2) is_car(6,3) is_car(5,4) is_car(4,1) is_car(3,5) is_car(2,2) is_car(1,0)
+SATISFIABLE
+
+Models      : 1+    
+Time        : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 0.000s
+Choices     : 6
+Conflicts   : 2
+Restarts    : 0     
+
+Atoms       : 852    (Original: 217 Auxiliary: 635)
+Rules       : 2130   (1: 154/2043 2: 77/0 3: 10/0)
+Bodies      : 1486  
+Equivalences: 1360   (Atom=Atom: 74 Body=Body: 60 Other: 1226)
+Tight       : Yes
+
+Variables   : 669    (Eliminated:  451 Frozen:    0)
+Constraints : 1205   (Binary: 59.2% Ternary: 32.1% Other:  8.7%)
+Lemmas      : 2      (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 2      (Average Length: 12.0) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 0     

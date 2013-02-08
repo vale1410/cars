@@ -93,12 +93,12 @@ is_option_counter(P2,O,W+1,M+1) :-
 
 :- first(F), last(L), is_car(F,A), is_car(L,B), 
    A > B. 
+
+% redundant constraints on options
 %
-%% redundant constraints on options
-%%
-%:-  option_max(O,_), 
-%    N = #sum [class_count(A,C) = C : class_option(A,O)], 
-%    not N { is_option(_,O) } N. 
+:-  option_max(O,_), 
+    N = #sum [class_count(A,C) = C : class_option(A,O)], 
+    not N { is_option(_,O) } N. 
 
 
 #hide.

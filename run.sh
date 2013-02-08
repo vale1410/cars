@@ -7,7 +7,7 @@
 # 4 <option 0-5> default crafty
 # 5 output file
 
-Option='--time-limit='${3-60}' -t 1 --stats '
+Option='--time-limit='${3-60}' -t 1 --stats --trans-ext=all '
 output=${5-output.txt}
 
 case ${4-3} in
