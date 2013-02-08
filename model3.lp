@@ -1,16 +1,16 @@
-% Simple Counter Model: 
+% Simplest Model: 
 
 % This model uses two variable: 
 % is_car(Position,Type),
-% is_option(Position,Option,Window,Counter)
-% The constraints on the options are modelled with counters 
-% The constraints on the cars are modelled with cardinality constraints
-% Triggering is done by car individually
+% is_option(Position,Option)
+% The constraints are modelled with cardinality constraints
 
 % Definitions
 
 class(C) :- class_count(C,_). 
-pos(1..N) :- N = #sum[class_count(_,K) = K ].
+first(1).
+last(N) :- N = #sum[class_count(_,K) = K ].
+pos(F..L) :- first(F), last(L). 
 next(D,DD) :- pos(D;DD), DD = D+1. 
 
 window(1 .. N) :- N = #max[ option_window(_,W) = W ].
@@ -24,35 +24,22 @@ window(N,DN,D1) :- window(N;N-1), window(N-1,DN,D2),next(D1,D2).
 
 :- class_count(C,S), not S { is_car(P,C) } S. 
 
-% start counter with window
-is_option_counter(P,O,1,1) :-
-    is_car(P,C),
-    class_option(C,O).
+is_option(P,O) :- is_car(P,C), class_option(C,O).
 
-%pass counter till next window
+:- pos(P), option_window(O,W), option_max(O,M), 
+   M+1 { is_option(PP,O) : window(W,P,PP) }.
 
-is_option_counter(P2,O,W+1,M) :-
-    is_option_counter(P1,O,W,M),
-    next(P1,P2),
-    option_window(O,WM),
-    W < WM. 
+% symmetry breaking
 
-% increase counter if car has option
+:- first(F), last(L), is_car(F,A), is_car(L,B), 
+   A > B. 
 
-is_option_counter(P2,O,W+1,M+1) :-
-    is_option_counter(P1,O,W,M), 
-    option_window(O,WMax),
-    option_max(O,MMax),
-    W < WMax, M <= MMax,
-    next(P1,P2),
-    is_car(P2,Car),
-    class_option(Car,O).
+% redundant constraints on options
 
-:-  is_option_counter(P,O,W,M+1),
-    option_max(O,M),
-    option_window(O,W).
-
+:-  option_max(O,_), 
+    N = #sum [class_count(A,C) = C : class_option(A,O)], 
+    not N { is_option(_,O) } N. 
 
 #hide.
 #show is_car/2. 
-#show is_option_counter/4. 
+#show is_option/2. 
