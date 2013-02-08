@@ -95,7 +95,7 @@ is_option_counter(P2,O,W+1,M+1) :-
    A > B. 
 
 % redundant constraints on options
-%
+
 :-  option_max(O,_), 
     N = #sum [class_count(A,C) = C : class_option(A,O)], 
     not N { is_option(_,O) } N. 

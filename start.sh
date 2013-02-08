@@ -5,7 +5,7 @@
 # 2: folder of output [output]
 
 source prll.sh
-time=36000
+time=20000
 output=${2-output}
 
 mkdir -p $output
@@ -14,7 +14,7 @@ argument=()
 
 for model in {7,6,2,1}
 do
-    for conf in {1,2,3}
+    for conf in {3}
     do
         if [[ -d $1 ]]; then
             for f in $(ls $1)
@@ -37,5 +37,5 @@ myfn() {
     ./run.sh $x1 $x2 $x3 $x4 $x5
 }
 
-prll -c 2 myfn $argument
+prll -c 6 myfn $argument
 
