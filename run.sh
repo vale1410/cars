@@ -34,8 +34,6 @@ then
     prettyOutput=/tmp/pretty_$(basename $output .txt)_$RANDOM.pl
     rm -fr $solution
     rm -fr $prettyOutput
-    echo $solution
-    echo $prettyOutput
     cat $output | grep 'is_car' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
     cat print.pl >> $solution
     cat $instance | sort >> $solution

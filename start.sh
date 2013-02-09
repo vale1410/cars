@@ -3,16 +3,18 @@
 # start.sh
 # 1: folder of benchmarks
 # 2: folder of output [output]
+# 3: runtime in seconds [60]
 
 source prll.sh
-time=7200
+
 output=${2-output}
+time=${3-60}
 
 mkdir -p $output
 
 argument=()
 
-for model in {7,3,2,1,6}
+for model in {7,3}
 do
     for conf in 3
     do
