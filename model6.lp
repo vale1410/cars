@@ -66,14 +66,16 @@ is_option_counter(P2,O,W+1,M+1) :-
     is_option_counter(P1,O,W,M), 
     option_window(O,WMax),
     option_max(O,MMax),
-    W < WMax, M <= MMax,
+    W < WMax-1, M < MMax,
     next(P1,P2),
     is_option(P2,O).
 
-:-  is_option_counter(P,O,W,M+1),
+:-  is_option_counter(P1,O,W,M),
+    next(P1,P2),
+    is_option(P2,O),
     option_max(O,M),
-    option_window(O,W).
-
+    option_window(O,WMax), 
+    W < WMax-1. 
 
 
 #hide.

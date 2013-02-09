@@ -7,7 +7,7 @@
 # 4 <option 0-5> default crafty
 # 5 output file
 
-Option='--time-limit='${3-60}' -t 1 --stats --trans-ext=all '
+Option='--time-limit='${3-1800}' -t 1 --stats --trans-ext=all '
 output=${5-output.txt}
 
 case ${4-3} in
@@ -23,6 +23,23 @@ instance=${1-test.lp}
 
 cat $instance | grep '^%'
 echo -e 'Instance\t:' $instance | tee -a  $output
-echo -e 'Model\t\t:' model${2-1}.lp | tee -a $output
+echo -e 'Model\t\t:' model${2-7}.lp | tee -a $output
 echo -e 'Option\t\t: ' $Option | tee -a $output
-gringo $instance model${2-1}.lp | clasp $Option  | tee -a $output
+gringo $instance model${2-7}.lp | clasp $Option  | tee -a $output
+
+
+if grep -q '^SAT' $output
+then
+    solution=/tmp/solution_$(basename $output .txt)_$RANDOM.pl
+    prettyOutput=/tmp/pretty_$(basename $output .txt)_$RANDOM.pl
+    rm -fr $solution
+    rm -fr $prettyOutput
+    echo $solution
+    echo $prettyOutput
+    cat $output | grep 'is_car' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
+    cat print.pl >> $solution
+    cat $instance | sort >> $solution
+    prolog -f print.pl -f $solution -g start -t halt > $prettyOutput
+    column -t -s ',' $prettyOutput
+fi
+echo
