@@ -54,11 +54,14 @@ counter(c,C,Q,M,N) :-
     
 :-  option(O),
     pos(P), 
-    not 0 {
-    lower(o,O,P,LN) = -(LN-1),
+    not 0 [
+    lower(o,O,P,LN) = -LN+1,
+    is_count(o,O,P,_) = -1,
     lower(c,C,P,LN) = LN-1 : class_option(C,O), 
-    is_count(o,O,P,LN) = -1,
-    is_count(c,C,P,LN) = 1 : class_option(C,O) } 0. 
+    is_count(c,C,P,_) = 1 : class_option(C,O) ] 0, 
+    debug. 
+
+{debug}.
 
 %% symmetry breaking
 %:-  last(L), 
@@ -157,5 +160,5 @@ domain(T,I,P,N) :-
     not is_count(T,I,P-Q,N-M). 
 
 #hide.
-#show is_car/2. 
+#show is_count/4. 
 
