@@ -1,6 +1,0 @@
-Instance	: data/difficult/pb_400_01.lp
-Model		: model3.lp
-Option		:  --time-limit=7200 -t 1 --stats --trans-ext=all --configuration=crafty
-clasp version 2.1.1
-Reading from stdin
-Solving...
