@@ -1,0 +1,30 @@
+Instance	: data/difficult/p03.lp
+Model		: model7.lp
+Option		:  --time-limit=7200 -t 1 --stats --trans-ext=all --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+Answer: 1
+is_car(100,24) is_car(99,2) is_car(98,11) is_car(97,13) is_car(96,0) is_car(95,14) is_car(94,15) is_car(93,3) is_car(92,22) is_car(91,4) is_car(90,19) is_car(89,5) is_car(88,18) is_car(87,2) is_car(86,0) is_car(85,20) is_car(84,8) is_car(83,3) is_car(82,10) is_car(81,3) is_car(80,1) is_car(79,8) is_car(78,4) is_car(77,11) is_car(76,5) is_car(75,17) is_car(74,5) is_car(73,8) is_car(72,3) is_car(71,15) is_car(70,21) is_car(69,0) is_car(68,4) is_car(67,11) is_car(66,5) is_car(65,12) is_car(64,3) is_car(63,8) is_car(62,13) is_car(61,0) is_car(60,14) is_car(59,18) is_car(58,5) is_car(57,11) is_car(56,6) is_car(55,16) is_car(54,2) is_car(53,10) is_car(52,5) is_car(51,11) is_car(50,6) is_car(49,19) is_car(48,2) is_car(47,15) is_car(46,3) is_car(45,0) is_car(44,20) is_car(43,11) is_car(42,5) is_car(41,15) is_car(40,3) is_car(39,16) is_car(38,13) is_car(37,0) is_car(36,5) is_car(35,25) is_car(34,1) is_car(33,22) is_car(32,4) is_car(31,0) is_car(30,2) is_car(29,15) is_car(28,3) is_car(27,14) is_car(26,10) is_car(25,2) is_car(24,8) is_car(23,7) is_car(22,19) is_car(21,5) is_car(20,10) is_car(19,2) is_car(18,8) is_car(17,7) is_car(16,14) is_car(15,0) is_car(14,4) is_car(13,11) is_car(12,5) is_car(11,9) is_car(10,4) is_car(9,0) is_car(8,2) is_car(7,8) is_car(6,23) is_car(5,0) is_car(4,5) is_car(3,22) is_car(2,6) is_car(1,9) is_option(1,4) is_option(3,4) is_option(6,4) is_option(8,4) is_option(11,4) is_option(13,4) is_option(17,4) is_option(19,4) is_option(23,4) is_option(25,4) is_option(28,4) is_option(30,4) is_option(33,4) is_option(35,4) is_option(38,4) is_option(40,4) is_option(43,4) is_option(46,4) is_option(48,4) is_option(51,4) is_option(54,4) is_option(57,4) is_option(59,4) is_option(62,4) is_option(64,4) is_option(67,4) is_option(70,4) is_option(72,4) is_option(75,4) is_option(77,4) is_option(81,4) is_option(83,4) is_option(87,4) is_option(88,4) is_option(92,4) is_option(93,4) is_option(97,4) is_option(98,4) is_option(99,4) is_option(100,4) is_option(2,3) is_option(6,3) is_option(10,3) is_option(14,3) is_option(17,3) is_option(20,3) is_option(23,3) is_option(26,3) is_option(29,3) is_option(32,3) is_option(35,3) is_option(38,3) is_option(41,3) is_option(44,3) is_option(47,3) is_option(50,3) is_option(53,3) is_option(56,3) is_option(59,3) is_option(62,3) is_option(65,3) is_option(68,3) is_option(71,3) is_option(75,3) is_option(78,3) is_option(82,3) is_option(85,3) is_option(88,3) is_option(91,3) is_option(94,3) is_option(97,3) is_option(100,3) is_option(3,2) is_option(4,2) is_option(7,2) is_option(8,2) is_option(10,2) is_option(12,2) is_option(14,2) is_option(16,2) is_option(18,2) is_option(19,2) is_option(21,2) is_option(24,2) is_option(25,2) is_option(27,2) is_option(29,2) is_option(30,2) is_option(32,2) is_option(33,2) is_option(35,2) is_option(36,2) is_option(38,2) is_option(39,2) is_option(41,2) is_option(42,2) is_option(44,2) is_option(47,2) is_option(48,2) is_option(52,2) is_option(54,2) is_option(55,2) is_option(58,2) is_option(60,2) is_option(62,2) is_option(63,2) is_option(65,2) is_option(66,2) is_option(68,2) is_option(70,2) is_option(71,2) is_option(73,2) is_option(74,2) is_option(76,2) is_option(78,2) is_option(79,2) is_option(84,2) is_option(85,2) is_option(87,2) is_option(89,2) is_option(91,2) is_option(92,2) is_option(94,2) is_option(95,2) is_option(97,2) is_option(99,2) is_option(100,2) is_option(1,1) is_option(3,1) is_option(5,1) is_option(7,1) is_option(9,1) is_option(11,1) is_option(13,1) is_option(15,1) is_option(18,1) is_option(20,1) is_option(22,1) is_option(24,1) is_option(26,1) is_option(29,1) is_option(31,1) is_option(33,1) is_option(35,1) is_option(37,1) is_option(39,1) is_option(41,1) is_option(43,1) is_option(45,1) is_option(47,1) is_option(49,1) is_option(51,1) is_option(53,1) is_option(55,1) is_option(57,1) is_option(59,1) is_option(61,1) is_option(63,1) is_option(65,1) is_option(67,1) is_option(69,1) is_option(71,1) is_option(73,1) is_option(75,1) is_option(77,1) is_option(79,1) is_option(82,1) is_option(84,1) is_option(86,1) is_option(88,1) is_option(90,1) is_option(92,1) is_option(94,1) is_option(96,1) is_option(98,1) is_option(100,1) is_option(1,5) is_option(6,5) is_option(11,5) is_option(16,5) is_option(22,5) is_option(27,5) is_option(34,5) is_option(39,5) is_option(44,5) is_option(49,5) is_option(55,5) is_option(60,5) is_option(65,5) is_option(70,5) is_option(75,5) is_option(80,5) is_option(85,5) is_option(90,5) is_option(95,5) is_option(100,5)
+SATISFIABLE
+
+Models      : 1+    
+Time        : 4.032s (Solving: 2.86s 1st Model: 2.86s Unsat: 0.00s)
+CPU Time    : 3.900s
+Choices     : 136961
+Conflicts   : 16933
+Restarts    : 10     (Average: 1693.30 Last: 2421)
+
+Atoms       : 47453  (Original: 17760 Auxiliary: 29693)
+Rules       : 98316  (1: 35800/98006 2: 210/0 3: 100/0)
+Bodies      : 84682 
+Equivalences: 93126  (Atom=Atom: 1251 Body=Body: 3235 Other: 88640)
+Tight       : Yes
+
+Variables   : 67160  (Eliminated: 38768 Frozen:    0)
+Constraints : 122704 (Binary: 35.9% Ternary: 45.1% Other: 19.0%)
+Lemmas      : 16933  (Binary:  2.7% Ternary:  6.6% Other: 90.6%)
+  Conflict  : 16933  (Average Length: 50.2) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 9196  

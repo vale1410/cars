@@ -1,0 +1,29 @@
+Instance	:  data/set1/p69.lp
+Model		: model6.lp
+Option		:  --time-limit=600 -t 1 --stats --configuration=jumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 599.995s (Solving: 598.43s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 598.760s
+Choices     : 12732877
+Conflicts   : 2157269
+Restarts    : 4093   (Average: 527.06 Last: 2153750)
+
+Atoms       : 68043  (Original: 58243 Auxiliary: 9800)
+Rules       : 136602 (1: 110602/136002 2: 400/0 3: 200/200)
+Bodies      : 98071 
+Equivalences: 119518 (Atom=Atom: 4331 Body=Body: 2800 Other: 112387)
+Tight       : Yes
+
+Variables   : 118256 (Eliminated: 46861 Frozen:    0)
+Constraints : 181233 (Binary: 41.3% Ternary: 54.6% Other:  4.1%)
+Lemmas      : 2157268 (Binary:  0.1% Ternary:  1.4% Other: 98.6%)
+  Conflict  : 2157268 (Average Length: 181.1) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 2070936

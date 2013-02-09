@@ -1,0 +1,29 @@
+Instance	:  data/set1/p71.lp
+Model		: model7.lp
+Option		:  --time-limit=300 -t 1 --stats --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 299.996s (Solving: 298.56s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 299.190s
+Choices     : 2331604
+Conflicts   : 1174016
+Restarts    : 20     (Average: 58700.80 Last: 851040)
+
+Atoms       : 63992  (Original: 54592 Auxiliary: 9400)
+Rules       : 132866 (1: 107866/132266 2: 400/0 3: 200/200)
+Bodies      : 94554 
+Equivalences: 97171  (Atom=Atom: 2339 Body=Body: 1413 Other: 93419)
+Tight       : Yes
+
+Variables   : 103583 (Eliminated: 46706 Frozen:    0)
+Constraints : 180784 (Binary: 40.8% Ternary: 55.3% Other:  3.9%)
+Lemmas      : 1174016 (Binary:  0.0% Ternary:  0.7% Other: 99.2%)
+  Conflict  : 1174016 (Average Length: 361.3) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 1139184

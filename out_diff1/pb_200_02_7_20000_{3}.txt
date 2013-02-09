@@ -1,0 +1,6 @@
+Instance	: data/difficult/pb_200_02.lp
+Model		: model7.lp
+Option		:  --time-limit=20000 -t 1 --stats --trans-ext=all
+clasp version 2.1.1
+Reading from stdin
+Solving...

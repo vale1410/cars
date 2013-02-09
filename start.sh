@@ -5,16 +5,16 @@
 # 2: folder of output [output]
 
 source prll.sh
-time=20000
+time=7200
 output=${2-output}
 
 mkdir -p $output
 
 argument=()
 
-for model in {7,6,2,1}
+for model in {7,3,2,1,6}
 do
-    for conf in {3}
+    for conf in 3
     do
         if [[ -d $1 ]]; then
             for f in $(ls $1)

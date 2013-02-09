@@ -1,0 +1,28 @@
+Instance	: data/difficult/p02.lp
+Model		: model7.lp
+Option		:  --time-limit=7200 -t 1 --stats --trans-ext=all --configuration=crafty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 30.577s (Solving: 29.43s 1st Model: 0.00s Unsat: 29.43s)
+CPU Time    : 30.400s
+Choices     : 125090
+Conflicts   : 76796
+Restarts    : 14     (Average: 5485.36 Last: 2314)
+
+Atoms       : 46229  (Original: 17520 Auxiliary: 28709)
+Rules       : 95548  (1: 35100/95238 2: 210/0 3: 100/0)
+Bodies      : 82529 
+Equivalences: 90648  (Atom=Atom: 1244 Body=Body: 3134 Other: 86270)
+Tight       : Yes
+
+Variables   : 65674  (Eliminated: 37939 Frozen:    0)
+Constraints : 120151 (Binary: 36.0% Ternary: 45.3% Other: 18.7%)
+Lemmas      : 76795  (Binary:  1.4% Ternary:  1.8% Other: 96.8%)
+  Conflict  : 76795  (Average Length: 132.6) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 56503 
