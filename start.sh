@@ -14,9 +14,9 @@ mkdir -p $output
 
 argument=()
 
-for model in {7,3}
+for model in {3,7}
 do
-    for conf in 3
+    for conf in {0,1,2,3,4,5}
     do
         if [[ -d $1 ]]; then
             for f in $(ls $1)
