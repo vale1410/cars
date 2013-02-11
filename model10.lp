@@ -10,6 +10,10 @@ pos(0..L) :- last(L).
 
 % mapping class to options
 
+option_max(e,1). 
+option_window(e,1). 
+
+
 option(O) :- class_option(_,O). 
 
 % model
@@ -18,6 +22,17 @@ counter(o,O,Q,M,N) :-
     option_window(O,Q),
     option_max(O,M),
     N = #sum [class_count(C,T) = T : class_option(C,O)].
+
+% all classes have option 0 
+
+counter(o,0,1,1,N) :- 
+    last(N). 
+
+class_option(C,0) :- 
+    class(C). 
+
+% find the counter with the slowest decent and by 
+% that determine the slope for the classes
 
 ord(C,Q1,M1,Q2,M2) :- 
     class_option(C,O1),
@@ -44,7 +59,7 @@ smallest(C,O,Q,M) :-
     option_max(O,M), 
     { ord(C,_,_,Q,M) } 0. 
 
-
+% for each class take the smallest slope of its options. 
 counter(c,C,Q,M,N) :- 
     class_count(C,N), 
     smallest(C,O,Q,M),
@@ -58,10 +73,8 @@ counter(c,C,Q,M,N) :-
     lower(o,O,P,LN) = -LN+1,
     is_count(o,O,P,_) = -1,
     lower(c,C,P,LN) = LN-1 : class_option(C,O), 
-    is_count(c,C,P,_) = 1 : class_option(C,O) ] 0, 
-    debug. 
+    is_count(c,C,P,_) = 1 : class_option(C,O) ] 0. 
 
-{debug}.
 
 %% symmetry breaking
 %:-  last(L), 
