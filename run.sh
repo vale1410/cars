@@ -7,16 +7,17 @@
 # 4 <option 0-5> default crafty
 # 5 output file
 
-Option='--time-limit='${3-1800}' -t 1 --stats --trans-ext=all '
+#option='--time-limit='${3-1800}' -t 1 --stats --trans-ext=all '
+option='--time-limit='${3-1800}' -t 1 --stats '
 output=${5-output.txt}
 
 case ${4-3} in
-    0) Option=$Option'--configuration=frumpy ';;
-    1) Option=$Option'--configuration=jumpy ';;
-    2) Option=$Option'--configuration=handy ';;
-    3) Option=$Option'--configuration=crafty ';;
-    4) Option=$Option'--configuration=trendy ';;
-    5) Option=$Option'--configuration=chatty ';;
+    0) option=$option'--configuration=frumpy ';;
+    1) option=$option'--configuration=jumpy ';;
+    2) option=$option'--configuration=handy ';;
+    3) option=$option'--configuration=crafty ';;
+    4) option=$option'--configuration=trendy ';;
+    5) option=$option'--configuration=chatty ';;
 esac
 
 instance=${1-test.lp}
@@ -24,8 +25,8 @@ instance=${1-test.lp}
 cat $instance | grep '^%'
 echo -e 'Instance\t:' $instance | tee -a  $output
 echo -e 'Model\t\t:' model${2-7}.lp | tee -a $output
-echo -e 'Option\t\t: ' $Option | tee -a $output
-gringo $instance model${2-7}.lp | clasp $Option  | tee -a $output
+echo -e 'Option\t\t: ' $option | tee -a $output
+gringo $instance model${2-7}.lp | clasp $option  | tee -a $output
 
 
 if grep -q '^SAT' $output

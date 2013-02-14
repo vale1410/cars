@@ -1,0 +1,29 @@
+Instance	: data/set3/p04.lp
+Model		: model3.lp
+Option		:  --time-limit=72000 -t 1 --stats --trans-ext=all --configuration=handy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 71999.996s (Solving: 71997.64s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 71885.390s
+Choices     : 199667421
+Conflicts   : 124545426
+Restarts    : 89813  (Average: 1386.72 Last: 124543401)
+
+Atoms       : 53388  (Original: 5474 Auxiliary: 47914)
+Rules       : 110204 (1: 8398/109555 2: 549/0 3: 100/0)
+Bodies      : 94097 
+Equivalences: 103834 (Atom=Atom: 1923 Body=Body: 2300 Other: 99611)
+Tight       : Yes
+
+Variables   : 78967  (Eliminated: 47461 Frozen:    0)
+Constraints : 132217 (Binary: 33.1% Ternary: 42.7% Other: 24.3%)
+Lemmas      : 124545426 (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 124545426 (Average Length: 61.9) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 124258094

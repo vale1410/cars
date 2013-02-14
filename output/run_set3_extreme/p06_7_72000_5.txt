@@ -1,0 +1,28 @@
+Instance	: data/set3/p06.lp
+Model		: model7.lp
+Option		:  --time-limit=72000 -t 1 --stats --trans-ext=all --configuration=chatty
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 146.730s (Solving: 145.67s 1st Model: 0.00s Unsat: 145.67s)
+CPU Time    : 146.400s
+Choices     : 604302
+Conflicts   : 446065
+Restarts    : 19     (Average: 23477.05 Last: 2896)
+
+Atoms       : 43464  (Original: 16431 Auxiliary: 27033)
+Rules       : 89950  (1: 33154/89640 2: 210/0 3: 100/0)
+Bodies      : 78247 
+Equivalences: 49120  (Atom=Atom: 1223 Body=Body: 2833 Other: 45064)
+Tight       : Yes
+
+Variables   : 73812  (Eliminated: 36965 Frozen:    0)
+Constraints : 114830 (Binary: 35.1% Ternary: 46.5% Other: 18.4%)
+Lemmas      : 446064 (Binary:  0.3% Ternary:  0.5% Other: 99.2%)
+  Conflict  : 446064 (Average Length: 136.1) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 330354

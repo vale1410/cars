@@ -1,0 +1,29 @@
+Instance	: data/set3/p05.lp
+Model		: model7.lp
+Option		:  --time-limit=72000 -t 1 --stats --trans-ext=all --configuration=frumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNKNOWN
+
+TIME LIMIT  : 1
+Models      : 0+    
+Time        : 71999.996s (Solving: 71999.62s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 71883.830s
+Choices     : 70872957
+Conflicts   : 59530196
+Restarts    : 31     (Average: 1920328.90 Last: 57525115)
+
+Atoms       : 43825  (Original: 16660 Auxiliary: 27165)
+Rules       : 90791  (1: 33631/90481 2: 210/0 3: 100/0)
+Bodies      : 78677 
+Equivalences: 49683  (Atom=Atom: 1228 Body=Body: 2935 Other: 45520)
+Tight       : Yes
+
+Variables   : 74045  (Eliminated:    0 Frozen:    0)
+Constraints : 197978 (Binary: 69.1% Ternary: 30.5% Other:  0.4%)
+Lemmas      : 59530196 (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+  Conflict  : 59530196 (Average Length: 320.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 59052000

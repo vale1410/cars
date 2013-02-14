@@ -1,0 +1,28 @@
+Instance	: data/set3/p06.lp
+Model		: model3.lp
+Option		:  --time-limit=72000 -t 1 --stats --trans-ext=all --configuration=jumpy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 69.090s (Solving: 66.93s 1st Model: 0.00s Unsat: 66.93s)
+CPU Time    : 68.950s
+Choices     : 376837
+Conflicts   : 224796
+Restarts    : 510    (Average: 440.77 Last: 19598)
+
+Atoms       : 52151  (Original: 5370 Auxiliary: 46781)
+Rules       : 107907 (1: 8473/107260 2: 547/0 3: 100/0)
+Bodies      : 92003 
+Equivalences: 108990 (Atom=Atom: 1894 Body=Body: 2200 Other: 104896)
+Tight       : Yes
+
+Variables   : 88402  (Eliminated: 46480 Frozen:    0)
+Constraints : 130028 (Binary: 33.1% Ternary: 42.6% Other: 24.3%)
+Lemmas      : 224795 (Binary:  0.3% Ternary:  0.4% Other: 99.4%)
+  Conflict  : 224795 (Average Length: 38.6) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 196163
