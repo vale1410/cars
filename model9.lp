@@ -7,17 +7,9 @@
 class(C) :- class_count(C,_). 
 last(N) :- N = #sum[class_count(_,K) = K ].
 pos(0..L) :- last(L). 
-
-% mapping class to options
-
 option(O) :- class_option(_,O). 
 
 % model
-
-counter(o,O,Q,M,N) :- 
-    option_window(O,Q),
-    option_max(O,M),
-    N = #sum [class_count(C,T) = T : class_option(C,O)].
 
 ord(C,Q1,M1,Q2,M2) :- 
     class_option(C,O1),
@@ -44,39 +36,47 @@ smallest(C,O,Q,M) :-
     option_max(O,M), 
     { ord(C,_,_,Q,M) } 0. 
 
-
 counter(c,C,Q,M,N) :- 
     class_count(C,N), 
     smallest(C,O,Q,M),
     last(L).
-    
-% Link between option and class
 
-is_car(C,P+1) :- 
+counter(o,O,Q,M,N) :- 
+    option_window(O,Q),
+    option_max(O,M),
+    N = #sum [class_count(C,T) = T : class_option(C,O)].
+
+% from in to is
+is(T,I,P+1) :- 
     pos(P;P+1),
-    not is_count(c,C,P,L),
-    is_count(c,C,P+1,L).
+    not in(T,I,P,L),
+    in(T,I,P+1,L).
 
-is_opt(O,P) :- 
-    class_option(C,O),
-    is_car(C,P).
+% from is to in
 
-:-  pos(P;P+1),
-    not is_count(o,O,P,K),
-    is_count(o,O,P+1,K),
-    not is_opt(O,P+1). 
+:-  is(T,I,P+1), 
+    pos(P;P+1),
+    in(T,I,P,L),
+    domain(T,I,P+1,L+1),
+    not in(T,I,P+1,L+1).
+
+% Link between option and class
+:-  class_option(C,O),
+    is(c,C,P),
+    not is(o,O,P).
+
+:-  is(o,O,P),
+    not is(c,C,P) : class_option(C,O).
 
 % symmetry breaking
 :-  last(L), 
-    is_car(C1,1),
-    is_car(C2,L),
+    is(c,C1,1),
+    is(c,C2,L),
     C2 < C1. 
 
-%%% what is missing: exactly one each day:
-%%
 %%% this needs improvement, flattening the encoding?
 
-:- pos(P), P > 0, not 1 { is_car(_,P) } 1. 
+:- pos(P), P > 0, not 1 { is(c,_,P) } 1. 
 
 
 %%%%%%%%%%%%%%%%%
@@ -135,33 +135,33 @@ domain(T,I,P,N) :-
     val(T,I,N), 
     LN < N, N < UN. 
 
-0 { is_count(T,I,P,N) } 1 :- 
+0 { in(T,I,P,N) } 1 :- 
     domain(T,I,P,N). 
 
-:-  not is_count(T,I,P,N), 
+:-  not in(T,I,P,N), 
     lower(T,I,P,N). 
 
-:-  is_count(T,I,P,N), 
+:-  in(T,I,P,N), 
     upper(T,I,P,N). 
 
 % propagation
 
 % right reasoning
-:-  is_count(T,I,P,N), 
+:-  in(T,I,P,N), 
     domain(T,I,P+1,N),
-    not is_count(T,I,P+1,N).
+    not in(T,I,P+1,N).
 
 % left/down reasoning
-:-  is_count(T,I,P+1,N+1),   
+:-  in(T,I,P+1,N+1),   
     domain(T,I,P,N),
-    not is_count(T,I,P,N).
+    not in(T,I,P,N).
 
 % steepness
 :-  counter(T,I,Q,M,_), 
-    is_count(T,I,P,N),
+    in(T,I,P,N),
     domain(T,I,P-Q,N-M),
-    not is_count(T,I,P-Q,N-M). 
+    not in(T,I,P-Q,N-M). 
 
 #hide.
-#show is_car/2. 
+#show is/3. 
 
