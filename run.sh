@@ -12,8 +12,10 @@ random=${5-1982}
 output=${6-output.txt}
 
 option='--time-limit='${3-1800}' -t 1 --stats '
-option=$option'--trans-ext=all '
+#option=$option'--trans-ext=all '
 option=$option'--seed='$random' ' 
+#quiet:
+option=$option'-q ' 
 
 case ${4-3} in
     0) option=$option'--configuration=frumpy ';;
