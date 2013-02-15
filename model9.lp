@@ -93,25 +93,25 @@ counter(o,O,Q,M,N) :-
 
 %%% this needs improvement, create another counter for this!
 
-%:- pos(P), P > 0, not 1 { is(c,_,P) } 1.
+:- pos(P), P > 0, not 1 { is(c,_,P) } 1.
 
-0 { uni(P,C) } 1 :- pos(P), class(C), P > 0. 
-
-:-  uni(P,C), 
-    class(C+1), 
-    not uni(P,C+1). 
-
-:-  not uni(P,C), 
-    uni(P,C+1), 
-    class(C),
-    not is(c,C+1,P).
-
-:-  is(c,C,P), 
-    not uni(P,C). 
-
-:-  is(c,C+1,P), 
-    class(C+1), 
-    uni(P,C). 
+%0 { uni(P,C) } 1 :- pos(P), class(C), P > 0. 
+%
+%:-  uni(P,C), 
+%    class(C+1), 
+%    not uni(P,C+1). 
+%
+%:-  not uni(P,C), 
+%    uni(P,C+1), 
+%    class(C),
+%    not is(c,C+1,P).
+%
+%:-  is(c,C,P), 
+%    not uni(P,C). 
+%
+%:-  is(c,C+1,P), 
+%    class(C+1), 
+%    uni(P,C). 
 
 %%%%%%%%%%%%%%%%%
 % AtMostSeqCard %
