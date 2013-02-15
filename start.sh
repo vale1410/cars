@@ -16,9 +16,9 @@ mkdir -p $output
 argument=()
 
 all=()
-all+=data/set1
 all+=data/set2 
 all+=data/set3
+all+=data/set1
 all+=data/set4
 
 echo $all

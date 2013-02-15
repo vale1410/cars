@@ -1,0 +1,28 @@
+Instance	: data/set2/p08.lp
+Model		: model9.lp
+Option		:  --time-limit=1500 -t 1 --stats --trans-ext=all --seed=5458 -q --configuration=trendy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+SATISFIABLE
+
+Models      : 1+    
+Time        : 37.522s (Solving: 0.83s 1st Model: 0.83s Unsat: 0.00s)
+CPU Time    : 1.620s
+Choices     : 28094
+Conflicts   : 5953
+Restarts    : 18     (Average: 330.72 Last: 148)
+
+Atoms       : 65493  (Original: 42129 Auxiliary: 23364)
+Rules       : 176142 (1: 107550/156878 2: 200/0 3: 19064/0)
+Bodies      : 128886
+Equivalences: 165054 (Atom=Atom: 28621 Body=Body: 8258 Other: 128175)
+Tight       : Yes
+
+Variables   : 78541  (Eliminated: 2040 Frozen:    0)
+Constraints : 62674  (Binary: 69.7% Ternary: 27.4% Other:  2.9%)
+Lemmas      : 5953   (Binary:  0.4% Ternary:  1.3% Other: 98.3%)
+  Conflict  : 5953   (Average Length: 96.0) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 0     
