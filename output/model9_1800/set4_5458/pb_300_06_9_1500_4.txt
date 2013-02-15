@@ -1,0 +1,22 @@
+Instance	: data/set4/pb_300_06.lp
+Model		: model9.lp
+Option		:  --time-limit=1500 -t 1 --stats --trans-ext=all --seed=5458 -q --configuration=trendy
+clasp version 2.1.1
+Reading from stdin
+UNKNOWN
+
+INTERRUPTED : 1
+Models      : 0+    
+Time        : 400.513s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time    : 0.140s
+Choices     : 0
+Conflicts   : 0
+Restarts    : 0     
+
+Variables   : 0      (Eliminated:    0 Frozen:    0)
+Constraints : 0      (Binary:  0.0% Ternary:  0.0% Other:  0.0%)
+Lemmas      : 0      (Binary:  0.0% Ternary:  0.0% Other:  0.0%)
+  Conflict  : 0      (Average Length: 0.0) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 0     
