@@ -8,8 +8,8 @@
 source prll.sh
 
 data=${1-data/test}
-output=${2-output/model7_1200}
-time=${3-1200}
+output=${2-output/model10_1800}
+time=${3-1800}
 
 mkdir -p $output
 
@@ -23,13 +23,13 @@ all+=data/set4
 
 echo $all
 
-for x in {1..10}
+for x in {1..2}
 do
     r=$[${RANDOM}%100000]
     for data in $all
     do
         echo $data
-        for model in 7
+        for model in 10
         do
             for conf in 4
             do
