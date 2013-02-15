@@ -1,4 +1,3 @@
 #!/bin/zsh
 
-./start1.sh data/set1 output/run_set1 1800
-./start.sh data/set3 output/run_set3_extreme 72000
+./start.sh data/set2 output/run_set23_model10 14400

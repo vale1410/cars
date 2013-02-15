@@ -51,7 +51,7 @@ counter(c,C,Q,M,N) :-
     last(L).
     
 % Link between option and class
-%
+
 is_car(C,P+1) :- 
     pos(P;P+1),
     not is_count(c,C,P,L),

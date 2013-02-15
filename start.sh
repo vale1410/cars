@@ -7,26 +7,42 @@
 
 source prll.sh
 
-output=${2-output}
-time=${3-60}
+data=${1-data/test}
+output=${2-output/model7_1200}
+time=${3-1200}
 
 mkdir -p $output
 
 argument=()
 
-for model in {3,7}
+all=()
+all+=data/set1
+all+=data/set2 
+all+=data/set3
+all+=data/set4
+
+echo $all
+
+for x in {1..10}
 do
-    for conf in {0,1,2,3,4,5}
+    r=$[${RANDOM}%100000]
+    for data in $all
     do
-        if [[ -d $1 ]]; then
-            for f in $(ls $1)
+        echo $data
+        for model in 7
+        do
+            for conf in 4
             do
-                a=$1/$f' '$model' '$time' '$conf' '$output/$(basename $f .lp)'_'$model'_'$time'_'$conf'.txt'
-                argument+=$a
+                if [[ -d $data ]]; then
+                    for f in $(ls $data)
+                    do
+                        mkdir -p $output/$(basename $data)'_'$r
+                        a=$data/$f' '$model' '$time' '$conf' '$r' '$output/$(basename $data)'_'$r/$(basename $f .lp)'_'$model'_'$time'_'$conf'.txt'
+                        argument+=$a
+                    done
+                fi
             done
-        elif [[ -f $1 ]]; then
-            #argument+=$1' '$model' '$time' '$conf' '$(basename $f .lp) 
-        fi
+        done
     done
 done
 
@@ -36,7 +52,8 @@ myfn() {
     x3=$(echo $1 | cut -d' ' -f3)
     x4=$(echo $1 | cut -d' ' -f4)
     x5=$(echo $1 | cut -d' ' -f5)
-    ./run.sh $x1 $x2 $x3 $x4 $x5
+    x6=$(echo $1 | cut -d' ' -f6)
+    ./run.sh $x1 $x2 $x3 $x4 $x5 $x6
 }
 
 prll -c 6 myfn $argument

@@ -1,0 +1,28 @@
+Instance	: data/set4/pb_300_10.lp
+Model		: model7.lp
+Option		:  --time-limit=1200 -t 1 --stats --trans-ext=all --seed=15141 --configuration=trendy
+clasp version 2.1.1
+Reading from stdin
+Solving...
+UNSATISFIABLE
+
+Models      : 0     
+Time        : 55.596s (Solving: 41.84s 1st Model: 0.00s Unsat: 41.84s)
+CPU Time    : 54.810s
+Choices     : 952270
+Conflicts   : 89092
+Restarts    : 123    (Average: 724.32 Last: 3456)
+
+Atoms       : 315511 (Original: 103606 Auxiliary: 211905)
+Rules       : 639192 (1: 208152/638282 2: 610/0 3: 300/0)
+Bodies      : 607586
+Equivalences: 330384 (Atom=Atom: 3409 Body=Body: 7527 Other: 319448)
+Tight       : Yes
+
+Variables   : 596120 (Eliminated: 337537 Frozen:    0)
+Constraints : 986249 (Binary: 26.1% Ternary: 53.9% Other: 19.9%)
+Lemmas      : 89091  (Binary:  1.4% Ternary:  7.5% Other: 91.1%)
+  Conflict  : 89091  (Average Length: 24.5) 
+  Loop      : 0      (Average Length: 0.0) 
+  Other     : 0      (Average Length: 0.0)
+  Deleted   : 35665 
