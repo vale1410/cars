@@ -4,10 +4,12 @@
 
 %Input: 
 
-class(C) :- class_count(C,_). 
+first(1).
 last(N) :- N = #sum[class_count(_,K) = K ].
 pos(0..L) :- last(L). 
 option(O) :- class_option(_,O). 
+class(C) :- class_count(C,_). 
+next(D,DD) :- pos(D;DD), DD = D+1. 
 
 % model
 
@@ -46,21 +48,35 @@ counter(o,O,Q,M,N) :-
     option_max(O,M),
     N = #sum [class_count(C,T) = T : class_option(C,O)].
 
+% choices
+
+0 { is(c,C,P) } 1 :- 
+    P != 0, 
+    class(C), 
+    pos(P). 
+
+0 { is(o,O,P) } 1 :- 
+    P != 0,
+    option(O),
+    pos(P). 
+
 % from in to is
-is(T,I,P+1) :- 
-    pos(P;P+1),
+
+:-  pos(P;P+1),
     not in(T,I,P,L),
-    in(T,I,P+1,L).
+    in(T,I,P+1,L), 
+    not is(T,I,P+1). 
 
 % from is to in
 
-:-  is(T,I,P+1), 
-    pos(P;P+1),
+:-  pos(P;P+1),
+    is(T,I,P+1), 
     in(T,I,P,L),
     domain(T,I,P+1,L+1),
     not in(T,I,P+1,L+1).
 
 % Link between option and class
+
 :-  class_option(C,O),
     is(c,C,P),
     not is(o,O,P).
@@ -69,6 +85,7 @@ is(T,I,P+1) :-
     not is(c,C,P) : class_option(C,O).
 
 % symmetry breaking
+
 :-  last(L), 
     is(c,C1,1),
     is(c,C2,L),
@@ -99,18 +116,17 @@ delta(Q,M,DP,M) :-
     counter(_,_,Q,M,_), 
     DP=M+1..Q-1.
 
-lower(T,I,P,0) :- 
-    pos(P),last(L),
-    counter(T,I,Q,M,S),
-    P <= L+Q-1-(Q*S)/M.
+lower(T,I,P-1,0) :- 
+    lower(T,I,P,0),
+    pos(P;P-1). 
 
 lower(T,I,P-DP,N-DN) :- 
     counter(T,I,Q,M,S), 
     last(L), 
-    1 <= N-DN,
+    0 <= N-DN,
     pos(P-DP),
     delta(Q,M,DP,DN),
-    D = 0..L/Q,
+    D = 0..L/Q+1,
     N = S-(D*M),
     P = L-(D*Q).
 
@@ -161,7 +177,4 @@ domain(T,I,P,N) :-
     in(T,I,P,N),
     domain(T,I,P-Q,N-M),
     not in(T,I,P-Q,N-M). 
-
-#hide.
-#show is/3. 
 

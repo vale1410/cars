@@ -12,7 +12,7 @@ random=${5-1982}
 output=${6-output.txt}
 
 option='--time-limit='${3-1800}' -t 1 --stats '
-#option=$option'--trans-ext=all '
+option=$option'--trans-ext=all '
 option=$option'--seed='$random' ' 
 #quiet:
 option=$option'-q ' 
@@ -41,7 +41,7 @@ gringo $instance model${2-7}.lp | clasp $option  | tee -a $output
 #    prettyOutput=/tmp/pretty_$(basename $output .txt)_$RANDOM.pl
 #    rm -fr $solution
 #    rm -fr $prettyOutput
-#    cat $output | grep 'is_car' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
+#    cat $output | grep 'is(' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
 #    cat print.pl >> $solution
 #    cat $instance | sort >> $solution
 #    prolog -f print.pl -f $solution -g start -t halt > $prettyOutput

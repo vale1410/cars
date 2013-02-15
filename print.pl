@@ -54,10 +54,15 @@ printOptionHead(N) :-
 start:-
     printOverview,nl,
     first(F), 
-    printRow(F). 
+    printRow(F), 
+    forall(class(O),printCounter(c,O)), 
+    forall(option(O),printCounter(o,O)). 
 
-option(O) :- 
-    is_option(_,O).
+is_car(P,C) :- 
+    is(c,C,P). 
+
+is_option(P,O) :- 
+    is(o,O,P). 
 
 printRow(F) :- 
     writeS(F), 
@@ -79,3 +84,51 @@ printOption(C,O) :-
      printOption(C,OO);
      nl
     ).
+
+printPos(P) :- 
+    writeS(P), 
+    (next(P,PP) ->
+        printPos(PP); 
+        nl
+    ). 
+
+printCounter(T,I) :- 
+    writeS(' '),nl,
+    write(T), 
+    write('/'),
+    writeS(I), 
+    printPos(0), 
+    counter(T,I,_,_,N), 
+    NN is N +1, 
+    printCount(T,I,NN). 
+
+printCount(T,I,N) :- 
+    writeS(N), 
+    printCounterRow(T,I,0,N), 
+    NN is N-1, 
+    (N > 0 ->
+    printCount(T,I,NN); 
+    nl). 
+
+printCounterRow(T,I,P,N) :- 
+    (lower(T,I,P,N) ->
+     writeS('L');
+        (upper(T,I,P,N) ->
+         writeS('U');
+            (in(T,I,P,N) ->
+             writeS('1'); 
+             (domain(T,I,P,N) ->
+              writeS('0');
+              writeS(' '))
+          )
+         )
+     ),
+
+
+    (next(P,PP)->
+     printCounterRow(T,I,PP,N); 
+     nl
+    ).
+
+
+
