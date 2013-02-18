@@ -1,0 +1,62 @@
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'p23.cnf'
+c -- header says num vars:         219725
+c -- header says num clauses:      682174
+c -- clauses added:            0 learnts,       682174 normals,            0 xors
+c -- vars added     219725
+c Parsing time:  0.28 s
+c Ouptutting solution to console
+c asymm  cl-useful: 0/5228/92996 lits-rem:0 time: 0.92
+c Time to fill non-learnt binary watchlists: 0.03 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.05 s
+c Subs w/ non-existent bins:      2 l-rem:      0 v-fix:     0 done:  27280 time:  2.10 s
+c lits-rem:         0  cl-subs:   104414  v-elim:  69412  v-fix:    0  time:  0.45 s
+c Finding binary XORs:         0.05 s (found:      10, avg size: 2.0)
+c Replacing       10 vars Replaced      168 lits Time:     0.00 s 
+c Finding non-binary XORs:     0.02 s (found:       0, avg size: -nan)
+c watched sorting time: 0.00
+c Calc default polars -  time:   0.01 s pos:    5330 undec:  205267 neg:    9128
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0     52374     89226    164963         0    613338         0  no matrixes
+c Finding binary XORs:         0.02 s (found:       0, avg size: -nan)
+c  N dy    11      4053     52374     89226    165045      3887    613338    204251  no matrixes
+c  N dy    28      8263     52374     89226    165107      7982    613338    382407  no matrixes
+c  N dy    51     13876     52374     89226    165210     13392    613338    557279  no matrixes
+c  E dy    52     14318         0     89226    165219     13816    613338    565581  no matrixes
+c Verified 89226 clauses.
+c Solution needs extension. Extending.
+c Verified 89226 clauses.
+c        1 solution(s) found
+c restarts              : 52         
+c dynamic restarts      : 46         
+c static restarts       : 6          
+c full restarts         : 0          
+c learnts DL2           : 0          
+c learnts size 2        : 257        
+c learnts size 1        : 97929       (44.57     % of vars)
+c v-elim SatELite       : 69412       (31.59     % vars)
+c SatELite time         : 2.60        (41.17     % time)
+c v-elim xor            : 0           (0.00      % vars)
+c xor elim time         : 0.00        (0.00      % time)
+c num binary xor trees  : 10         
+c binxor trees' crown   : 10          (1.00      leafs/tree)
+c OTF clause improved   : 246         (0.02      clauses/conflict)
+c OTF impr. size diff   : 265         (1.08       lits/clause)
+c OTF cl watch-shrink   : 4395        (0.31      clauses/conflict)
+c OTF cl watch-sh-lit   : 13311       (3.03       lits/clause)
+c tried to recurMin cls : 2440        (17.04      % of conflicts)
+c stopped recurMin      : 2429        (99.55      %)
+c lits visited recurmin:: 1.21       
+c conflicts             : 14318       (2266.80   / sec)
+c decisions             : 136670      (0.85      % random)
+c bogo-props            : 126300457   (19995658.44 / sec)
+c conflict literals     : 577852      (8.25      % deleted)
+c Memory used           : 154.09      MB
+c CPU time              : 6.32        s
+c 
+s SATISFIABLE

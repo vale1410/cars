@@ -1,0 +1,19 @@
+c clasp version 2.1.1
+c Reading from p25.cnf
+c Solving...
+s SATISFIABLE
+
+c Models        : 1+    
+c Time          : 0.872s (Solving: 0.09s 1st Model: 0.09s Unsat: 0.00s)
+c CPU Time      : 0.860s
+c Choices       : 3875
+c Conflicts     : 113
+c Restarts      : 0     
+
+c Variables     : 217787 (Eliminated: 67956 Frozen:    0)
+c Constraints   : 246406 (Binary: 64.9% Ternary: 33.8% Other:  1.3%)
+c Lemmas        : 113    (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+c   Conflict    : 113    (Average Length: 24.7) 
+c   Loop        : 0      (Average Length: 0.0) 
+c   Other       : 0      (Average Length: 0.0)
+c   Deleted     : 0     

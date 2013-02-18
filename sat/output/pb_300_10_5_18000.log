@@ -1,0 +1,49 @@
+c
+c This is glucose 2.1 --  based on MiniSAT (Many thanks to MiniSAT team)
+c
+c WARNING: for repeatability, setting FPU to use double precision
+c ========================================[ Problem Statistics ]===========================================
+c |                                                                                                       |
+c |  Number of variables:        346991                                                                   |
+c |  Number of clauses:          854760                                                                   |
+c |  Parse time:                   0.27 s                                                                 |
+c |                                                                                                       |
+c ========================================[ MAGIC CONSTANTS ]==============================================
+c | Constants are supposed to work well together :-)                                                      |
+c | however, if you find better choices, please let us known...                                           |
+c |-------------------------------------------------------------------------------------------------------|
+c |                                |                                |                                     |
+c | - Restarts:                    | - Reduce Clause DB:            | - Minimize Asserting:               |
+c |   * LBD Queue    :     50      |   * First     :   4000         |    * size <  30                     |
+c |   * Trail  Queue :   5000      |   * Inc       :    300         |    * lbd  <   6                     |
+c |   * K            :   0.80      |   * Special   :   1000         |                                     |
+c |   * R            :   1.40      |   * Protected :  (lbd)< 30     |                                     |
+c |                                |                                |                                     |
+c ==================================[ Search Statistics (every  10000 conflicts) ]=========================
+c |                                                                                                       |
+c |          RESTARTS           |          ORIGINAL         |              LEARNT              | Progress |
+c |       NB   Blocked  Avg Cfc |    Vars  Clauses Literals |   Red   Learnts    LBD2  Removed |          |
+c =========================================================================================================
+c |       50         0      200 |  199168   840360  1880188 |     1     8008      555     1991 | 42.601 % |
+c |      104         0      192 |  199168   840360  1880188 |     3     7006     1076    12993 | 42.601 % |
+c |      161         0      186 |  199168   840360  1880188 |     3    17006     1482    12993 | 42.601 % |
+c |      214         0      186 |  199168   840360  1880188 |     4    18247     1781    21752 | 42.601 % |
+c |      241         0      207 |  199168   840360  1880188 |     5    17248     2038    32751 | 42.601 % |
+c |      261         0      229 |  199144   840336  1880116 |     5    27124     2183    32751 | 42.608 % |
+c |      293         0      238 |  199144   840336  1880116 |     6    23719     2334    46156 | 42.608 % |
+c =========================================================================================================
+c restarts              : 297 (247 conflicts in avg)
+c blocked restarts      : 0 (multiple: 0) 
+c last block at restart : 0
+c nb ReduceDB           : 6
+c nb removed Clauses    : 46156
+c nb learnts DL2        : 2392
+c nb learnts size 2     : 792
+c nb learnts size 1     : 10
+c conflicts             : 73455          (2601 /sec)
+c decisions             : 201263         (0.00 % random) (7127 /sec)
+c propagations          : 142508555      (5046737 /sec)
+c conflict literals     : 2121690        (33.12 % deleted)
+c nb reduced Clauses    : 885
+c CPU time              : 28.2378 s
+s UNSATISFIABLE

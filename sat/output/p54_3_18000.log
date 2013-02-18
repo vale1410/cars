@@ -1,0 +1,453 @@
+c Lingeling SAT Solver
+c 
+c Version ala b02aa1a04343558c4252b5f4a723be021964f652
+c 
+c Copyright (C) 2010-2012 Armin Biere JKU Linz Austria.
+c All rights reserved.
+c 
+c released Sat Oct 13 14:05:26 CEST 2012
+c compiled Sat Feb 16 02:48:12 EST 2013
+c 
+c gcc (Debian 4.4.5-8) 4.4.5
+c -Wall -O3 -DNLGLOG -DNDEBUG -DNCHKSOL -DNLGLPICOSAT 
+c Linux greencar2 2.6.32-5-amd64 x86_64
+c 
+c reading input file p54.cnf
+c no embedded options
+c found 'p cnf 228166 707048' header
+c read 228166 variables, 707048 clauses, 1471126 literals in 0.0 seconds
+c
+c feature vars 228166
+c feature lits.total 1471126
+c feature lits.pos 783773
+c feature lits.neg 687353
+c feature clauses.total 707048
+c feature clauses.unit 85138
+c feature clauses.bin 498142
+c feature clauses.trn 122368
+c feature clauses.lrg 1400
+c feature cog.val.min 1
+c feature cog.val.avg 101661
+c feature cog.val.max 219457
+c feature cog.var.min 1
+c feature cog.var.avg 114084
+c feature cog.var.max 228165
+c
+c
+c --abstime=0
+c --acts=2
+c --actavgmax=120
+c --actstdmin=20
+c --actstdmax=80
+c --agile=23
+c --bias=2
+c --block=1
+c --blkrtc=0
+c --blkclslim=2000
+c --blkocclim=2000
+c --blkmaxeff=2147483647
+c --blkmineff=10000000
+c --blkreleff=20
+c --card=0
+c --cce=3
+c --ccemaxeff=100000000
+c --ccemineff=5000000
+c --ccereleff=3
+c --check=0
+c --cgrclsr=1
+c --cgrmaxority=20
+c --cgrmaxeff=8000000
+c --cgrmineff=200000
+c --cgreleff=1
+c --cgrexteq=1
+c --cgrextand=1
+c --cgrextunits=1
+c --cgrextite=1
+c --cgrextxor=1
+c --cliff=1
+c --cliffreleff=8
+c --cliffmineff=10000000
+c --cliffmaxeff=100000000
+c --compact=0
+c --decompose=1
+c --defragint=10000000
+c --defragfree=50
+c --elim=1
+c --elmrtc=0
+c --elmblk=1
+c --elmclslim=1000
+c --elmocclim=1000
+c --elmaxeff=100000000
+c --elmineff=5000000
+c --elmreleff=10
+c --sleeponabort=0
+c --exitonabort=0
+c --flipping=1
+c --flipint=2
+c --flipdur=50
+c --fliptop=1
+c --force=0
+c --gauss=1
+c --gaussextrall=1
+c --gaussmaxor=20
+c --gaussexptrn=1
+c --gaussmaxeff=50000000
+c --gaussmineff=2000000
+c --gaussreleff=2
+c --gluescale=2
+c --gluekeep=0
+c --inprocessing=1
+c --cintinc=10000
+c --irrlim=20
+c --lift=1
+c --lftmaxeff=20000000
+c --lftmineff=500000
+c --lftreleff=6
+c --lhbr=1
+c --lkhd=1
+c --clim=-1
+c --mocint=1000
+c --move=2
+c --log=-1
+c --otfs=1
+c --phase=0
+c --phaseneginit=0
+c --plain=0
+c --probe=1
+c --prbasicmaxeff=100000000
+c --prbasicmineff=1000000
+c --prbasicreleff=10
+c --prbasic=1
+c --prbasicroundlim=9
+c --queuemergelim=10000
+c --queuefactor=833
+c --queueinc=20
+c --rmincpen=4
+c --seed=0
+c --smallirr=90
+c --smallve=1
+c --smallvevars=12
+c --randec=1
+c --randecint=1000
+c --redfixed=0
+c --redlbound=0
+c --redlexpfac=10
+c --redldoutfac=0
+c --redloutinc=10000
+c --redlinit=1000
+c --redlinc=1000
+c --redinoutinc=100
+c --redlmininc=10
+c --redlmaxinc=200
+c --redlminrel=10
+c --redlmaxrel=300
+c --redlminabs=500
+c --redlmaxabs=1000000
+c --reduce=1
+c --restart=2
+c --restartint=5
+c --rstinoutinc=110
+c --simplify=1
+c --simpdelay=100
+c --simpen=4
+c --sizepen=1000000
+c --sizemaxpen=3
+c --sortlits=0
+c --syncint=111111
+c --termint=122222
+c --ternres=1
+c --ternresrtc=0
+c --trnrmineff=4000000
+c --trnrmaxeff=40000000
+c --trnreleff=10
+c --transred=1
+c --trdmineff=100000
+c --trdmaxeff=2000000
+c --trdreleff=10
+c --unhide=1
+c --unhdextstamp=1
+c --unhdhbr=0
+c --unhdmaxeff=20000000
+c --unhdmineff=1000000
+c --unhdreleff=4
+c --unhdlnpr=3
+c --unhdroundlim=5
+c --verbose=1
+c --witness=1
+c [limits] no conflict limit
+c [limits] simplification delayed by 100 to 100 conflicts
+c 
+c  seconds         irredundant          redundant clauses agility   height
+c          variables clauses conflicts large binary ternary    glue         MB
+c 
+c *    0.0  125768   527248         0       0      0     0  64  0.0   0.0   42
+c [cut-width] 175725, max 272978, min4 116316 at 75%, min10 33947 at 89%
+c [decision-order] bias 1, old 1
+c [queue-schedule-all-variables]
+c s    0.0  125768   527248         0       0      0     0  64  0.0   0.0   42
+c [simplification-1] limit hit at 100 conflicts
+c [simplification-1] simplification penalty of 4
+c [ternres-1] limit 4000000 with penalty 0 = 0 + 0
+c [ternres-1] all 125768 free variables schedulable
+c [ternres-1] 0 ternary resolvents (0 bin, 0 trn)
+c [ternres-1] 22650 variables remain 18% (103118 retained)
+c [gauss-1] limit 2000000 penalty 0 = 0 + 0
+c [gauss-1] extracted 166032 xors of average arity 2.0
+c [gauss-1] connected 332067 occurrences of 106733 variables (average 3.1)
+c [gauss-1] limit 2000000 penalty 0 = 0 + 0
+c d    1.4   57924   262664       100      98      0     0  79  5.7 264.0   21
+c [gauss-1] exported 0 unary, 2 binary and 0 ternary equations
+c G    1.4   57924   262664       100      98      0     0  79  5.7 264.0   21
+c [basicprobe-1] limit 1000000 penalty 0 = 0 + 0
+c [basicprobe-1-0] 4317 probes remain 7% after last round
+c [basicprobe-1-0] 1 units = 1 failed (100%) + 0 lifted (0%)
+c [basicprobe-1-0] removed 1 variables, found 12898 hbrs
+c p    1.7   57923   262664       100      98  12898     0  79  5.7 264.0   25
+c [cgrclsr-1] limit 200000 penalty 0 = 0 + 0
+c [cgrclsr-1] all 57923 free variables schedulable
+c [cgrclsr-1] fully completed congruence closure
+c [lift-1] limit 500000 with penalty 0 = 0 + 0
+c [lift-1] using 57923 probes 100%
+c [lift-1] 57885 variables remain 100% (38 retained)
+c [cliff-1] limit of 10000000 steps penalty 0 = 0 + 0
+c [cliff-1] failed 1, lifted 0
+c K    2.6   57921   262659       100      98  21625     0  79  5.7 264.0   26
+c [unhide-1] limit 1000000 with penalty 0 = 0 + 0
+c [unhide-1-1] 0 units, 0 failed, 20659 tauts, 0 hbrs, 85 literals
+c u    2.9   57921   241990       100      98  21625     0  79  5.7 264.0   26
+c [transred-1] limit 100000 with penalty 0 = 0 + 0
+c t    2.9   57921   241989       100      98  21618     0  79  5.7 264.0   26
+c [block-1] scheduling all variables this time
+c [block-1] scheduled 57921 variables 100%
+c [block-1] limit of 10000000 steps penalty 0 = 0 + 0
+c [block-1] fully completed blocked clause elimination
+c [block-1] transition to [ all 0 rem 0 ] state
+c [block-1] eliminated 4600 blocked clauses
+c k    3.1   57921   237389       100      98  21618  4600  79  5.7 264.0   21
+c [cce-1] scheduling all variables this time
+c [cce-1] limit of 10000000 steps penalty 0 = 0 + 0
+c [cce-1] incomplete covered clause elimination 52495 not tried 91%
+c [cce-1] transition to [ all 1 rem 1 ] state
+c [cce-1] eliminated 147 covered clauses
+c E    3.8   57913   237242       100      98  27825  4600  79  5.7 264.0   21
+c [elim-1] scheduling all variables this time
+c [elim-1] scheduled 57913 variables 100%
+c [elim-1] limit of 5000000 steps penalty 0 = 0 + 0
+c [elim-1] incomplete variable elimination 43053 not tried 74%
+c [elim-1] transition to [ all 1 rem 1 ] state
+c [elim-1] eliminated 6588 = 11% variables out of 57913
+c e    5.4   51325   233184       100      58  10214   529  79  5.7 264.0   21
+c [phase-1] phase bias: 1039 positive 16%, 5398 negative 84%
+c [simplification-1] removed 74443 variables 59%
+c [simplification-1] limit increments divided by 30
+c [simplification-1] arithmetic increase of conflict limit interval by 333
+c [simplification-1] new irredundant limit 2308450
+c [simplification-1] new conflict limit 433
+c [simplification-1] simplification penalty reduced to 3
+c R    5.5   51325   233184       160     114  10214   533  21  7.1 434.3   25
+c R    5.7   51325   233184       404     310  10233   558   5  5.6 244.3   25
+c [simplification-2] limit hit at 433 conflicts
+c [simplification-2] simplification penalty of 3
+c [ternres-2] limit 2000000 with penalty 1 = 1 + 0
+c [ternres-2] 9257 schedulable variables 18%
+c [ternres-2] 5 ternary resolvents (0 bin, 5 trn)
+c [ternres-2] fully completed ternary resolution
+c T    5.8   51325   233184       433     329  10236   569   4  5.4 236.9   26
+c [gauss-2] limit 2000000 penalty 0 = 0 + 0
+c [gauss-2] extracted 834 xors of average arity 3.0
+c [gauss-2] connected 2502 occurrences of 1452 variables (average 1.7)
+c [gauss-2] limit 2000000 penalty 0 = 0 + 0
+c [gauss-2] fully completed
+c [gauss-2] exported 0 unary, 0 binary and 0 ternary equations
+c G    6.0   51325   233184       433     329  10236   569   4  5.4 236.9   21
+c [basicprobe-2] limit 1000000 penalty 0 = 0 + 0
+c [basicprobe-2-0] 4118 probes remain 8% after last round
+c [basicprobe-2-0] removed 0 variables, found 790 hbrs
+c p    6.2   51325   233184       433     329  11026   569   4  5.4 236.9   25
+c [cgrclsr-2] limit 100000 penalty 1 = 1 + 0
+c [cgrclsr-2] all 51325 free variables schedulable
+c [cgrclsr-2] fully completed congruence closure
+c [lift-2] limit 250000 with penalty 1 = 1 + 0
+c [lift-2] using 51292 probes 100%
+c [lift-2] 51272 variables remain 100% (53 retained)
+c [cliff-2] limit of 10000000 steps penalty 0 = 0 + 0
+c [cliff-2] failed 0, lifted 0
+c [unhide-2] limit 1000000 with penalty 0 = 0 + 0
+c [unhide-2-2] 0 units, 0 failed, 1299 tauts, 0 hbrs, 118 literals
+c u    7.3   51325   233175       433     323  10492   569   4  5.4 236.9   25
+c [transred-3] limit 100000 with penalty 0 = 0 + 0
+c t    7.3   51325   233173       433     323  10488   569   4  5.4 236.9   25
+c [block-2] scheduling all variables this time
+c [block-2] scheduled 51325 variables 100%
+c [block-2] limit of 10000000 steps penalty 0 = 0 + 0
+c [block-2] fully completed blocked clause elimination
+c [block-2] transition to [ all 0 rem 0 ] state
+c [block-2] eliminated 0 blocked clauses
+c [cce-2] 48591 variables 95% will be scheduled this time
+c [cce-2] limit of 10000000 steps penalty 0 = 0 + 0
+c [cce-2] 48076 variables 94% remain to be tried next time
+c [cce-2] transition to [ all 0 rem 1 ] state
+c [cce-2] eliminated 295 covered clauses
+c E    8.1   51325   232878       433     323  10790   569   4  5.4 236.9   21
+c [elim-2] 42986 variables 84% will be scheduled this time
+c [elim-2] scheduled 42986 variables 84%
+c [elim-2] limit of 5000000 steps penalty 0 = 0 + 0
+c [elim-2] 32988 variables 64% remain to be tried next time
+c [elim-2] transition to [ all 0 rem 1 ] state
+c [elim-2] eliminated 1014 = 2% variables out of 51325
+c e    9.7   50311   232476       433     313   8357   565   4  5.4 236.9   21
+c [phase-2] phase bias: 17 positive 94%, 1 negative 6%
+c [simplification-2] removed 1014 variables 1%
+c [simplification-2] no reduction of limit increments
+c [simplification-2] arithmetic increase of conflict limit interval by 10000
+c [simplification-2] new irredundant limit 2308450
+c [simplification-2] new conflict limit 10766
+c [simplification-2] simplification penalty reduced to 2
+c R   10.2   50311   232476       969     780   8373   608   5  6.2 217.0   26
+c -   10.5   50311   232476      1290     517   8400   643   3  6.0 220.0   26
+c R   11.1   50311   232476      2271    1422   8419   697   5  7.8 280.4   26
+c 
+c  seconds         irredundant          redundant clauses agility   height
+c          variables clauses conflicts large binary ternary    glue         MB
+c 
+c -   12.7   50311   232476      4191    1554   8500   879   5  7.2 262.7   26
+c R   13.1   50311   232476      5176    2501   8506   911   5  7.5 277.7   26
+c 1   13.9   50311   232476      6135    3322   8535  1007   5  7.3 264.1   26
+c 
+c  seconds         irredundant          redundant clauses agility   height
+c          variables clauses conflicts large binary ternary    glue         MB
+c 
+c blkd: 2 bces, 4600 removed, 1389084 resolutions, 3871067 steps
+c blkd: 4600 blocking literals 1%, 0 pure
+c cces: 2 cces, 405 eliminated, 405 ate 100%, 0 abce 0%
+c cces: 11882 probed, 1 lifted, 8 failed
+c clff: 2 cliffs, 0 lifted, 1 failed
+c clff: 9400 decisions, 20004121 steps
+c clls: 1 sat, 0 simp, 0 freeze, 0 melt
+c clls: 2178174 add, 0 assume,, 0 deref, 0 failed
+c clls: 0 cassume, 0 mosat
+c coll: 13 gcs, 0 rescored clauses
+c cgrs: 2 count, 300000 esteps, 68495 csteps
+c cgrs: 0 eqs, 0 units
+c cgrs: 0 matched (0 ands 0%, 0 xors 0%, 0 ites 0%)
+c cgrs: 0 simplified (0 ands 0%, 0 xors 0%, 0 ites 0%)
+c cgrs: 1970 extracted (1679 ands 85%, 291 xors 15%, 0 ites 0%)
+c dcps: 3 decompositions, 67844 equivalent 30%
+c decs: 126653 decision, 124 random 0.098%
+c decs: 27018 flipped 21.332% (in 39 phases)
+c elms: 2 elims, 7602 eliminated 3%
+c elms: 7602 small 100%, 0 large 0%
+c elms: 25008 tried small, 7602 succeeded 30%, 17406 failed 70%
+c elms: 0 subsumed, 0 strengthened, 0 blocked
+c elms: 315183 copies, 218364 resolutions, 647846 ipos
+c elms: 0 subchks, 0 strchks
+c frcs: 0 computed, 30.4 - 69.6 average min-cut range
+c gaus: 2 extractions, 166866 extracted, 2.0 size, 3 max
+c gaus: exported 0 units, 2 binary and 0 ternary equations
+c gaus: 0 gc, 8000044 steps, 4000022 extr 50%, 2392160 elim 30%
+c glue: 7.3 avg, 2.7 scaled avg
+c glue: 0 maxredglue=15 (0%)
+c lift: 2 phases, 348 probed (116 level1 33%, 232 level2 67%)
+c lift: 0 units, 0 equivalences, 1 implications
+c hbrs: 29285 hbrs = 29285 trn 100% + 0 lrg 0%, 2 sub 0%
+c lrnd: 6073 clauses, 3790 uips 62%, 24.8 length, 7.3 glue
+c ints: 318 luby (35638 steps), 0 inout (0 steps)
+c mins: 150323 learned lits, 4% minimized
+c move: moved 5005, 405 binary 8%, 4600 ternary 92%
+c otfs: str 240 dyn (202 red, 38 irr) 62 drv 26%, 178 rst 74%
+c otfs: sub 1 dyn (1 red, 0 irr)
+c phas: 2 computed, 6630 set, 1056 pos (16%), 5574 neg (84%)
+c prbs: 2 basic, 2209 probed, 1 failed, 0 lifted
+c prps: 21245663 props, 115 props/dec
+c prps: 68% srch, 32% simp, 0% lkhd
+c psns: 530287 searches, 85011 hits, 16% hit rate
+c queu: 19910 new, 6689 del, 120 maximum priority
+c queu: 13191 merged, 10794 collected, 3 gcs
+c queu: 6313 deprioritized, 21.9 lines on average
+c reds: 2 count, 0 reset, 2 acts 100%, 0 exp 0%
+c reds: 2 arithmetic 100%, 2 double 100%
+c rmbd: 9 removed, 0 red 0%
+c rsts: 295 restarts 93%, 22 skipped 7%
+c rsts: 36 kept 12.2% average 30.9%
+c simp: 2 count (0 ilim 0%, 0 plim 0%, 2 clim 100%)
+c trnr: 2 count, 0 bin, 5 trn, 4713862 steps
+c tops: 102409 fixed 45%, 0 iterations
+c trds: 4 transitive reductions, 14 removed, 0 failed
+c trds: 248 nodes, 344 edges, 201966 steps
+c unhd: 2 count, 2 rounds, 2453580 steps
+c unhd: 0 non-trivial sccs of average size 0.0
+c unhd: 0 units, 0 bin, 0 trn, 0 lrg
+c unhd: 0 failed, 0 stamp, 0 lits, 0 bin, 0 trn, 0 lrg
+c unhd: 21958 tauts, 0 bin 0%, 2 trn 0%, 4 lrg 0%
+c unhd: 21958 tauts, 21952 stamp 100%, 1299 red 6%
+c unhd: 0 hbrs, 0 trn 0%, 0 lrg 0%, 0 red 0%
+c unhd: 203 strd, 0 bin 0%, 1 trn 0%, 202 lrg 100%, 202 red 100%
+c vars: 50311 remaining 22% and 177855 removed 78% out of 228166
+c vars: 102409 fixed 45%, 7602 eliminated 3%, 67844 equivalent 30%
+c vsts: 104102726 visits, 70% srch, 30% simp, 0% lkhd
+c vsts: 5.0 search visits per propagation 11958.3 per conflict
+c wchs: 9784000 pushed, 4217782 enlarged, 22 defrags
+c 
+c scaledglue  added       reduced       forcing      resolved     conflicts
+c 
+c all      5413 100      2015 100     36299 100     10340 100       739 100
+c 
+c  0          0   0         0   0         0   0         0   0         0   0 
+c  1         45   1         0   0       269   1        72   1         3   0 
+c  2       1963  36       793  39     16757  46      3468  34       201  27 
+c  3       2146  40<      794  39<    15735  43<     4382  42<      331  45<
+c  4        833  15       307  15      2839   8      1656  16       151  20 
+c  5        291   5        76   4       505   1       546   5        38   5 
+c  6         65   1        16   1        94   0       107   1         9   1 
+c  7         27   0         6   0        39   0        49   0         4   1 
+c  8         18   0        10   0        30   0        22   0         2   0 
+c  9          8   0         2   0         8   0        13   0         0   0 
+c 10          7   0         5   0         8   0        10   0         0   0 
+c 11          2   0         1   0         2   0         2   0         0   0 
+c 12          1   0         1   0         1   0         1   0         0   0 
+c 13          7   0         4   0        12   0        12   0         0   0 
+c 14          0   0         0   0         0   0         0   0         0   0 
+c 15          0   0         0   0         0   0         0   0         0   0 
+c 
+c avg             3.0           2.9           2.7           3.0           3.1
+c std             1.1           1.2           0.8           1.1           1.0
+c 
+c 126653 decisions, 6135 conflicts, 439.8 conflicts/sec
+c 21245663 propagations, 1.5 megaprops/sec
+c 13.9 seconds, 48.7 MB
+c 
+c    0.584   4% analysis
+c    0.460   3% block
+c    0.048   0% bump
+c    0.000   0% card
+c    1.292   9% cce
+c    1.140   8% cliff
+c    0.028   0% cutwidth
+c    0.168   1% decide
+c    0.000   0% force
+c    0.968   7% gc
+c    0.388   3% cgrclsr
+c    0.544   4% decomp
+c    0.244   2% defrag
+c    3.164  23% elim
+c    1.452  10% gauss
+c    0.308   2% lift
+c    0.064   0% mincls
+c    0.080   1% phase
+c    0.196   1% probe
+c    0.012   0% reduce
+c    0.288   2% restart
+c    0.140   1% ternres
+c    0.020   0% transred
+c    0.404   3% unhide
+c ==================================
+c    0.036   0% preprocessing     0%
+c    9.477  68% inprocessing    100%
+c ==================================
+c    9.513  68% simplifying
+c    0.000   0% lookahead
+c    4.420  32% search
+c ==================================
+c   13.949 100% all
+c
+s SATISFIABLE

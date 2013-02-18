@@ -1,0 +1,19 @@
+c clasp version 2.1.1
+c Reading from p48.cnf
+c Solving...
+s SATISFIABLE
+
+c Models        : 1+    
+c Time          : 1.701s (Solving: 0.17s 1st Model: 0.17s Unsat: 0.00s)
+c CPU Time      : 1.690s
+c Choices       : 5261
+c Conflicts     : 155
+c Restarts      : 0     
+
+c Variables     : 232714 (Eliminated: 72909 Frozen:    0)
+c Constraints   : 267294 (Binary: 64.6% Ternary: 34.1% Other:  1.3%)
+c Lemmas        : 155    (Binary:  0.0% Ternary:  0.0% Other:100.0%)
+c   Conflict    : 155    (Average Length: 16.4) 
+c   Loop        : 0      (Average Length: 0.0) 
+c   Other       : 0      (Average Length: 0.0)
+c   Deleted     : 0     

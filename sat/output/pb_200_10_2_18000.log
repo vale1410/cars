@@ -1,0 +1,57 @@
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'pb_200_10.cnf'
+c -- header says num vars:         176431
+c -- header says num clauses:      547385
+c -- clauses added:            0 learnts,       547385 normals,            0 xors
+c -- vars added     176431
+c Parsing time:  0.22 s
+c Ouptutting solution to console
+c asymm  cl-useful: 4/4741/72092 lits-rem:4 time: 1.10
+c Time to fill non-learnt binary watchlists: 0.03 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.04 s
+c Subs w/ non-existent bins:      2 l-rem:      0 v-fix:    20 done:  18907 time:  1.94 s
+c lits-rem:         0  cl-subs:    81882  v-elim:  54620  v-fix:    0  time:  0.36 s
+c Finding binary XORs:         0.04 s (found:      82, avg size: 2.0)
+c Replacing       82 vars Replaced      988 lits Time:     0.00 s 
+c Finding non-binary XORs:     0.02 s (found:       0, avg size: -nan)
+c watched sorting time: 0.00
+c Calc default polars -  time:   0.00 s pos:    5040 undec:  163671 neg:    7720
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0     41370     69438    130970         0    484254         0  no matrixes
+c Finding binary XORs:         0.02 s (found:       0, avg size: -nan)
+c  N dy     9      7783     41370     69438    131016      7644    484254    336025  no matrixes
+c  N dy    15     17847     40867     68578    129806     15804    479138    541943  no matrixes
+c  E dy    18     20743     40488     67460    128483      8842    472968    134238  no matrixes
+c restarts              : 18         
+c dynamic restarts      : 12         
+c static restarts       : 6          
+c full restarts         : 0          
+c learnts DL2           : 0          
+c learnts size 2        : 150        
+c learnts size 1        : 82298       (46.65     % of vars)
+c v-elim SatELite       : 54620       (30.96     % vars)
+c SatELite time         : 2.34        (32.88     % time)
+c v-elim xor            : 0           (0.00      % vars)
+c xor elim time         : 0.00        (0.00      % time)
+c num binary xor trees  : 82         
+c binxor trees' crown   : 82          (1.00      leafs/tree)
+c OTF clause improved   : 251         (0.01      clauses/conflict)
+c OTF impr. size diff   : 308         (1.23       lits/clause)
+c OTF cl watch-shrink   : 4329        (0.21      clauses/conflict)
+c OTF cl watch-sh-lit   : 8895        (2.05       lits/clause)
+c tried to recurMin cls : 1242        (5.99       % of conflicts)
+c stopped recurMin      : 1200        (96.62      %)
+c lits visited recurmin:: 1.30       
+c conflicts             : 20743       (2919.72   / sec)
+c decisions             : 42464       (1.77      % random)
+c bogo-props            : 144783920   (20379345.66 / sec)
+c conflict literals     : 641639      (30.55     % deleted)
+c Memory used           : 268.05      MB
+c CPU time              : 7.10        s
+c 
+s UNSATISFIABLE

@@ -1,0 +1,62 @@
+benchmark,IP-Paper,goodSat
+pb_200_01.txt, 0 ,SATISFIABLE    
+pb_300_01.txt, 0 ,SATISFIABLE    
+pb_400_01.txt, 1 ,UNKNOWN        
+pb_200_02.txt, 2 ,UNKNOWN        
+pb_300_02.txt, 12,UNKNOWN        
+pb_400_02.txt, 16,UNKNOWN        
+pb_200_03.txt, 4 ,UNSATISFIABLE  
+pb_300_03.txt, 13,UNSATISFIABLE  
+pb_400_03.txt, 9 ,UNSATISFIABLE  
+pb_200_04.txt, 7 ,UNSATISFIABLE  
+pb_300_04.txt, 7 ,UNSATISFIABLE  
+pb_400_04.txt, 19,UNSATISFIABLE  
+pb_200_05.txt, 6 ,UNSATISFIABLE  
+pb_300_05.txt, 29,UNSATISFIABLE  
+pb_400_05.txt, 0 ,SATISFIABLE    
+pb_200_06.txt, 6 ,UNKNOWN        
+pb_300_06.txt, 2 ,UNKNOWN        
+pb_400_06.txt, 0 ,SATISFIABLE    
+pb_200_07.txt, 0 ,SATISFIABLE    
+pb_300_07.txt, 0 ,SATISFIABLE    
+pb_400_07.txt, 4 ,UNKNOWN        
+pb_200_08.txt, 8 ,UNKNOWN        
+pb_300_08.txt, 8 ,UNSATISFIABLE  
+pb_400_08.txt, 4 ,UNKNOWN        
+pb_200_09.txt, 10,UNSATISFIABLE  
+pb_300_09.txt, 7 ,UNKNOWN        
+pb_400_09.txt, 5 ,UNSATISFIABLE  
+pb_200_10.txt, 19,UNSATISFIABLE  
+pb_300_10.txt, 21,UNSATISFIABLE  
+pb_400_10.txt, 0 ,SATISFIABLE    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

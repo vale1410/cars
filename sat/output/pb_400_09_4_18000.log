@@ -1,0 +1,19 @@
+c clasp version 2.1.1
+c Reading from pb_400_09.cnf
+c Solving...
+s UNSATISFIABLE
+
+c Models        : 0     
+c Time          : 122.048s (Solving: 119.37s 1st Model: 0.00s Unsat: 119.37s)
+c CPU Time      : 121.850s
+c Choices       : 1440968
+c Conflicts     : 300153
+c Restarts      : 314    (Average: 955.90 Last: 223)
+
+c Variables     : 623898 (Eliminated: 197931 Frozen:    0)
+c Constraints   : 811772 (Binary: 63.1% Ternary: 36.2% Other:  0.7%)
+c Lemmas        : 300152 (Binary:  0.4% Ternary:  1.5% Other: 98.1%)
+c   Conflict    : 300152 (Average Length: 90.1) 
+c   Loop        : 0      (Average Length: 0.0) 
+c   Other       : 0      (Average Length: 0.0)
+c   Deleted     : 253532

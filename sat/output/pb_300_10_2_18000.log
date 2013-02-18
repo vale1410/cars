@@ -1,0 +1,96 @@
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'pb_300_10.cnf'
+c -- header says num vars:         346991
+c -- header says num clauses:     1095281
+c -- clauses added:            0 learnts,      1095281 normals,            0 xors
+c -- vars added     346991
+c Parsing time:  0.44 s
+c Ouptutting solution to console
+c asymm  cl-useful: 0/3872/163168 lits-rem:0 time: 1.09
+c Time to fill non-learnt binary watchlists: 0.05 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.09 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:  33283 time:  3.13 s
+c lits-rem:         0  cl-subs:   177880  v-elim: 108828  v-fix:    0  time:  0.81 s
+c Finding binary XORs:         0.09 s (found:       4, avg size: 2.0)
+c Replacing        4 vars Replaced       68 lits Time:     0.01 s 
+c Finding non-binary XORs:     0.04 s (found:       0, avg size: -nan)
+c watched sorting time: 0.01
+c Calc default polars -  time:   0.01 s pos:    8667 undec:  325757 neg:   12567
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0     90336    159762    278304         0   1055394         0  no matrixes
+c Finding binary XORs:         0.03 s (found:       0, avg size: -nan)
+c  N dy    12      4238     90336    159762    278416      4090   1055394    104622  no matrixes
+c  N dy    36      8717     90335    159762    278525      8441   1055394    198073  no matrixes
+c  N dy    61     12733     90334    159762    278585     12379   1055394    273781  no matrixes
+c  N dy    93     16770     90334    159762    278673     16316   1055394    358188  no matrixes
+c  N dy   110     21671     90334    159762    278753     11376   1055394    122742  no matrixes
+c  F st   128     25001     90129    159762    278829     14616   1055394    184326  no matrixes
+c  N st   131     26189     90129    159339    278229     15650   1052857    211551  no matrixes
+c  N dy   134     30192     90128    159339    278265     19598   1052857    317698  no matrixes
+c  S st   134     30192     90128    159339    278265     19598   1052857    317698  no matrixes
+c  S st   134     30695     90128    159339    278276     20090   1052857    331093  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.02
+c binary deg approx. time:  0.20 s num checked:   1035 i:    1040 props: 3009k
+c Flit:    16 Blit:      1 bXBeca:    0 bXProp:    1 Bins:    762 P: 87.2M T:  4.34
+c Replacing        1 vars Replaced       32 lits Time:     0.02 s 
+c Time to fill non-learnt binary watchlists: 0.06 s
+c subs with bin:        4  lits-rem:         0  v-fix:    0  time:  0.08 s
+c Subs w/ non-existent bins:      5 l-rem:      0 v-fix:     0 done:  17631 time:  4.12 s
+c Removed useless bin:    1802  fixed:     0  props:  19.92M  time:  1.07 s
+c lits-rem:         0  cl-subs:        3  v-elim:     24  v-fix:    0  time:  0.44 s
+c lits-rem:        69  cl-subs:     1937  v-elim:      0  v-fix:    0  time:  0.41 s
+c asymm  cl-useful: 20/7904/159267 lits-rem:20 time: 1.06
+c watched sorting time: 0.01
+c  N dy   134     30695     90074    159267    276975     18020   1048531    316523  no matrixes
+c  N dy   148     35013     90074    159267    277082     22201   1048531    396136  no matrixes
+c  N dy   165     39190     90074    159267    277179     26262   1048531    478010  no matrixes
+c  N dy   173     43433     89776    159267    277250     15448   1048531    154673  no matrixes
+c  S st   176     46596     89710    159267    277290     18543   1048531    207715  no matrixes
+c  S st   176     47100     89528    159267    277299     19032   1048531    214496  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.02
+c binary deg approx. time:  0.20 s num checked:   1096 i:    1098 props: 3010k
+c Flit:    41 Blit:     42 bXBeca:    0 bXProp:    0 Bins:    177 P: 88.3M T:  3.92
+c Time to fill non-learnt binary watchlists: 0.04 s
+c subs with bin:       27  lits-rem:         0  v-fix:    0  time:  0.08 s
+c Subs w/ non-existent bins:     13 l-rem:      1 v-fix:     2 done:  22413 time:  4.54 s
+c Removed useless bin:    5868  fixed:     0  props:  19.91M  time:  1.39 s
+c lits-rem:         0  cl-subs:       13  v-elim:    147  v-fix:    0  time:  0.36 s
+c Blocked clauses removed:        0    Time: 0.02 s
+c lits-rem:       190  cl-subs:     1348  v-elim:      0  v-fix:    0  time:  0.38 s
+c asymm  cl-useful: 8/6382/157950 lits-rem:8 time: 1.04
+c watched sorting time: 0.01
+c  N dy   176     47100     88810    157950    266970     11293   1024308    118719  no matrixes
+c  E dy   177     47221     88809    157950    266924     11393   1024308    120023  no matrixes
+c restarts              : 177        
+c dynamic restarts      : 165        
+c static restarts       : 22         
+c full restarts         : 1          
+c learnts DL2           : 0          
+c learnts size 2        : 1870       
+c learnts size 1        : 151573      (43.68     % of vars)
+c v-elim SatELite       : 108999      (31.41     % vars)
+c SatELite time         : 14.44       (34.85     % time)
+c v-elim xor            : 0           (0.00      % vars)
+c xor elim time         : 0.04        (0.10      % time)
+c num binary xor trees  : 23         
+c binxor trees' crown   : 33          (1.43      leafs/tree)
+c OTF clause improved   : 259         (0.01      clauses/conflict)
+c OTF impr. size diff   : 298         (1.15       lits/clause)
+c OTF cl watch-shrink   : 15575       (0.33      clauses/conflict)
+c OTF cl watch-sh-lit   : 28135       (1.81       lits/clause)
+c tried to recurMin cls : 6389        (13.53      % of conflicts)
+c stopped recurMin      : 6224        (97.42      %)
+c lits visited recurmin:: 1.14       
+c conflicts             : 47221       (1139.98   / sec)
+c decisions             : 126528      (3.54      % random)
+c bogo-props            : 266649047   (6437286.03 / sec)
+c conflict literals     : 965045      (28.40     % deleted)
+c Memory used           : 415.41      MB
+c CPU time              : 41.42       s
+c 
+s UNSATISFIABLE

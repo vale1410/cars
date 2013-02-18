@@ -1,0 +1,77 @@
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'p06.cnf'
+c -- header says num vars:          68525
+c -- header says num clauses:      204254
+c -- clauses added:            0 learnts,       204254 normals,            0 xors
+c -- vars added      68525
+c Parsing time:  0.10 s
+c Ouptutting solution to console
+c asymm  cl-useful: 940/7965/19786 lits-rem:940 time: 0.98
+c Time to fill non-learnt binary watchlists: 0.01 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.01 s
+c Subs w/ non-existent bins:     13 l-rem:     16 v-fix:  1686 done:  32125 time:  0.98 s
+c lits-rem:         0  cl-subs:    24151  v-elim:  19875  v-fix:    0  time:  0.11 s
+c Finding binary XORs:         0.01 s (found:     679, avg size: 2.0)
+c Replacing      679 vars Replaced     5098 lits Time:     0.00 s 
+c Finding non-binary XORs:     0.00 s (found:       0, avg size: -nan)
+c watched sorting time: 0.00
+c Calc default polars -  time:   0.00 s pos:    2342 undec:   62345 neg:    3838
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0     11244     16786     37362         0    131558         0  no matrixes
+c Finding binary XORs:         0.00 s (found:       0, avg size: -nan)
+c  N dy     7      4716     11244     16786     37409      4536    131558    224409  no matrixes
+c  N dy     8     12287     11244     16786     37458     11873    131558    570352  no matrixes
+c  F st     9     25001     11243     16786     37504     14474    131558    374732  no matrixes
+c  N st     9     25001     11243     16783     37492     12638    131533    345697  no matrixes
+c  N dy    15     30199     11243     16783     37506     17689    131533    465282  no matrixes
+c  S st    15     30199     11243     16783     37506     17689    131533    465282  no matrixes
+c  S st    15     30704     11240     16780     37493     18172    131470    479598  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.00
+c binary deg approx. time:  0.06 s num checked:   7932 i:    9822 props: 3000k
+c Flit:    64 Blit:     27 bXBeca:    0 bXProp:   30 Bins:   3117 P: 123.0M T:  4.70
+c Replacing       35 vars Replaced      651 lits Time:     0.01 s 
+c Time to fill non-learnt binary watchlists: 0.02 s
+c subs with bin:      238  lits-rem:         3  v-fix:    0  time:  0.01 s
+c Subs w/ non-existent bins:     23 l-rem:      0 v-fix:     0 done:  11098 time:  0.14 s
+c Removed useless bin:    5792  fixed:     0  props:   4.64M  time:  0.18 s
+c lits-rem:        80  cl-subs:      133  v-elim:    329  v-fix:    0  time:  0.06 s
+c lits-rem:       449  cl-subs:     1796  v-elim:      0  v-fix:    0  time:  0.11 s
+c asymm  cl-useful: 23/8501/16466 lits-rem:23 time: 0.20
+c watched sorting time: 0.00
+c  N dy    15     30704     10769     16466     32854      4062    116872    117769  no matrixes
+c  N dy    17     41738     10769     16466     32883     14778    116872    347527  no matrixes
+c Replacing     1334 vars Replaced    10200 lits Time:     0.00 s 
+c  E dy    18     50638      8783     13184     27170      4994     94885     65851  no matrixes
+c restarts              : 18         
+c dynamic restarts      : 6          
+c static restarts       : 17         
+c full restarts         : 1          
+c learnts DL2           : 0          
+c learnts size 2        : 3383       
+c learnts size 1        : 37967       (55.41     % of vars)
+c v-elim SatELite       : 20204       (29.48     % vars)
+c SatELite time         : 1.43        (10.91     % time)
+c v-elim xor            : 0           (0.00      % vars)
+c xor elim time         : 0.00        (0.03      % time)
+c num binary xor trees  : 1657       
+c binxor trees' crown   : 2048        (1.24      leafs/tree)
+c OTF clause improved   : 1375        (0.03      clauses/conflict)
+c OTF impr. size diff   : 2357        (1.71       lits/clause)
+c OTF cl watch-shrink   : 10817       (0.21      clauses/conflict)
+c OTF cl watch-sh-lit   : 18488       (1.71       lits/clause)
+c tried to recurMin cls : 1312        (2.59       % of conflicts)
+c stopped recurMin      : 1242        (94.66      %)
+c lits visited recurmin:: 1.34       
+c conflicts             : 50638       (3869.98   / sec)
+c decisions             : 70259       (2.94      % random)
+c bogo-props            : 135860735   (10383082.55 / sec)
+c conflict literals     : 1431458     (55.47     % deleted)
+c Memory used           : 114.75      MB
+c CPU time              : 13.08       s
+c 
+s UNSATISFIABLE

@@ -1,0 +1,360 @@
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'pb_400_07.cnf'
+c -- header says num vars:         631879
+c -- header says num clauses:     2010293
+c -- clauses added:            0 learnts,      2010293 normals,            0 xors
+c -- vars added     631879
+c Parsing time:  0.83 s
+c Ouptutting solution to console
+c asymm  cl-useful: 0/3409/314436 lits-rem:0 time: 1.24
+c Time to fill non-learnt binary watchlists: 0.11 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:   2782 time:  3.30 s
+c lits-rem:         0  cl-subs:   337236  v-elim: 195318  v-fix:    0  time:  1.43 s
+c Finding binary XORs:         0.19 s (found:     156, avg size: 2.0)
+c Replacing      156 vars Replaced     2805 lits Time:     0.02 s 
+c Finding non-binary XORs:     0.10 s (found:       0, avg size: -nan)
+c watched sorting time: 0.02
+c Calc default polars -  time:   0.02 s pos:   13545 undec:  597225 neg:   21109
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0    176562    314036    522696         0   2015100         0  no matrixes
+c Finding binary XORs:         0.06 s (found:       0, avg size: -nan)
+c  N dy    11      4590    176562    314036    522768      4470   2015100    282943  no matrixes
+c  N dy    24      8915    176562    314036    522845      8688   2015100    424229  no matrixes
+c  N dy    46     13295    176562    314036    522949     12933   2015100    612216  no matrixes
+c  N dy    74     17414    176562    314036    523011     16953   2015100    800966  no matrixes
+c  N dy    98     21700    176562    314036    523083     11399   2015100    222503  no matrixes
+c  F st   120     25002    176562    314036    523127     14628   2015100    369525  no matrixes
+c  N st   123     26192    176562    314036    523135     15807   2015100    454107  no matrixes
+c  N dy   126     30196    176562    314036    523147     19774   2015100    729126  no matrixes
+c  S st   126     30196    176562    314036    523147     19774   2015100    729126  no matrixes
+c  S st   126     30700    176562    314036    523187     20237   2015100    737496  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    569 i:     569 props: 3000k
+c Flit:     0 Blit:     68 bXBeca:    0 bXProp:  233 Bins:    781 P: 89.0M T:  6.23
+c Replacing      233 vars Replaced    23464 lits Time:     0.08 s 
+c Time to fill non-learnt binary watchlists: 0.14 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.15 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:   9700 time:  5.83 s
+c Removed useless bin:    1794  fixed:     0  props:  19.85M  time:  1.42 s
+c lits-rem:         0  cl-subs:      447  v-elim:   5431  v-fix:    0  time:  0.94 s
+c lits-rem:         3  cl-subs:      568  v-elim:      0  v-fix:    0  time:  0.80 s
+c asymm  cl-useful: 30/7192/308785 lits-rem:30 time: 1.25
+c watched sorting time: 0.02
+c  N dy   126     30700    170830    308785    522570     17338   2003271    548498  no matrixes
+c  N dy   142     34945    170830    308785    522604     21529   2003271    747246  no matrixes
+c  N dy   162     38956    170830    308785    522635     25485   2003271    935694  no matrixes
+c  N dy   178     43709    170830    308785    522666     16170   2003271    319931  no matrixes
+c  S st   191     46066    170830    308785    522698     18480   2003271    430151  no matrixes
+c  S st   191     46570    170829    308785    522760     18920   2003271    435522  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    603 i:     603 props: 3000k
+c Flit:    14 Blit:    210 bXBeca:    0 bXProp:    0 Bins:     27 P: 86.4M T:  5.40
+c Cleaning up after failed var search:     0.00 s 
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:       28  lits-rem:         0  v-fix:    0  time:  0.17 s
+c Subs w/ non-existent bins:     11 l-rem:      0 v-fix:     0 done:  12866 time:  6.44 s
+c Removed useless bin:     687  fixed:     0  props:  19.86M  time:  1.46 s
+c lits-rem:         1  cl-subs:        5  v-elim:     20  v-fix:    0  time:  0.67 s
+c Blocked clauses removed:        0    Time: 0.04 s
+c lits-rem:        54  cl-subs:      393  v-elim:      0  v-fix:    0  time:  0.86 s
+c asymm  cl-useful: 0/4320/308263 lits-rem:0 time: 1.18
+c watched sorting time: 0.02
+c  N dy   191     46570    170548    308263    521230     18522   1998635    429994  no matrixes
+c  N dy   215     50682    170548    308263    521269     22575   1998635    607161  no matrixes
+c  N dy   242     55008    170548    308263    521310     26830   1998635    819214  no matrixes
+c  N dy   271     59021    170548    308263    521335     30800   1998635   1044852  no matrixes
+c  N dy   291     63150    170548    308263    521381     34848   1998635   1228353  no matrixes
+c  N dy   315     67262    170548    308263    521408     21094   1998635    387219  no matrixes
+c  S st   331     69888    170548    308263    521435     23681   1998635    495708  no matrixes
+c  S st   331     70392    170548    308263    521472     24146   1998635    504845  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    511 i:     512 props: 3011k
+c Flit:     0 Blit:      0 bXBeca:    0 bXProp:    0 Bins:     36 P: 86.8M T:  3.93
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.17 s
+c Subs w/ non-existent bins:      6 l-rem:      0 v-fix:     0 done:  10778 time:  6.48 s
+c Removed useless bin:    1380  fixed:     0  props:  19.83M  time:  1.66 s
+c lits-rem:         0  cl-subs:        0  v-elim:      0  v-fix:    0  time:  0.62 s
+c lits-rem:       108  cl-subs:      730  v-elim:      0  v-fix:    0  time:  0.91 s
+c asymm  cl-useful: 0/6754/308257 lits-rem:0 time: 1.22
+c watched sorting time: 0.02
+c  N dy   331     70392    170548    308257    520128     23416   1995857    498331  no matrixes
+c  N dy   362     75053    170548    308257    520175     28013   1995857    709592  no matrixes
+c  N dy   387     79983    170548    308257    520210     32886   1995857    937141  no matrixes
+c  N dy   417     85084    170548    308257    520262     37909   1995857   1181812  no matrixes
+c  F st   436     87501    170548    308257    520286     40285   1995857   1313234  no matrixes
+c  N st   441     90798    170548    308257    520302     23365   1995857    541199  no matrixes
+c  N dy   463     96997    170548    308257    520323     29514   1995857    846172  no matrixes
+c  N dy   497    104917    170548    308257    520406     37312   1995857   1266631  no matrixes
+c  S st   501    105691    170548    308257    520411     38076   1995857   1298857  no matrixes
+c  S st   501    106194    170533    308257    520472     38517   1995857   1306742  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    569 i:     569 props: 3002k
+c Flit:     0 Blit:      8 bXBeca:    0 bXProp:    0 Bins:    216 P: 143.0M T:  8.16
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:        5  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      4 l-rem:      0 v-fix:     0 done:  21900 time:  7.62 s
+c Removed useless bin:    1305  fixed:     0  props:  19.85M  time:  1.72 s
+c lits-rem:         0  cl-subs:        0  v-elim:      2  v-fix:    0  time:  0.64 s
+c lits-rem:       209  cl-subs:     1263  v-elim:      0  v-fix:    0  time:  1.17 s
+c asymm  cl-useful: 0/4085/308201 lits-rem:0 time: 1.33
+c watched sorting time: 0.02
+c  N dy   501    106194    170523    308201    519299     37254   1992933   1282702  no matrixes
+c  N dy   546    113266    170523    308201    519359     22301   1992933    219463  no matrixes
+c  N dy   586    120520    170523    308201    519401     29480   1992933    617294  no matrixes
+c  N dy   640    128265    170523    308201    519474     37130   1992933   1025392  no matrixes
+c  N dy   690    137124    170523    308201    519590     45840   1992933   1516958  no matrixes
+c  N dy   751    146036    170523    308201    519687     31313   1992933    593590  no matrixes
+c  N dy   802    156089    170523    308201    519786     41224   1992933   1081354  no matrixes
+c  S st   813    159618    170523    308201    519823     44709   1992933   1267925  no matrixes
+c  S st   813    160119    170523    308201    519858     45172   1992933   1276273  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    587 i:     587 props: 3002k
+c Flit:     0 Blit:      8 bXBeca:    0 bXProp:    0 Bins:    232 P: 86.6M T:  6.10
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:        6  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      3 l-rem:      0 v-fix:     0 done:  18385 time:  8.36 s
+c Removed useless bin:    2606  fixed:     0  props:  19.85M  time:  1.79 s
+c lits-rem:         0  cl-subs:        0  v-elim:      2  v-fix:    0  time:  0.69 s
+c Blocked clauses removed:        0    Time: 0.04 s
+c lits-rem:       106  cl-subs:     2170  v-elim:      0  v-fix:    0  time:  1.16 s
+c asymm  cl-useful: 0/1309/308182 lits-rem:0 time: 1.80
+c watched sorting time: 0.03
+c  N dy   813    160119    170513    308182    517455     43000   1987606   1255119  no matrixes
+c  N dy   881    170399    170513    308182    517535     28709   1987606    417369  no matrixes
+c  N dy   958    181353    170513    308182    517633     39518   1987606    983986  no matrixes
+c  N dy  1008    194134    170513    308182    517711     26627   1987606    379018  no matrixes
+c  N dy  1083    206690    170513    308182    517798     39062   1987606   1051507  no matrixes
+c  N dy  1145    219923    170513    308182    517883     52133   1987606   1893425  no matrixes
+c  N dy  1242    234017    170513    308182    517978     39428   1987606    914518  no matrixes
+c  S st  1286    240392    170513    308182    518017     45734   1987606   1232398  no matrixes
+c  S st  1286    240893    170513    308182    518046     46206   1987606   1247762  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    498 i:     498 props: 3002k
+c Flit:     1 Blit:     83 bXBeca:    0 bXProp:    0 Bins:     34 P: 97.3M T:  4.87
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:       10  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      2 l-rem:      0 v-fix:     0 done:  17898 time:  8.65 s
+c Removed useless bin:     797  fixed:     0  props:  19.84M  time:  1.62 s
+c lits-rem:         0  cl-subs:        1  v-elim:     17  v-fix:    0  time:  0.66 s
+c lits-rem:        53  cl-subs:     2420  v-elim:      0  v-fix:    0  time:  1.18 s
+c asymm  cl-useful: 0/2085/308046 lits-rem:0 time: 1.55
+c watched sorting time: 0.03
+c  N dy  1286    240893    170412    308046    516950     43783   1984964   1227141  no matrixes
+c  N dy  1382    256268    170412    308046    517044     31401   1984964    418228  no matrixes
+c  N dy  1475    272687    170412    308046    517130     47658   1984964   1339101  no matrixes
+c  N dy  1581    290119    170412    308046    517227     36239   1984964    696821  no matrixes
+c  F st  1682    306250    170412    308046    517320     52213   1984964   1596837  no matrixes
+c  N st  1687    309548    170412    308046    517329     55491   1984964   1934166  no matrixes
+c  N dy  1776    329504    170412    308046    517452     45546   1984964   1015347  no matrixes
+c  N dy  1906    350584    170412    308046    517561     35734   1984964    547864  no matrixes
+c  S st  1940    361677    170412    308046    517631     46715   1984964   1187249  no matrixes
+c  S st  1940    362180    170412    308046    517662     47186   1984964   1198646  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    518 i:     518 props: 3012k
+c Flit:     0 Blit:      0 bXBeca:    0 bXProp:    0 Bins:    232 P: 116.8M T:  6.83
+c Time to fill non-learnt binary watchlists: 0.08 s
+c subs with bin:        1  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      6 l-rem:      0 v-fix:     0 done:  13158 time:  8.73 s
+c Removed useless bin:     770  fixed:     0  props:  19.86M  time:  1.76 s
+c lits-rem:         0  cl-subs:        0  v-elim:      0  v-fix:    0  time:  0.65 s
+c lits-rem:        97  cl-subs:     2971  v-elim:      0  v-fix:    0  time:  1.14 s
+c asymm  cl-useful: 0/1316/308039 lits-rem:0 time: 1.85
+c watched sorting time: 0.03
+c  N dy  1940    362180    170412    308039    517127     44212   1983405   1164745  no matrixes
+c  N dy  2106    385348    170412    308039    517227     35537   1983405    501165  no matrixes
+c  N dy  2268    410030    170412    308039    517311     60005   1983405   1848252  no matrixes
+c  N dy  2380    436286    170412    308039    517454     53373   1983405   1415384  no matrixes
+c  N dy  2518    464230    170412    308039    517568     47293   1983405    897722  no matrixes
+c  N dy  2683    493887    170412    308039    517756     42015   1983405    676482  no matrixes
+c  N dy  2888    525465    170412    308039    517836     37766   1983405    406454  no matrixes
+c  S st  3005    543332    170412    308039    517899     55502   1983405   1399529  no matrixes
+c  S st  3005    543836    170233    308039    517925     55978   1983405   1411788  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    541 i:     541 props: 3000k
+c Flit:     3 Blit:     22 bXBeca:    0 bXProp:    0 Bins:     75 P: 149.3M T:  7.00
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      1 l-rem:      0 v-fix:     0 done:  19776 time:  9.03 s
+c Removed useless bin:     855  fixed:     0  props:  19.85M  time:  1.86 s
+c lits-rem:         0  cl-subs:        0  v-elim:      6  v-fix:    0  time:  0.71 s
+c Blocked clauses removed:        0    Time: 0.05 s
+c lits-rem:       121  cl-subs:     3145  v-elim:      0  v-fix:    0  time:  1.24 s
+c asymm  cl-useful: 0/1837/307565 lits-rem:0 time: 1.62
+c watched sorting time: 0.03
+c  N dy  3005    543836    170165    307565    516371     52834   1978775   1387518  no matrixes
+c  N dy  3201    578625    170165    307565    516489     50626   1978775   1049704  no matrixes
+c  N dy  3407    615606    170165    307565    516578     49665   1978775   1011192  no matrixes
+c  N dy  3636    655644    170165    307565    516661     50767   1978775   1003163  no matrixes
+c  N dy  3895    697589    170165    307565    516771     52653   1978775   1080910  no matrixes
+c  N dy  4122    742122    170165    307565    516954     56115   1978775   1172902  no matrixes
+c  N dy  4366    789648    170165    307565    517132     61660   1978775   1456352  no matrixes
+c  S st  4506    815986    170165    307565    517238     45049   1978775    457684  no matrixes
+c  S st  4506    816488    170165    307565    517254     45535   1978775    469794  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    527 i:     528 props: 3003k
+c Flit:     0 Blit:      0 bXBeca:    0 bXProp:    0 Bins:     37 P: 86.4M T:  5.10
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      3 l-rem:      0 v-fix:     0 done:   7484 time:  7.73 s
+c Removed useless bin:     771  fixed:     0  props:  19.87M  time:  1.86 s
+c lits-rem:         0  cl-subs:        0  v-elim:      0  v-fix:    0  time:  0.68 s
+c lits-rem:        87  cl-subs:     2502  v-elim:      0  v-fix:    0  time:  0.91 s
+c asymm  cl-useful: 5/1434/307562 lits-rem:5 time: 1.82
+c watched sorting time: 0.03
+c  N dy  4506    816488    170165    307562    516521     43032   1977219    455751  no matrixes
+c  N dy  4740    868709    170165    307562    516744     51192   1977219    750171  no matrixes
+c  N dy  5007    926782    170165    307562    516904     64277   1977219   1952229  no matrixes
+c  N dy  5291    986138    170165    307562    517050     77469   1977219   2425898  no matrixes
+c  N dy  5644   1049153    170165    307562    517203     93373   1977219   2701737  no matrixes
+c  F st  5732   1071875    170165    307562    517307     68221   1977219   1416012  no matrixes
+c  N dy  5973   1116321    170165    307562    517380     63763   1977219   1335064  no matrixes
+c  N dy  6373   1187709    170165    307562    517491     85082   1977219   2393328  no matrixes
+c  S st  6560   1225249    170165    307562    517622     71684   1977219   1492762  no matrixes
+c  S st  6560   1225754    170114    307562    517663     72145   1977219   1500622  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.04
+c binary deg approx. time:  0.22 s num checked:    560 i:     560 props: 3005k
+c Flit:     0 Blit:     13 bXBeca:    0 bXProp:    0 Bins:    352 P: 93.6M T:  6.94
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        8  lits-rem:         0  v-fix:    0  time:  0.18 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:  15816 time:  8.99 s
+c Removed useless bin:     898  fixed:     0  props:  19.83M  time:  1.92 s
+c lits-rem:         0  cl-subs:        2  v-elim:      9  v-fix:    0  time:  0.67 s
+c lits-rem:       108  cl-subs:     2596  v-elim:      0  v-fix:    0  time:  1.33 s
+c asymm  cl-useful: 0/1833/307436 lits-rem:0 time: 1.57
+c watched sorting time: 0.04
+c  N dy  6560   1225754    170092    307436    516831     69551   1974612   1475118  no matrixes
+c  N dy  7024   1304071    170092    307436    517038     95675   1974612   2784128  no matrixes
+c  N dy  7415   1387418    170092    307436    517302     72195   1974612   1385506  no matrixes
+c  N dy  7820   1476040    170092    307436    517634    105497   1974612   3015244  no matrixes
+c  N dy  8182   1570466    170092    307436    517803     87164   1974612   2072823  no matrixes
+c  N dy  8604   1671955    170092    307436    517951     71757   1974612   1227056  no matrixes
+c  N dy  9059   1778697    170092    307436    518069    118182   1974612   3317799  no matrixes
+c  S st  9328   1838695    170092    307436    518145    117209   1974612   3183781  no matrixes
+c  S st  9328   1839197    169966    307436    518167    117688   1974612   3189449  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.05
+c binary deg approx. time:  0.21 s num checked:    517 i:     518 props: 3003k
+c Flit:     6 Blit:     13 bXBeca:    0 bXProp:    0 Bins:     99 P: 92.3M T:  5.42
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        9  lits-rem:         0  v-fix:    0  time:  0.19 s
+c Subs w/ non-existent bins:      1 l-rem:      0 v-fix:     0 done:  16583 time:  9.70 s
+c Removed useless bin:    1313  fixed:     0  props:  19.83M  time:  2.04 s
+c lits-rem:         0  cl-subs:        1  v-elim:     16  v-fix:    0  time:  0.78 s
+c Blocked clauses removed:        0    Time: 0.06 s
+c lits-rem:       214  cl-subs:     3260  v-elim:      0  v-fix:    0  time:  1.82 s
+c Blocked clauses removed:        0    Time: 0.00 s
+c asymm  cl-useful: 15/1747/307127 lits-rem:15 time: 1.74
+c watched sorting time: 0.04
+c  N dy  9328   1839197    169916    307127    516399    114402   1969956   3135238  no matrixes
+c  N dy  9819   1957068    169916    307127    516520    107436   1969956   2724395  no matrixes
+c  N dy 10401   2082012    169916    307127    516633    103488   1969956   2519260  no matrixes
+c  N dy 10922   2214955    169916    307127    516774    104218   1969956   2401113  no matrixes
+c  N dy 11398   2356346    169916    307127    516924    109478   1969956   2041130  no matrixes
+c  N dy 12008   2506839    169916    307127    517052    120389   1969956   2962706  no matrixes
+c  N dy 12684   2666920    169916    307127    517222    136873   1969956   3517909  no matrixes
+c  S st 13049   2758818    169916    307127    517351     81705   1969956    834714  no matrixes
+c  S st 13049   2759322    169916    307127    517363     82194   1969956    840997  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.05
+c binary deg approx. time:  0.22 s num checked:    481 i:     481 props: 3033k
+c Flit:     0 Blit:     73 bXBeca:    0 bXProp:    0 Bins:    271 P: 151.9M T:  8.67
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        4  lits-rem:         0  v-fix:    0  time:  0.20 s
+c Subs w/ non-existent bins:      1 l-rem:      0 v-fix:     0 done:  20561 time:  9.42 s
+c Removed useless bin:     730  fixed:     6  props:  19.83M  time:  2.00 s
+c lits-rem:         0  cl-subs:        2  v-elim:     12  v-fix:    0  time:  0.73 s
+c lits-rem:       229  cl-subs:     1853  v-elim:      0  v-fix:    0  time:  1.14 s
+c asymm  cl-useful: 0/1831/306985 lits-rem:0 time: 1.71
+c watched sorting time: 0.04
+c  N dy 13049   2759322    169825    306985    516555     80321   1967530    833007  no matrixes
+c  N dy 13740   2935678    169825    306985    516777    103417   1967530   1705397  no matrixes
+c  N dy 14534   3123900    169662    306985    516948    136015   1967530   3163387  no matrixes
+c  N dy 15344   3323313    169662    306985    517076     95103   1967530   1036500  no matrixes
+c  N dy 16088   3535530    169662    306985    517232    142084   1967530   2938422  no matrixes
+c  F st 16964   3751562    169662    306985    517439    102943   1967530   1044532  no matrixes
+c  N dy 17003   3761231    169662    306647    516959    112527   1965546   1761382  no matrixes
+c  N dy 17951   4001409    169662    306647    517092    176095   1965546   4010289  no matrixes
+c  S st 18582   4139240    169662    306647    517182    134800   1965546   2294566  no matrixes
+c  S st 18582   4139743    169662    306647    517186    135298   1965546   2303748  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.05
+c binary deg approx. time:  0.22 s num checked:    515 i:     515 props: 3008k
+c Flit:     0 Blit:      5 bXBeca:    0 bXProp:    0 Bins:    184 P: 166.9M T:  9.66
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        8  lits-rem:         1  v-fix:    0  time:  0.20 s
+c Subs w/ non-existent bins:      1 l-rem:      0 v-fix:     0 done:  13380 time:  9.79 s
+c Removed useless bin:     673  fixed:     0  props:  19.83M  time:  1.98 s
+c lits-rem:         0  cl-subs:        0  v-elim:      6  v-fix:    0  time:  0.75 s
+c lits-rem:        98  cl-subs:     2674  v-elim:      0  v-fix:    0  time:  1.66 s
+c asymm  cl-useful: 5/1329/306650 lits-rem:5 time: 1.94
+c watched sorting time: 0.04
+c  N dy 18582   4139743    169651    306650    516637    132619   1964115   2273047  no matrixes
+c  N dy 19838   4404201    169651    306650    516821    117189   1964115   1347963  no matrixes
+c  N dy 20984   4685348    169651    306650    516976    207909   1964115   4924163  no matrixes
+c  N dy 22118   4984947    169651    306650    517182    216570   1964115   5161404  no matrixes
+c  N dy 23488   5303224    169651    306650    517365    132797   1964115   1587035  no matrixes
+c  N dy 24785   5641786    169651    306650    517528    158874   1964115   2382794  no matrixes
+c  N dy 26259   6001901    169651    306650    517731    197258   1964115   3945471  no matrixes
+c  S st 27100   6209631    169651    306650    517902    186104   1964115   3087054  no matrixes
+c  S st 27100   6210134    169651    306650    517912    186594   1964115   3094838  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.07
+c binary deg approx. time:  0.21 s num checked:    521 i:     521 props: 3027k
+c Flit:     0 Blit:      0 bXBeca:    0 bXProp:    0 Bins:      1 P: 129.8M T:  6.45
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        1  lits-rem:         0  v-fix:    0  time:  0.21 s
+c Subs w/ non-existent bins:      2 l-rem:      7 v-fix:    18 done:   7068 time:  9.15 s
+c Removed useless bin:     666  fixed:     0  props:  19.84M  time:  2.16 s
+c lits-rem:         0  cl-subs:        6  v-elim:      4  v-fix:    0  time:  0.86 s
+c Blocked clauses removed:        0    Time: 0.06 s
+c lits-rem:       271  cl-subs:     3423  v-elim:      0  v-fix:    0  time:  2.45 s
+c asymm  cl-useful: 0/1851/306616 lits-rem:0 time: 1.79
+c watched sorting time: 0.04
+c  N dy 27100   6210134    169629    306616    517184    183162   1962548   3059334  no matrixes
+c  N dy 28610   6606964    169629    306616    517394    241384   1962548   5282146  no matrixes
+c  N dy 30636   7028723    169629    306616    517615    201304   1962548   3594299  no matrixes
+c  N dy 32507   7477971    169629    306616    517826    173308   1962548   1961570  no matrixes
+c  N dy 34526   7955556    169629    306616    518102    281447   1962548   6538175  no matrixes
+c  N dy 36671   8463628    169586    306616    518399    284336   1962548   6035391  no matrixes
+c  N dy 38996   9003885    169586    306616    518677    303786   1962548   6892921  no matrixes
+c  S st 40341   9315519    169586    306616    518807    213789   1962548   2601814  no matrixes
+c  S st 40341   9316025    169586    306616    518816    214286   1962548   2609917  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.06
+c binary deg approx. time:  0.21 s num checked:    492 i:     492 props: 3025k
+c Flit:     2 Blit:      2 bXBeca:    0 bXProp:    0 Bins:     33 P: 86.9M T:  5.07
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:       13  lits-rem:         0  v-fix:    0  time:  0.22 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:   6869 time:  8.92 s
+c Removed useless bin:    3059  fixed:     0  props:  19.83M  time:  1.93 s
+c lits-rem:         0  cl-subs:        1  v-elim:      6  v-fix:    0  time:  0.78 s
+c lits-rem:        42  cl-subs:     4110  v-elim:      0  v-fix:    0  time:  2.14 s
+c asymm  cl-useful: 0/2250/306522 lits-rem:0 time: 1.69
+c watched sorting time: 0.04
+c  N dy 40341   9316025    169576    306522    515624    210159   1955822   2584923  no matrixes
+c  N dy 42976   9910712    169576    306522    515855    251636   1955822   4055651  no matrixes
+c  N dy 45617  10543332    169576    306522    516139    318928   1955822   6713208  no matrixes
+c  N dy 48684  11216531    169576    306522    516385    263465   1955822   4128703  no matrixes
+c  N dy 51954  11932674    169576    306522    516641    378153   1955822   8427431  no matrixes
+c  N dy 55317  12694442    169576    306522    516903    366363   1955822   7611261  no matrixes
+c  F st 57380  13130468    169576    306522    517038    326528   1955822   5471736  no matrixes
+c  N dy 59065  13505097    169576    306522    517189    378885   1955822   7691737  no matrixes
+c  S st 61174  13974127    169576    306522    517291    356725   1955822   6530006  no matrixes
+c  S st 61174  13974627    169576    306522    517296    357219   1955822   6542379  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.08
+c binary deg approx. time:  0.20 s num checked:    423 i:     423 props: 3000k
+c Flit:     0 Blit:      0 bXBeca:    0 bXProp:    0 Bins:     70 P: 119.6M T:  6.46
+c Time to fill non-learnt binary watchlists: 0.09 s
+c subs with bin:        1  lits-rem:         0  v-fix:    0  time:  0.21 s
+c Subs w/ non-existent bins:      4 l-rem:      0 v-fix:     0 done:   8948 time:  9.34 s
+c Removed useless bin:     684  fixed:     0  props:  19.84M  time:  2.30 s
+c lits-rem:         0  cl-subs:        0  v-elim:      0  v-fix:    0  time:  0.86 s
+c lits-rem:       186  cl-subs:     5968  v-elim:      0  v-fix:    0  time:  4.47 s
+c asymm  cl-useful: 0/1824/306517 lits-rem:0 time: 1.92
+c watched sorting time: 0.05
+c  N dy 61174  13974627    169576    306517    516685    351248   1954441   6478719  no matrixes
+c  N dy 65113  14866973    169576    306517    516956    401407   1954441   8322566  no matrixes
+c  N dy 69165  15816151    169576    306517    517265    313471   1954441   3823687  no matrixes
+c  N dy 73697  16826106    169576    306517    517486    430034   1954441   8750024  no matrixes
