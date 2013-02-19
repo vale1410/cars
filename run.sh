@@ -15,7 +15,7 @@ option='--time-limit='${3-1800}' -t 1 --stats '
 option=$option'--trans-ext=all '
 option=$option'--seed='$random' ' 
 #quiet:
-option=$option'-q ' 
+#option=$option'-q ' 
 
 case ${4-3} in
     0) option=$option'--configuration=frumpy ';;
@@ -35,16 +35,16 @@ echo -e 'Option\t\t: ' $option | tee -a $output
 gringo $instance model${2-7}.lp | clasp $option  | tee -a $output
 
 
-#if grep -q '^SAT' $output
-#then
-#    solution=/tmp/solution_$(basename $output .txt)_$RANDOM.pl
-#    prettyOutput=/tmp/pretty_$(basename $output .txt)_$RANDOM.pl
-#    rm -fr $solution
-#    rm -fr $prettyOutput
-#    cat $output | grep 'is(' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
-#    cat print.pl >> $solution
-#    cat $instance | sort >> $solution
-#    prolog -f print.pl -f $solution -g start -t halt > $prettyOutput
-#    column -t -s ',' $prettyOutput
-#fi
-#echo
+if grep -q '^SAT' $output
+then
+    solution=/tmp/solution_$(basename $output .txt)_$RANDOM.pl
+    prettyOutput=/tmp/pretty_$(basename $output .txt)_$RANDOM.pl
+    rm -fr $solution
+    rm -fr $prettyOutput
+    cat $output | grep 'is(' |  tail -n 1 | sed 's/ /\n/g' | sed 's/$/./g' | sort  > $solution
+    cat print.pl >> $solution
+    cat $instance | sort >> $solution
+    prolog -f print.pl -f $solution -g start -t halt > $prettyOutput
+    column -t -s ',' $prettyOutput
+fi
+echo
