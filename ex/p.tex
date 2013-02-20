@@ -24,7 +24,8 @@ Give description of the car sequencing problem and the straight
 forward encoding in IP/CNF. 
 
 The naive CNF and IP encoding of the car sequencing benchmark is
-far from optimal. We can do better. 
+far from optimal. In this paper we will show gradually how to come up
+with a better encoding. 
 
 \section{Motivation}
 
@@ -38,30 +39,118 @@ hard instance.
 
 \section{Encoding of one AtMostSeqCard}
 
-\subsection{Encoding of counters}
+We will first show how to encode a cardinality constraint with a counter
+encoding (ref?) and then integrate the AtMostSeq by reusing the auxiliary
+variables of the counter encoding. 
+
+\subsection{Encoding of Counters}
+
+Given a set of consecutive positions $P=\{0\ldots n\}$, an object (class
+or option) $i$. Let $x_{i,j}$ be true iff object $i$ is assigned at
+position $j$.  We want to encode the following cardinality constraint
+
+$$ s = \sum_{j\in P} x_{i,j} $$
+
+where $s$ is a fixed value.  We call the encoding for such a cardinality
+constraint a counter encoding because we count exactly $s$ objects among
+the positions $P$. 
+
+So given an option or a class identified by subscript $i\in I$ that needs to be
+counted over a period of time. Each step in time or position is denoted
+by $j\in P$. We introduce the following variables: 
+
+\begin{itemize}
+    \item $y_{i,j,k}$ is true iff at least $k$ objects of type $i$ have been
+        assigned until position $j$. 
+\end{itemize}
+
+Notice that we assume the set $P$ to have a total ordering. We count
+along this ordering. The following formula clearifies the relationship
+between $x$ and $y$.
+
+$$ y_{i,j,k} \iff (k \leq \sum_{l=0}^{j} x_{i,l}) $$
+
 
 \begin{figure}
-\centering
-\caption{A simple counter for option or class $i$ that counts to two over a sequence of 10
-    sorted elements. The variables for $U$ are
-set to false and the variables $L$ are set to true. The rest proper
-variables of the problem $y_{i,j,k}$.}
+\centering 
+\caption{The variables $y_{i,j,k}$ for a countable object $i$ with an
+upper bound of two over a sequence of 10. The variables corresponding to
+the cells containing $U$($L$) are set to false (true). The question mark
+identifies a unassigned variable of the counter encoding}
 \begin{tikzpicture}
 \node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
 %,nodes={fill=blue!20,minimum size=5mm}] 
     {
-        \node (x) {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
-        \node {3}; \& \node { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \\
+        \node {3}; \& \node (x) { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \\
         \node {2}; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \\
         \node {1}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \\
         \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node (y) { }; \\
+        \node {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
 };
 \draw[gray] (x.north west) rectangle (y.south east);
 \end{tikzpicture}
 \end{figure}
 
+There are two types of binay clauses that relate the variables
+$y_{i,j,k}$ and two types of tenery clauses that coordinate $y_{i,j,k}$
+with the variables $x_{i,j}$.
+
+\begin{equation}
+    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k\in\{1..s\}}
+    \neg y_{i,j,k} \vee y_{i,j+1,k}
+\end{equation}
+
+\begin{equation}
+    \bigwedge_{\substack{j \in P \\ j-1\in P}} \bigwedge_{k,k-1\in\{1..s\}}
+    \neg y_{i,j,k} \vee y_{i,j-1,k-1}
+\end{equation}
+
+These clauses restrict the structure of the auxiliary variables to
+consist of a counter. Now we need to relate these variables to $x$. 
+First we define clauses that consist of pushing the counter up. 
+
+\begin{equation}
+    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k,k+1\in\{0..s+1\}}
+    \neg x_{i,j} \vee \neg y_{i,j,k} \vee y_{i,j+1,k+1}
+\end{equation}
+
+And now we have to restrict the counter to be pushed up if $x_{i,j}$ is
+false. 
+
+\begin{equation}
+    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k,k+1\in\{1..s+1\}}
+    \neg x_{i,j} \vee \neg y_{i,j,k} \vee y_{i,j+1,k+1}
+\end{equation}
+
+
+
+\begin{figure}
+\centering 
+\caption{Taking the previous example and let $x_{i,j}$ be true for
+    position 2 and 7. Then the resulting assignment to the counter
+    variable is given in this table. }
+\begin{tikzpicture}
+\node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
+%,nodes={fill=blue!20,minimum size=5mm}] 
+    {
+        \node {3}; \& \node (x) { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \\
+        \node {2}; \& \node { }; \& \node {U}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {L}; \\
+        \node {1}; \& \node {U}; \& \node {0}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \\
+        \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node (y) { }; \\
+        \node {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
+};
+\draw[gray] (x.north west) rectangle (y.south east);
+\end{tikzpicture}
+\end{figure}
 
 \subsection{Extending to AtMostSeqCard}
+
+Let $i$ be an option:
+
+$$ \text{AtMostSeqCard}(u,q,d,[x_1,\ldots,x_n]) \iff
+\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u ) \wedge (\sum_{i=1}^n
+x_i = d) $$
+
 
 \section{Encoding of Carsequencing}
 
@@ -86,7 +175,7 @@ and the reverse
     o \in m(c)}} x_{c,p})
 \end{equation}
 
-Notive in an ASP encoding this would be modelled by one rule and the
+Notice in an ASP encoding this would be modelled by one rule and the
 completion semantics is equivalent to this encoding. 
 
 \subsection{The Purist's Way}
@@ -132,8 +221,8 @@ targets the optimization version of the car sequencing problem.
 \end{table}
 
 
-We see that already just treating the simple decision problem we can
-improve the bounds given in the 2004 paper: 
+We can solve all 7 satisfiable instances and prove 13/23 instances to be
+unsatisfiable. 
 
 
 \section{Extensions}

@@ -5,10 +5,10 @@ OUTPUT=$(NAME).pdf
 all: show 
 
 compile:
-	pdflatex $(NAME).tex 
+	pdflatex -synctex=1 $(NAME).tex 
 
 show: compile
-	evince $(OUTPUT) 2>/dev/null
+	evince $(OUTPUT) 2>/dev/null &
 
 clean: 
 	rm $(NAME).log
