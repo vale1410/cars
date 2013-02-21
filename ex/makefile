@@ -5,7 +5,7 @@ OUTPUT=$(NAME).pdf
 all: show 
 
 compile:
-	pdflatex $(NAME).tex 
+	pdflatex -synctex=1 $(NAME).tex 
 
 show: compile
 	evince $(OUTPUT) 2>/dev/null &
@@ -13,5 +13,3 @@ show: compile
 clean: 
 	rm $(NAME).log
 	rm $(NAME).aux
-	rm $(NAME).pdf
-

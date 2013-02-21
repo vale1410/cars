@@ -1,0 +1,4 @@
+ ,set1,set2,set3,set4,
+sat,70,4,0,7,
+unsat,0,0,4,13,
+unknown,0,0,1,10,
