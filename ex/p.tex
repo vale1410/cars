@@ -46,44 +46,38 @@ encoding (\TODO{ref}) and then integrate the AtMostSeq by reusing the auxiliary
 variables of the counter encoding. 
 
 Over this whole section we will work with the following notation. Given
-a set of consecutive positions $P=\{1\ldots n\}$ and a property (class
-or option) $i$. Let $x_{i,j}$ be true iff property $i$ is true at
-position $j$. In this section we embedd one counter for one property
-$i$, so $i$ is fixed over the whole section. The interaction with other
-properties is shown in the subsequent section. 
+a set of consecutive positions $P=\{1\ldots n\}$ and a property that
+holds at a position $i\in P$ iff the boolean variable $x_i$ is true. 
 
 \subsection{Encoding of Counters}
 
 We want to encode the following cardinality constraint
 
-$$ \sum_{j\in P} x_{i,j} = d $$
+$$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
 where $d$ is a fixed value.  We call the encoding for such a cardinality
-constraint a counter encoding because we count exactly $d$ occurences of
-property $i$ over positions $P$. 
+constraint a counter encoding because we count exactly $d$ occurrences
+over positions $P$. 
 
-So given an option or a class identified by subscript $i\in I$ that
-needs to be counted over sequence of positions $P$. We introduce the
-following variables: 
+We introduce the following variables: 
 
 \begin{itemize}
-    \item $y_{i,j,k}$ is true iff at least $k$ times holds property $i$
-        in the positions $0 \ldots j $. 
+    \item $y_{i,j}$ is true iff in the positions $0 \ldots i$ the
+        property holds at least $j$ times. 
 \end{itemize}
 
-Notice that we assume the set $P$ to have a total ordering. We count
-along this ordering. The following formula clearifies the relationship
-between $x$ and $y$.
+The following formula clarifies the relationship between $x$ and $y$.
 
-$$ y_{i,j,k} \iff (k \leq \sum_{l=0}^{j} x_{i,l}) $$
+$$ y_{i,j} \iff (j \leq \sum_{l=0}^{i} x_{l}) $$
 
 
 \begin{figure}
 \centering 
-\caption{The variables $y_{i,j,k}$ for a countable property $i$ with an
-upper bound of two over a sequence of 10. The variables corresponding to
-the cells containing $U$($L$) are set to false (true). The question mark
-identifies a unassigned variable of the counter encoding}
+\caption{The variables $y_{i,j}$ with an upper bound $d$ of two over a
+    sequence of 10. By preprocessing the variables corresponding to the
+    cells containing $U$($L$) and above(below) are set to false (true).
+    The question mark identifies unassigned variables of the counter
+    encoding}
 \begin{tikzpicture}
 \node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
 %,nodes={fill=blue!20,minimum size=5mm}] 
@@ -92,24 +86,24 @@ identifies a unassigned variable of the counter encoding}
         \node {2}; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \\
         \node {1}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \\
         \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node (y) { }; \\
-        \node {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
+        \node {j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
 };
 \draw[gray] (x.north west) rectangle (y.south east);
 \end{tikzpicture}
 \end{figure}
 
-There are two types of binay clauses that relate the variables $y$ among
-each other and two types of tenery clauses that coordinate $y$ with the
+There are two types of binary clauses that relate the variables $y$ among
+each other and two types of ternary clauses that coordinate $y$ with the
 variables $x$.
 
 \begin{equation}
-    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k\in\{1..d\}}
-    \neg y_{i,j,k} \vee y_{i,j+1,k}
+    \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j \in\{0..d+1\}}
+    \neg y_{i,j} \vee y_{i+1,j}
 \end{equation}
 
 \begin{equation}
-    \bigwedge_{\substack{j \in P \\ j-1\in P}} \bigwedge_{k,k-1\in\{1..d\}}
-    \neg y_{i,j,k} \vee y_{i,j-1,k-1}
+    \bigwedge_{i \in \{1..n\}} \bigwedge_{j\in \{1..d+1\}}
+    \neg y_{i,j} \vee y_{i-1,j-1}
 \end{equation}
 
 These clauses restrict the structure of the auxiliary variables to
@@ -117,23 +111,33 @@ consist of a counter. Now we need to relate these variables to $x$.
 First we define clauses that consist of pushing the counter up. 
 
 \begin{equation}
-    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k,k+1\in\{0..d+1\}}
-    \neg x_{i,j} \vee \neg y_{i,j,k} \vee y_{i,j+1,k+1}
+    \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j\in\{0..d\}}
+    \neg x_{i} \vee \neg y_{i,j} \vee y_{i+1,j+1}
 \end{equation}
 
-And now we have to restrict the counter to be pushed up if $x_{i,j}$ is
+And now we have to restrict the counter to be pushed up if $x_{i}$ is
 false. 
 
 \begin{equation}
-    \bigwedge_{\substack{j \in P \\ j+1\in P}} \bigwedge_{k,k+1\in\{1..d+1\}}
-    \neg x_{i,j} \vee \neg y_{i,j,k} \vee y_{i,j+1,k+1}
+    \bigwedge_{i \in \{1\ldots n\}} \bigwedge_{j\in\{0..d+1\}}
+    x_{i} \vee \neg y_{i,j} \vee y_{i-1,j}
 \end{equation}
 
+Now we finally have to "initialize" the counter. This is a very
+interesting step as here is decided whether the cardinality constraints
+is $=$, $\leq$ or $\geq$. In our case we are only interested in
+equality, the other cases are however also interesting. 
+
+\begin{equation}
+y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
+    y_{0,1} \wedge \left(\bigwedge_{i\in\{0\ldots n\}} \neg
+        y_{i,d+1}\right )
+\end{equation}
 
 
 \begin{figure}
 \centering 
-\caption{Taking the previous example and let $x_{i,j}$ be true for
+\caption{Taking the previous example and let $x_{i}$ be true for
     position 2 and 7. Then the resulting assignment to the counter
     variable is given in this table. }
 \begin{tikzpicture}
@@ -144,8 +148,8 @@ false.
         \node {2}; \& \node { }; \& \node {U}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {L}; \\
         \node {1}; \& \node {U}; \& \node {0}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \\
         \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node (y) { }; \\
-        \node {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
-        \node {$x_{i,j}$}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {0}; \& \node {0}; \& \node {0}; \\
+        \node {j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
+        \node {$x_{i}$}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {0}; \& \node {1}; \& \node {0}; \& \node {0}; \& \node {0}; \\
 };
 \draw[gray] (x.north west) rectangle (y.south east);
 \end{tikzpicture}
@@ -165,26 +169,30 @@ To archive GAC on this constraint we need to take the counter encoding
 of the previous section and add the following binary clauses:
 
 \begin{equation}
-    \bigwedge_{\substack{j \in P \\ j-q\in P}}
-    \bigwedge_{\substack{k\in\{1..d\}\\ k-u \in \{1..d\}}}
-    \neg y_{i,j,k} \vee y_{i,j-q,k-u}
-\end{equation}
+    \bigwedge_{\substack{i \in \{1 \ldots n\} \\ i-q \geq 0}}
+    \bigwedge_{\substack{j\in\{1\ldots d\}\\ j-u \geq 0}}
+    \neg y_{i,j} \vee y_{i-q,j-u}
+\end{equation}               
 
 \begin{theorem}
-The clauses of (1) to (5) enforce GAC on the AtMostSeqCard for all
-partial assignment on variables $x_{i,j,}$. 
+    The clauses of counter encoding (1) to (5) with the clauses of (6)
+    enforce GAC on the AtMostSeqCard for all partial assignment on
+    variables $x_{i}$. 
 \end{theorem}
+
+We even have a stronger notion of propagation, because also on all
+partial assignment on $y_{i,j}$ we archive GAC. 
 
 The power of the binary clauses are best shown in the example taken from
 (\TODO{ref})
 
 \begin{figure}
 \centering 
-\caption{Taking the inital state of the propagator for a constraint with
-$u=4,q=8,d=12,n=22$. In this example we see that already $x_{i,7}$,
-$x_{i,8}$, $x_{i,15}$ and $x_{i,16}$ need to be set to false. Notice
-that for this particular case we only need 24 boolean variables to
-create the GAC encoding.}
+\caption{Taking the initial state of the propagator for a constraint with
+    $u=4,q=8,d=12,n=22$. In this example we see that already $x_{7}$,
+    $x_{8}$, $x_{15}$ and $x_{16}$ need to be set to false. Notice that
+    for this particular case we only need 24 boolean variables to create
+the GAC encoding.}
 \begin{tikzpicture}
 \node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
 %,nodes={fill=blue!20,minimum size=5mm}] 
@@ -203,8 +211,12 @@ create the GAC encoding.}
 \node{2}; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node{1}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node{0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node (y) { }; \\
-\node{k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \& \node {11}; \& \node {12}; \& \node {13}; \& \node {14}; \& \node {15}; \& \node {16}; \& \node {17}; \& \node {18}; \& \node {19}; \& \node {20}; \& \node {21}; \& \node {22}; \\
-\node{$x_i$}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {0}; \& \node {0}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {0}; \& \node {0}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
+\node{j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \& \node {11}; \& \node {12}; \& \node {13}; \& \node {14}; \& \node {15}; \& \node {16}; \& \node {17}; \& \node {18}; \& \node {19}; \& \node {20}; \& \node {21}; \& \node {22}; \\
+\node{$x_i$}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \&
+        \node { }; \& \node { }; \& \node { }; \& \node {\textbf{0}}; \&
+        \node {\textbf{0}}; \& \node { }; \& \node { }; \& \node { }; \&
+        \node { }; \& \node { }; \& \node { }; \& \node {\textbf{0}}; \&
+        \node {\textbf{0}}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 };
 \draw[gray] (x.north west) rectangle (y.south east);
 \end{tikzpicture}
@@ -213,32 +225,43 @@ create the GAC encoding.}
 
 \begin{figure}
 \centering 
-\caption{State of the auxiliray variables for $u=4,q=8,d=12,n=22$ and
-    choices $x_{i,1}$ and $x_{i,13}$ to true and $x_{i,12}$, $x_{i,14}$
-    and $x_{i,21}$ to false. Notice the amount of propagation due to the
+\caption{State of the auxiliary variables for $u=4,q=8,d=12,n=22$ and
+    choices $x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$ and
+    $x_{21}$ to false. Notice the amount of propagation due to the
     clauses of the AtMostSeqCard constraint, also notice that variable
-$x_{i,1}$ was a redundant choice.}
+$x_{1}$ was a redundant choice. Normal font= choice, bold = propagated,
+()= earlier propagated, green arrow positve implication, red arrow
+negative implication by (6).}
 \begin{tikzpicture}
 \node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
 %,nodes={fill=blue!20,minimum size=5mm}] 
     {
 \node {13}; \& \node (x) { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \\
-\node {12}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {0}; \& \node {0}; \& \node {L}; \\
-\node {11}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \\
-\node {10}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \& \node { }; \\
-\node {9}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \\
-\node {8}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {0}; \& \node {1}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
-\node {7}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
+\node {12}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \&
+        \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {
+    }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node
+        { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \&
+        \node { }; \& \node {U}; \& \node (b) {0}; \& \node {0}; \& \node {L}; \\
+\node {11}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {?}; \& \node {1}; \& \node {L}; \& \node { }; \\
+\node {10}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {?}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \\
+\node {9}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {?}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \\
+\node {8}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node (a) {0}; \& \node {1}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
+\node {7}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \&
+        \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {
+    }; \& \node { }; \& \node {U}; \& \node (c) {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {6}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {5}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {4}; \& \node { }; \& \node { }; \& \node { }; \& \node {U}; \& \node {?}; \& \node {1}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
-\node {3}; \& \node { }; \& \node { }; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
+        \node {3}; \& \node { }; \& \node { }; \& \node {U}; \& \node
+        (d) {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {2}; \& \node { }; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {1}; \& \node {U}; \& \node {1}; \& \node {1}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \\
 \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node (y) { }; \\
-\node {k/j}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \& \node {11}; \& \node {12}; \& \node {13}; \& \node {14}; \& \node {15}; \& \node {16}; \& \node {17}; \& \node {18}; \& \node {19}; \& \node {20}; \& \node {21}; \& \node {22}; \\
+\node {j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \& \node {11}; \& \node {12}; \& \node {13}; \& \node {14}; \& \node {15}; \& \node {16}; \& \node {17}; \& \node {18}; \& \node {19}; \& \node {20}; \& \node {21}; \& \node {22}; \\
         \node{$x_i$}; \& \node {}; \& \node {1}; \& \node {\textbf{1}}; \& \node { \textbf{1}}; \& \node { }; \& \node { }; \& \node {\textbf{0} }; \& \node {(0)}; \& \node {(0)}; \& \node {\textbf{1} }; \& \node {\textbf{1} }; \& \node {\textbf{1} }; \& \node {0}; \& \node {1}; \& \node {0}; \& \node {(0)}; \& \node {(0)}; \& \node { }; \& \node { }; \& \node { }; \& \node { }; \& \node {0}; \& \node {\textbf{1}}; \\
 };
+\draw[red,->, sloped, above] (a) -- (b); 
+\draw[green,->,bend right] (c) -- (d); 
 \draw[gray] (x.north west) rectangle (y.south east);
 \end{tikzpicture}
 \end{figure}
@@ -250,31 +273,34 @@ This can be done in two ways. First the straight forward way.
 
 \subsection{Relating Cars and Option directly}
 
-Let $i \in C$ be the index identifying a class and $j\in O $ be the
-index for options. The problem instance gives us a mapping $m :
+Let $C$ be the index set identifying a class and $O$ be the
+index for options. The instance for a car sequencing problem gives us a mapping $m :
 C\rightarrow 2^O$, relating to each class a set of options. 
 
 \begin{equation}
-    \bigwedge_{p\in P} \bigwedge_{\substack{i \in C \\ j \in m(i)}}
-    \neg x_{i,p} \vee x_{j,p}
+    \bigwedge_{i\in \{1\ldots n\}} \bigwedge_{\substack{c \in C \\ o \in m(c)}} \neg x_{i,c} \vee x_{i,o}
 \end{equation}
 
 and the reverse
 
 \begin{equation}
-    \bigwedge_{p\in P} \bigwedge_{j\in O} (\neg x_{i,p} \vee \bigvee_{\substack{i \in C \\
-    j \in m(i)}} x_{i,p})
+    \bigwedge_{i \in \{1\dots n\}} \bigwedge_{o\in O} (\neg x_{i,o} \vee \bigvee_{\substack{c \in C \\ o \in m(c)}} x_{i,c})
 \end{equation}
 
 Notice in an ASP encoding this would be modelled by one rule and the
-completion semantics is equivalent to this encoding. 
+completion semantics covers for the reverse case. 
 
 \subsection{The Purist's Way}
 
 Here we will show that there is an encoding of the car sequencing
-problem that does not use at all the variables $x_{i,j}$. The encoding
+problem that does not use at all the variables $x_{i,k}$. The encoding
 builds entirely on the auxiliary variables and can consistently identify
 all solutions to this problem. This is rather surprising. Here the idea: 
+
+The following formula can be encoded as a counter; For each position, the
+sum of true $y$ for all cars that have option $o$ need to be the same
+size as the counter for $o$.
+
 
 \section{Evaluation}
 
@@ -284,12 +310,12 @@ cryptominisat, glucose and clasp and they all consistently find
 solutions within 1h runtime. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={res,set1,set2,set3,set4}]{results}{results.csv}
+\DTLloaddb[keys={res,set1,set2,set3,set4}]{all}{all.csv}
 
 \begin{table}[htbp]
     \caption{}
     \centering
-    \DTLdisplaydb{results}
+    \DTLdisplaydb{all}
 \end{table}
 
 
@@ -301,12 +327,12 @@ For the set 4 a more detailed view is interesting as the benchmark
 targets the optimization version of the car sequencing problem. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={instance,ip,sat}]{set4}{set4.csv}
+\DTLloaddb[keys={name,min,max,LING,sec}]{set4}{set4.csv}
 
 \begin{table}[htbp]
-    \caption{Solutions to the proposed hard benchmark on the 2004 paper
-    (IP) and solutions on the decision version on the SAT encoding
-(SAT). }
+    \caption{Solutions to the benchmark proposed in \TODO{ref} with
+    lower and upper bounds on the target function (min,max) and this
+compared to solutions on the decision version  SAT encoding with lingeling (LING). }
     \centering
     \DTLdisplaydb{set4}
 \end{table}
@@ -320,7 +346,7 @@ unsatisfiable.
 
 \begin{itemize}
     \item Optimizations: there are two definitions of the cost function
-        for the car sequencing problem. First is to allow arbirary cars
+        for the car sequencing problem. First is to allow arbitrary cars
         without any options and minimize the number of cars with
         options. And second is to minimize the number of windows that
         exceed the capacity constraint on their options. It would be
@@ -333,7 +359,7 @@ unsatisfiable.
         good benchmarks. 
     \item The Sequence constraint consists of a sequence of among
         constraints and we should compare this encoding to the known CNF
-        encodings and filtering algorithmsin the literature. 
+        encodings and filtering algorithms in the literature. 
 \end{itemize}
 
 
