@@ -140,9 +140,8 @@ Given a sequence of boolean variables among exactly $d$ have to be true
 and each window of size $q$ cannot contain more than $u$ true variables.
 This is the AtMostSeqCard constraint: 
 
-$$ \text{AtMostSeqCard}(u,q,d,[x_{1},\ldots,x_{n}]) \iff
-\bigwedge_{i=0}^{n-q}(\sum_{i=1}^q x_{i+l} \leq u ) \wedge (\sum_{i=1}^n
-x_{i} = d) $$
+$$ \text{AtMostSeqCard}(u,q,d,[x_{1},\ldots,x_{n}]) \iff (\sum_{i=1}^n
+x_{i} = d) \wedge \bigwedge_{i=1}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
 
 To archive GAC on this constraint we need to take the counter encoding
 of the previous section and add the following binary clauses:
@@ -153,6 +152,8 @@ of the previous section and add the following binary clauses:
     \neg y_{i,j} \vee y_{i-q,j-u}
 \end{equation}               
 
+This seems suprising! 
+
 \begin{theorem}
     The clauses of counter encoding (1) to (5) with the clauses of (6)
     enforce GAC on the AtMostSeqCard for all partial assignment on
@@ -162,12 +163,20 @@ of the previous section and add the following binary clauses:
 We even have a stronger notion of propagation, because also on all
 partial assignment on $y_{i,j}$ we archive GAC. 
 
-\TODO{Find precise size of the encoding:} Let $s = n*d-\text{upper and
-lower triangle}$, then we generate $s$ auxiliary variables and $3\cdot
-s$ binary clauses and $2\cdot s$ tenery clauses. 
+\paragraph{Size of Encoding: } Let $s = n\cdot d-\text{upper and lower
+triangle}$, then we generate $s$ auxiliary variables and $3\cdot s$
+binary clauses and $2\cdot s$ tenery clauses. Size of a triange can be
+computed by the hight $d$ and the slope $u/q$ and a little bit of
+algebra, which leads to $d\cdot(u-q+\frac{d \cdot q}{u}) $. So the
+number of variables $s$ should be
 
-The power of the binary clauses are best shown in the example taken from
-(\TODO{ref})
+$$ s = d \cdot n - d \cdot(u-q+\frac{d \cdot q}{u}) $$
+
+For example the at AtMostSeqCard$(u=4,q=8,d=12,n=22)$ would have 
+
+$ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables, which
+corresponds to the following example.  The power of the binary clauses
+are best shown in the example taken from (\TODO{ref})
 
 \begin{figure}
 \centering 
@@ -198,9 +207,18 @@ This can be done in two ways. First the straight forward way.
 
 \subsection{Relating Cars and Option directly}
 
-Let $C$ be the index set identifying a class and $O$ be the
-index for options. The instance for a car sequencing problem gives us a mapping $m :
-C\rightarrow 2^O$, relating to each class a set of options. 
+Let $C$ be the index set identifying a class and $O$ be the index set
+for options. The instance for a car sequencing problem is given by a
+mapping $m : C\rightarrow 2^O$, relating to each class a set of options.
+For each class we have a cardinality constraint and for each option a
+AtMostSeq constraint. From this we can construct for each option and for
+each class a AtMostSeqCard constraint (since all cars have to be
+assigend). 
+
+Each such AtMostSeqCard constraint is encoded into SAT. In addition we
+need to relate classes and options on each position. This is done by the
+following clauses.  Let $m':O \rightarrow 2^C$ be the mapping relating
+to each option the corresponding classes. 
 
 \begin{equation}
     \bigwedge_{i\in \{1\ldots n\}} \bigwedge_{\substack{c \in C \\ o \in m(c)}} \neg x_{i,c} \vee x_{i,o}
@@ -209,7 +227,8 @@ C\rightarrow 2^O$, relating to each class a set of options.
 and the reverse
 
 \begin{equation}
-    \bigwedge_{i \in \{1\dots n\}} \bigwedge_{o\in O} (\neg x_{i,o} \vee \bigvee_{\substack{c \in C \\ o \in m(c)}} x_{i,c})
+    \bigwedge_{i \in \{1\dots n\}} \bigwedge_{o\in O} \left(\neg x_{i,o} \vee
+    \bigvee_{c \in m'(o)} x_{i,c}\right)
 \end{equation}
 
 Notice in an ASP encoding this would be modelled by one rule and the
@@ -219,12 +238,20 @@ completion semantics covers for the reverse case.
 
 Here we will show that there is an encoding of the car sequencing
 problem that does not use at all the variables $x_{i,k}$. The encoding
-builds entirely on the auxiliary variables and can consistently identify
-all solutions to this problem. This is rather surprising. Here the idea: 
+builds entirely on the auxiliary variables $y_{i,j,k}$ and their
+relationship. This is rather surprising. Here the idea: 
 
-The following formula can be encoded as a counter; For each position, the
+For each position in the sequence, the
 sum of true $y$ for all cars that have option $o$ need to be the same
-size as the counter for $o$.
+size as the number of true $y$ for $o$. As a formula, for all positions
+$i$ and options $ o \in O$ it has to hold: 
+
+$$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
+
+Encoding this restriction (e.g. by a counter!) should be enough to fully
+grasp the car sequencing problem. However, the size of this encoding
+is considerable bigger  and it will have a different type of propagation, as
+it cannot branch on putting cars or options in positions. 
 
 
 \section{Evaluation}
