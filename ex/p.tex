@@ -78,7 +78,7 @@ $$ y_{i,j} \iff (j \leq \sum_{l=0}^{i} x_{l}) $$
     cells containing $U$($L$) and above(below) are set to false (true).
     The question mark identifies unassigned variables of the counter
     encoding}
-%\include{table1}
+\include{example1}
 \end{figure}
 
 There are two types of binary clauses that relate the variables $y$ among
@@ -127,7 +127,7 @@ y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
 \caption{Taking the previous example and let $x_{i}$ be true for
     position 2 and 7. Then the resulting assignment to the counter
     variable is given in this table. }
-%\include{table2}
+\include{example2}
 \end{figure}
 
 It should be mentioned that with (6) we instruct the counter to measure
@@ -185,7 +185,7 @@ are best shown in the example taken from (\TODO{ref})
     $x_{7}$, $x_{8}$, $x_{15}$ and $x_{16}$ need to be set to false.
     Notice that for this particular case we only need 24 boolean
     variables to create the GAC encoding.}
-%\include{table3}
+\include{example3}
 \end{figure}
 
 \begin{figure}
@@ -197,7 +197,7 @@ are best shown in the example taken from (\TODO{ref})
 $x_{1}$ was a redundant choice. Normal font= choice, bold = propagated,
 ()= earlier propagated, green arrow positve implication, red arrow
 negative implication by (6).}
-%\include{table4}
+\include{example4}
 \end{figure}
 
 \section{Encoding of Carsequencing}
@@ -262,7 +262,7 @@ cryptominisat, glucose and clasp and they all consistently find
 solutions within 1h runtime. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={res,set1,set2,set3,set4}]{all}{all.csv}
+\DTLloaddb[keys={res,set1,set2,set3,set4}]{all}{table1.csv}
 
 \begin{table}[htbp]
     \caption{}
@@ -279,7 +279,7 @@ For the set 4 a more detailed view is interesting as the benchmark
 targets the optimization version of the car sequencing problem. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={name,min,max,LING,sec}]{set4}{set4.csv}
+\DTLloaddb[keys={name,min,max,LING,sec}]{set4}{table2.csv}
 
 \begin{table}[htbp]
     \caption{Solutions to the benchmark proposed in \TODO{ref} with
