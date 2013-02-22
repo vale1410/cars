@@ -57,13 +57,13 @@ $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
 where $d$ is a fixed value.  We call the encoding for such a cardinality
 constraint a counter encoding because we count exactly $d$ occurrences
-over positions $P$. 
+over positions $\{1\ldots n\}$. 
 
 We introduce the following variables: 
 
 \begin{itemize}
-    \item $y_{i,j}$ is true iff in the positions $0 \ldots i$ the
-        property holds at least $j$ times. 
+    \item $y_{i,j}$ is true iff in the positions $1 \ldots i$ the
+        property holds at least $j$ times.        
 \end{itemize}
 
 The following formula clarifies the relationship between $x$ and $y$.
@@ -108,25 +108,25 @@ variables $x$.
 
 These clauses restrict the structure of the auxiliary variables to
 consist of a counter. Now we need to relate these variables to $x$. 
-First we define clauses that consist of pushing the counter up. 
-
-\begin{equation}
-    \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j\in\{0..d\}}
-    \neg x_{i} \vee \neg y_{i,j} \vee y_{i+1,j+1}
-\end{equation}
-
-And now we have to restrict the counter to be pushed up if $x_{i}$ is
+First we restrict the counter not to increase if $x_{i}$ is
 false. 
+
 
 \begin{equation}
     \bigwedge_{i \in \{1\ldots n\}} \bigwedge_{j\in\{0..d+1\}}
     x_{i} \vee \neg y_{i,j} \vee y_{i-1,j}
 \end{equation}
 
-Now we finally have to "initialize" the counter. This is a very
-interesting step as here is decided whether the cardinality constraints
-is $=$, $\leq$ or $\geq$. In our case we are only interested in
-equality, the other cases are however also interesting. 
+Second we define clauses that push  the counter up if $x_i$ is true. 
+
+\begin{equation}
+    \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j\in\{0..d\}}
+    \neg x_{i} \vee \neg y_{i,j} \vee y_{i+1,j+1}
+\end{equation}
+
+Now we finally have to "initialize" the counter. Here we decided whether
+the cardinality constraints is $=$, $\leq$ or $\geq$. In our case we are
+only interested in equality. 
 
 \begin{equation}
 y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
@@ -161,9 +161,9 @@ Given a sequence of boolean variables among exactly $d$ have to be true
 and each window of size $q$ cannot contain more than $u$ true variables.
 This is the AtMostSeqCard constraint: 
 
-$$ \text{AtMostSeqCard}(u,q,d,[x_{i,1},\ldots,x_{i,n}]) \iff
-\bigwedge_{j=0}^{n-q}(\sum_{l=1}^q x_{i,j+l} \leq u ) \wedge (\sum_{j=1}^n
-x_{i,j} = d) $$
+$$ \text{AtMostSeqCard}(u,q,d,[x_{1},\ldots,x_{n}]) \iff
+\bigwedge_{i=0}^{n-q}(\sum_{i=1}^q x_{i+l} \leq u ) \wedge (\sum_{i=1}^n
+x_{i} = d) $$
 
 To archive GAC on this constraint we need to take the counter encoding
 of the previous section and add the following binary clauses:
@@ -183,16 +183,20 @@ of the previous section and add the following binary clauses:
 We even have a stronger notion of propagation, because also on all
 partial assignment on $y_{i,j}$ we archive GAC. 
 
+\TODO{Find precise size of the encoding:} Let $s = n*d-\text{upper and
+lower triangle}$, then we generate $s$ auxiliary variables and $3\cdot
+s$ binary clauses and $2\cdot s$ tenery clauses. 
+
 The power of the binary clauses are best shown in the example taken from
 (\TODO{ref})
 
 \begin{figure}
 \centering 
-\caption{Taking the initial state of the propagator for a constraint with
-    $u=4,q=8,d=12,n=22$. In this example we see that already $x_{7}$,
-    $x_{8}$, $x_{15}$ and $x_{16}$ need to be set to false. Notice that
-    for this particular case we only need 24 boolean variables to create
-the GAC encoding.}
+\caption{Here we analyse the initial state of variables for a constraint
+    with $u=4,q=8,d=12,n=22$. In this example we see that already
+    $x_{7}$, $x_{8}$, $x_{15}$ and $x_{16}$ need to be set to false.
+    Notice that for this particular case we only need 24 boolean
+    variables to create the GAC encoding.}
 \begin{tikzpicture}
 \node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
 %,nodes={fill=blue!20,minimum size=5mm}] 
