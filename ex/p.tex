@@ -6,7 +6,7 @@
 \usetikzlibrary{arrows,shapes}
 \usepackage{graphics}
 
-%\newtheorem{theorem}{Theorem}
+
 
 \newcommand{\TODO}[1]{ {\color{red}{#1} }}
 \newcommand{\com}[1]{ {\color{blue}{--- #1 ---}}}
@@ -32,7 +32,7 @@ with a better encoding.
 \section{Motivation}
 
 We are seeking an encoding that enforces GAC on the recently proposed
-AtMostSeqCard constraint (\TODO{ref}). This constraint is not as expressive as the
+AtMostSeqCard constraint (\cite{Siala12}). This constraint is not as expressive as the
 Sequence constraint but is more suited for some benchmark problems and
 has a linear filtering algorithm. Here we will show that there is a
 compact CNF encoding that shows good results in the benchmark set of the
@@ -42,8 +42,8 @@ instance.
 \section{Encoding of one AtMostSeqCard}
 
 We will first show how to encode a cardinality constraint with a counter
-encoding (\TODO{ref}) and then integrate the AtMostSeq by reusing the auxiliary
-variables of the counter encoding. 
+encoding (\TODO{ref}, \cite{Een06} ?) and then integrate the AtMostSeq
+by reusing the auxiliary variables of the counter encoding. 
 
 Over this whole section we will work with the following notation. Given
 a set of consecutive positions $P=\{1\ldots n\}$ and a property that
@@ -57,7 +57,8 @@ $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
 where $d$ is a fixed value.  We call the encoding for such a cardinality
 constraint a counter encoding because we count exactly $d$ occurrences
-over positions $\{1\ldots n\}$. 
+over positions $\{1\ldots n\}$. The idea is to encode cummulative sums
+and a smart order encoding (\cite{Tamura09}) of the auxiliary variables. 
 
 We introduce the following variables: 
 
@@ -78,7 +79,7 @@ $$ y_{i,j} \iff (j \leq \sum_{l=0}^{i} x_{l}) $$
     cells containing $U$($L$) and above(below) are set to false (true).
     The question mark identifies unassigned variables of the counter
     encoding}
-\include{example1}
+%\include{example1}
 \end{figure}
 
 There are two types of binary clauses that relate the variables $y$ among
@@ -110,7 +111,7 @@ Second we define clauses that push  the counter up if $x_i$ is true.
 
 \begin{equation}
     \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j\in\{0..d\}}
-    \neg x_{i} \vee \neg y_{i,j} \vee y_{i+1,j+1}
+    \neg x_{i+1} \vee \neg y_{i,j} \vee y_{i+1,j+1}
 \end{equation}
 
 Now we finally have to "initialize" the counter. 
@@ -127,7 +128,7 @@ y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
 \caption{Taking the previous example and let $x_{i}$ be true for
     position 2 and 7. Then the resulting assignment to the counter
     variable is given in this table. }
-\include{example2}
+%\include{example2}
 \end{figure}
 
 It should be mentioned that with (6) we instruct the counter to measure
@@ -160,8 +161,6 @@ This seems suprising!
     variables $x_{i}$. 
 \end{theorem}
 
-We even have a stronger notion of propagation, because also on all
-partial assignment on $y_{i,j}$ we archive GAC. 
 
 \paragraph{Size of Encoding: } Let $s = n\cdot d-\text{upper and lower
 triangle}$, then we generate $s$ auxiliary variables and $3\cdot s$
@@ -172,11 +171,21 @@ number of variables $s$ should be
 
 $$ s = d \cdot n - d \cdot(u-q+\frac{d \cdot q}{u}) $$
 
-For example the at AtMostSeqCard$(u=4,q=8,d=12,n=22)$ would have 
+For example the AtMostSeqCard$(u=4,q=8,d=12,n=22)$ would have 
 
-$ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables, which
-corresponds to the following example.  The power of the binary clauses
-are best shown in the example taken from (\TODO{ref})
+$ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables. 
+
+
+%\begin{figure}
+%\centering 
+%\caption{A graphical representation of the 6 rules for counters and the
+%AtMostSeqCard constraint. }
+%\include{sketch}
+%\end{figure}
+
+The power of the binary clauses are best shown in the example 
+\cite{Siala12}.
+
 
 \begin{figure}
 \centering 
@@ -185,7 +194,7 @@ are best shown in the example taken from (\TODO{ref})
     $x_{7}$, $x_{8}$, $x_{15}$ and $x_{16}$ need to be set to false.
     Notice that for this particular case we only need 24 boolean
     variables to create the GAC encoding.}
-\include{example3}
+%\include{example3}
 \end{figure}
 
 \begin{figure}
@@ -197,7 +206,7 @@ are best shown in the example taken from (\TODO{ref})
 $x_{1}$ was a redundant choice. Normal font= choice, bold = propagated,
 ()= earlier propagated, green arrow positve implication, red arrow
 negative implication by (6).}
-\include{example4}
+%\include{example4}
 \end{figure}
 
 \section{Encoding of Carsequencing}
@@ -213,7 +222,7 @@ mapping $m : C\rightarrow 2^O$, relating to each class a set of options.
 For each class we have a cardinality constraint and for each option a
 AtMostSeq constraint. From this we can construct for each option and for
 each class a AtMostSeqCard constraint (since all cars have to be
-assigend). 
+assigned). 
 
 Each such AtMostSeqCard constraint is encoded into SAT. In addition we
 need to relate classes and options on each position. This is done by the
@@ -234,7 +243,7 @@ and the reverse
 Notice in an ASP encoding this would be modelled by one rule and the
 completion semantics covers for the reverse case. 
 
-\subsection{The Purist's Way}
+\subsection{Alternative: no $x_{i,k}$ variables!}
 
 Here we will show that there is an encoding of the car sequencing
 problem that does not use at all the variables $x_{i,k}$. The encoding
@@ -248,11 +257,14 @@ $i$ and options $ o \in O$ it has to hold:
 
 $$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
 
-Encoding this restriction (e.g. by a counter!) should be enough to fully
-grasp the car sequencing problem. However, the size of this encoding
-is considerable bigger  and it will have a different type of propagation, as
-it cannot branch on putting cars or options in positions. 
+Encoding this restriction should be enough to fully grasp the car
+sequencing problem. The construction can be done by a sorting network
+(e.g. \cite{Batcher68} ) and the size should be $n\cdot log^2 (d) $ in the
+hight $d$ of the counter. 
 
+In this encoding we  even have a stronger notion of propagation, because
+also on all partial assignment on $y_{i,j,k}$ we archive GAC (this is not
+the case in the direct connection between cars and options). 
 
 \section{Evaluation}
 
@@ -282,7 +294,7 @@ targets the optimization version of the car sequencing problem.
 \DTLloaddb[keys={name,min,max,LING,sec}]{set4}{table2.csv}
 
 \begin{table}[htbp]
-    \caption{Solutions to the benchmark proposed in \TODO{ref} with
+    \caption{Solutions to the benchmark proposed in \cite{Gravel05} with
     lower and upper bounds on the target function (min,max) and this
 compared to solutions on the decision version  SAT encoding with lingeling (LING). }
     \centering
@@ -290,7 +302,7 @@ compared to solutions on the decision version  SAT encoding with lingeling (LING
 \end{table}
 
 
-We can solve all 7 satisfiable instances and prove 13/23 instances to be
+We can solve 7 satisfiable instances and prove 13/23 instances to be
 unsatisfiable. 
 
 
@@ -315,6 +327,7 @@ unsatisfiable.
 \end{itemize}
 
 
-
+\bibliography{foo}
+\bibliographystyle{apalike}
 
 \end{document}

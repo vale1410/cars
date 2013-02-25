@@ -5,11 +5,16 @@ OUTPUT=$(NAME).pdf
 all: show 
 
 compile:
-	pdflatex -synctex=1 $(NAME).tex 
+	pdflatex $(NAME).tex 
+	bibtex $(NAME)
+	pdflatex $(NAME).tex 
+	pdflatex $(NAME).tex 
 
 show: compile
 	evince $(OUTPUT) 2>/dev/null &
 
 clean: 
-	rm *.log
-	rm *.aux
+	rm -fr *.blg
+	rm -fr *.bbl
+	rm -fr *.aux
+	rm -fr *.log

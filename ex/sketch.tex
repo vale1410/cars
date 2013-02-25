@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\draw (-2,0) node {(1)};
+\node [bend angle=45,matrix,ampersand replacement=\&,nodes={shape=rectangle,minimum size=6mm}]
+{
+    \node {}; \& \node[draw] (x) { }; \\
+    \node[draw] (y) {}; \& \node { }; \\
+};
+\draw[bend angle=45,->, sloped, above] (x.west) -- (y.north); 
+%    {
+%        \node {3}; \& \node (x) { }; \& \node { }; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \& \node {U}; \\
+%        \node {2}; \& \node { }; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \\
+%        \node {1}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node { }; \\
+%        \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node { }; \& \node (y) { }; \\
+%        \node {j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \& \node {6}; \& \node {7}; \& \node {8}; \& \node {9}; \& \node {10}; \\
+%};
+%\draw[gray] (x.north west) rectangle (y.south east);
+\end{tikzpicture}
+
