@@ -57,10 +57,11 @@ $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
 where $d$ is a fixed value.  We call the encoding for such a cardinality
 constraint a counter encoding because we count exactly $d$ occurrences
-over positions $\{1\ldots n\}$. The idea is to encode cummulative sums
-and a smart order encoding (\cite{Tamura09}) of the auxiliary variables. 
+over positions $\{1\ldots n\}$. The idea is to encode cumulative sums
+(as in \cite{Brand07} and an order encoding (\cite{Tamura09}) of
+the auxiliary variables. 
 
-We introduce the following variables: 
+We introduce the following variables (representing cumulative sums): 
 
 \begin{itemize}
     \item $y_{i,j}$ is true iff in the positions $1 \ldots i$ the
@@ -157,17 +158,22 @@ This seems suprising!
 
 \begin{theorem}
     The clauses of counter encoding (1) to (5) with the clauses of (6)
-    enforce GAC on the AtMostSeqCard for all partial assignment on
-    variables $x_{i}$. 
+    are logically equivalent to the AtMostSeqCard.
 \end{theorem}
+
+\begin{proof}
+    The proof uses ideas from the decompositions of the Sequence
+    Constraint and the encoding by cumulative sums, see \cite{Brand07}
+\end{proof}
 
 
 \paragraph{Size of Encoding: } Let $s = n\cdot d-\text{upper and lower
 triangle}$, then we generate $s$ auxiliary variables and $3\cdot s$
-binary clauses and $2\cdot s$ tenery clauses. Size of a triange can be
-computed by the hight $d$ and the slope $u/q$ and a little bit of
-algebra, which leads to $d\cdot(u-q+\frac{d \cdot q}{u}) $. So the
-number of variables $s$ should be
+binary clauses and $2\cdot s$ tenery clauses. The term $n\cdot d$
+dominates. The precise number of variables can be computed by the hight
+$d$ and the slope $u/q$ and a little bit of algebra, which leads to
+$d\cdot(u-q+\frac{d \cdot q}{u}) $. So the number of variables $s$
+should be
 
 $$ s = d \cdot n - d \cdot(u-q+\frac{d \cdot q}{u}) $$
 
@@ -175,6 +181,10 @@ For example the AtMostSeqCard$(u=4,q=8,d=12,n=22)$ would have
 
 $ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables. 
 
+\begin{conjecture}
+    The clauses (1) to (6) enforce GAC on the AtMostSeqCard on every
+    partial assignment with the failed literal test. 
+\end{conjecture}
 
 %\begin{figure}
 %\centering 
@@ -260,7 +270,9 @@ $$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
 Encoding this restriction should be enough to fully grasp the car
 sequencing problem. The construction can be done by a sorting network
 (e.g. \cite{Batcher68} ) and the size should be $n\cdot log^2 (d) $ in the
-hight $d$ of the counter. 
+hight $d$ of the counter. For pure cardinality constraints this can be
+improved in a CNF encoding as in \cite{Asin11}, but here we are faced
+with an equvialence. 
 
 In this encoding we  even have a stronger notion of propagation, because
 also on all partial assignment on $y_{i,j,k}$ we archive GAC (this is not
@@ -291,12 +303,13 @@ For the set 4 a more detailed view is interesting as the benchmark
 targets the optimization version of the car sequencing problem. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={name,min,max,LING,sec}]{set4}{table2.csv}
+\DTLloaddb[keys={name,min,LING,sec}]{set4}{table2.csv}
 
 \begin{table}[htbp]
     \caption{Solutions to the benchmark proposed in \cite{Gravel05} with
-    lower and upper bounds on the target function (min,max) and this
-compared to solutions on the decision version  SAT encoding with lingeling (LING). }
+    minimum violations found on the target function (violated capacity
+of options per window) by a local search method and compared to
+solutions on the decision version  SAT encoding with lingeling (LING). }
     \centering
     \DTLdisplaydb{set4}
 \end{table}
@@ -327,7 +340,7 @@ unsatisfiable.
 \end{itemize}
 
 
-\bibliography{foo}
+\bibliography{p}
 \bibliographystyle{apalike}
 
 \end{document}
