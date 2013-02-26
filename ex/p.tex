@@ -269,10 +269,13 @@ $$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
 
 Encoding this restriction should be enough to fully grasp the car
 sequencing problem. The construction can be done by a sorting network
-(e.g. \cite{Batcher68} ) and the size should be $n\cdot log^2 (d) $ in the
+(e.g. \cite{Batcher68}) and the size should be $n\cdot log^2 (d) $ in the
 hight $d$ of the counter. For pure cardinality constraints this can be
 improved in a CNF encoding as in \cite{Asin11}, but here we are faced
-with an equvialence. 
+with an equvialence which needs a full sorter. Maybe the recursive
+structure of the cummulative sum can be exploited in this construction,
+since in position $i-1$ we have already almost  have sorted the sequence
+with up to one difference. 
 
 In this encoding we  even have a stronger notion of propagation, because
 also on all partial assignment on $y_{i,j,k}$ we archive GAC (this is not
