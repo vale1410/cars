@@ -33,8 +33,8 @@ with a better encoding.
 
 We are seeking an encoding that enforces GAC on the recently proposed
 AtMostSeqCard constraint (\cite{Siala12}). This constraint is not as expressive as the
-Sequence constraint but is more suited for some benchmark problems and
-has a linear filtering algorithm. Here we will show that there is a
+Sequence (poly propagator in \cite{Hoeve06}) constraint but is more suited for some benchmark problems and
+has a linear filtering algorithm. Here we6will show that there is a
 compact CNF encoding that shows good results in the benchmark set of the
 CSPLIB. Furthermore we will try to improve the bounds on the set of hard
 instance. 
@@ -158,7 +158,8 @@ This seems suprising!
 
 \begin{theorem}
     The clauses of counter encoding (1) to (5) with the clauses of (6)
-    are logically equivalent to the AtMostSeqCard.
+    are logically equivalent to the AtMostSeqCard. Moreover they enforce
+    GAC with failed literal. 
 \end{theorem}
 
 \begin{proof}
@@ -253,12 +254,19 @@ and the reverse
 Notice in an ASP encoding this would be modelled by one rule and the
 completion semantics covers for the reverse case. 
 
-\subsection{Alternative: no $x_{i,k}$ variables!}
+\subsection{Alternative: The purest encoding only relating the auxiliary variables}
 
 Here we will show that there is an encoding of the car sequencing
 problem that does not use at all the variables $x_{i,k}$. The encoding
 builds entirely on the auxiliary variables $y_{i,j,k}$ and their
-relationship. This is rather surprising. Here the idea: 
+relationship. This is rather surprising. 
+
+This encoding will take care of a propagation that is not covered by the
+previous encodings and as such has stronger properties taking the
+auxiliary variables into account! \TODO{give example which propagation
+is missing}
+
+Here the idea: 
 
 For each position in the sequence, the
 sum of true $y$ for all cars that have option $o$ need to be the same
@@ -271,7 +279,7 @@ Encoding this restriction should be enough to fully grasp the car
 sequencing problem. The construction can be done by a sorting network
 (e.g. \cite{Batcher68}) and the size should be $n\cdot log^2 (d) $ in the
 hight $d$ of the counter. For pure cardinality constraints this can be
-improved in a CNF encoding as in \cite{Asin11}, but here we are faced
+improved in a CNF encoding as in \cite{Asin11,Codish10}, but here we are faced
 with an equvialence which needs a full sorter. Maybe the recursive
 structure of the cummulative sum can be exploited in this construction,
 since in position $i-1$ we have already almost  have sorted the sequence

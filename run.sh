@@ -10,6 +10,7 @@
 
 random=${5-1982}
 output=${6-output.txt}
+model=model${2-7}.lp
 
 option='--time-limit='${3-1800}' -t 1 --stats '
 option=$option'--trans-ext=all '
@@ -30,9 +31,9 @@ instance=${1-test.lp}
 
 cat $instance | grep '^%'
 echo -e 'Instance\t:' $instance | tee -a  $output
-echo -e 'Model\t\t:' model${2-7}.lp | tee -a $output
+echo -e 'Model\t\t:' $model | tee -a $output
 echo -e 'Option\t\t: ' $option | tee -a $output
-gringo $instance model${2-7}.lp | clasp $option  | tee -a $output
+gringo $instance $model | clasp $option  | tee -a $output
 
 
 if grep -q '^SAT' $output

@@ -110,4 +110,5 @@ is_option_counter(P2,O,W+1,M+1) :-
 #show class/1. 
 #show next/2. 
 #show first/1. 
+#show option/1. 
                                                                                               
