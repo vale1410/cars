@@ -13,7 +13,7 @@ time=${3-18000}
 
 mkdir -p $output
 
-argutment=()
+argument=()
 
 for data in *.cnf
 do

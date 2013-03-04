@@ -1,4 +1,4 @@
-p.aux
-p.bbl
-p.blg
-p.log
+*.aux
+*.bbl
+*.blg
+*.log

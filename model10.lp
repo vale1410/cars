@@ -1,6 +1,6 @@
 % revolutionary idea
 %
-% Probably the GAC encoding of the AtMostSequcenConstraint
+% no car variables!
 
 %Input: 
 
@@ -82,10 +82,10 @@ counter(c,C,Q,M,N) :-
 %    is_car(C2,L),
 %    C2 < C1. 
 %
-%%%% what is missing: exactly one each day:
-%%%
-%%%% this needs improvement, flattening the encoding?
-%
+%%%%% what is missing: exactly one each day:
+%%%%
+%%%%% this needs improvement, flattening the encoding?
+%%
 %:- pos(P), P > 0, not 1 { is_car(_,P) } 1. 
 
 

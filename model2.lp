@@ -27,6 +27,12 @@ is_option(P,O) :- is_car(P,C), class_option(C,O).
 :- pos(P), option_window(O,W), option_max(O,M), 
    M+1 { is_option(PP,O) : window(W,P,PP) }.
 
+% redundant constraints on options
+
+:-  option_max(O,_), 
+    N = #sum [class_count(A,C) = C : class_option(A,O)], 
+    not N { is_option(_,O) } N. 
+
 #hide.
 #show is_car/2. 
 #show is_option/2. 

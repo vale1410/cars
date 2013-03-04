@@ -8,9 +8,9 @@ Description of the models
 
 Model: 
 
-1) ASP naive
+1) ASP naive (for each window and option (for each window and option
 
-2) as 1) but one abstraction
+2) as 1) but one abstraction (variable for option)
 
 3) as 2) but with symmetry + redundant
 
@@ -20,3 +20,7 @@ Model:
 
 9) attempt to model exclusively by counters that should archive GAC on
 the AtMostSeqCar constraint [to be continued]
+
+10) Model that enforces GAC on AtMostSeqCard with FL (failedLiteral) and
+is so far the best model in comparison. There are translations to SAT
+and a paper discribing the encoding (ex/p.pdf)
