@@ -33,8 +33,8 @@ with a better encoding.
 
 We are seeking an encoding that enforces GAC on the recently proposed
 AtMostSeqCard constraint (\cite{Siala12}). This constraint is not as expressive as the
-Sequence constraint but is more suited for some benchmark problems and
-has a linear filtering algorithm. Here we will show that there is a
+Sequence (poly propagator in \cite{Hoeve06}) constraint but is more suited for some benchmark problems and
+has a linear filtering algorithm. Here we6will show that there is a
 compact CNF encoding that shows good results in the benchmark set of the
 CSPLIB. Furthermore we will try to improve the bounds on the set of hard
 instance. 
@@ -57,10 +57,11 @@ $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
 where $d$ is a fixed value.  We call the encoding for such a cardinality
 constraint a counter encoding because we count exactly $d$ occurrences
-over positions $\{1\ldots n\}$. The idea is to encode cummulative sums
-and a smart order encoding (\cite{Tamura09}) of the auxiliary variables. 
+over positions $\{1\ldots n\}$. The idea is to encode cumulative sums
+(as in \cite{Brand07} and an order encoding (\cite{Tamura09}) of
+the auxiliary variables. 
 
-We introduce the following variables: 
+We introduce the following variables (representing cumulative sums): 
 
 \begin{itemize}
     \item $y_{i,j}$ is true iff in the positions $1 \ldots i$ the
@@ -157,17 +158,23 @@ This seems suprising!
 
 \begin{theorem}
     The clauses of counter encoding (1) to (5) with the clauses of (6)
-    enforce GAC on the AtMostSeqCard for all partial assignment on
-    variables $x_{i}$. 
+    are logically equivalent to the AtMostSeqCard. Moreover they enforce
+    GAC with failed literal. 
 \end{theorem}
+
+\begin{proof}
+    The proof uses ideas from the decompositions of the Sequence
+    Constraint and the encoding by cumulative sums, see \cite{Brand07}
+\end{proof}
 
 
 \paragraph{Size of Encoding: } Let $s = n\cdot d-\text{upper and lower
 triangle}$, then we generate $s$ auxiliary variables and $3\cdot s$
-binary clauses and $2\cdot s$ tenery clauses. Size of a triange can be
-computed by the hight $d$ and the slope $u/q$ and a little bit of
-algebra, which leads to $d\cdot(u-q+\frac{d \cdot q}{u}) $. So the
-number of variables $s$ should be
+binary clauses and $2\cdot s$ tenery clauses. The term $n\cdot d$
+dominates. The precise number of variables can be computed by the hight
+$d$ and the slope $u/q$ and a little bit of algebra, which leads to
+$d\cdot(u-q+\frac{d \cdot q}{u}) $. So the number of variables $s$
+should be
 
 $$ s = d \cdot n - d \cdot(u-q+\frac{d \cdot q}{u}) $$
 
@@ -175,6 +182,10 @@ For example the AtMostSeqCard$(u=4,q=8,d=12,n=22)$ would have
 
 $ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables. 
 
+\begin{conjecture}
+    The clauses (1) to (6) enforce GAC on the AtMostSeqCard on every
+    partial assignment with the failed literal test. 
+\end{conjecture}
 
 %\begin{figure}
 %\centering 
@@ -243,12 +254,19 @@ and the reverse
 Notice in an ASP encoding this would be modelled by one rule and the
 completion semantics covers for the reverse case. 
 
-\subsection{Alternative: no $x_{i,k}$ variables!}
+\subsection{Alternative: The purest encoding only relating the auxiliary variables}
 
 Here we will show that there is an encoding of the car sequencing
 problem that does not use at all the variables $x_{i,k}$. The encoding
 builds entirely on the auxiliary variables $y_{i,j,k}$ and their
-relationship. This is rather surprising. Here the idea: 
+relationship. This is rather surprising. 
+
+This encoding will take care of a propagation that is not covered by the
+previous encodings and as such has stronger properties taking the
+auxiliary variables into account! \TODO{give example which propagation
+is missing}
+
+Here the idea: 
 
 For each position in the sequence, the
 sum of true $y$ for all cars that have option $o$ need to be the same
@@ -259,8 +277,13 @@ $$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
 
 Encoding this restriction should be enough to fully grasp the car
 sequencing problem. The construction can be done by a sorting network
-(e.g. \cite{Batcher68} ) and the size should be $n\cdot log^2 (d) $ in the
-hight $d$ of the counter. 
+(e.g. \cite{Batcher68}) and the size should be $n\cdot log^2 (d) $ in the
+hight $d$ of the counter. For pure cardinality constraints this can be
+improved in a CNF encoding as in \cite{Asin11,Codish10}, but here we are faced
+with an equvialence which needs a full sorter. Maybe the recursive
+structure of the cummulative sum can be exploited in this construction,
+since in position $i-1$ we have already almost  have sorted the sequence
+with up to one difference. 
 
 In this encoding we  even have a stronger notion of propagation, because
 also on all partial assignment on $y_{i,j,k}$ we archive GAC (this is not
@@ -291,12 +314,13 @@ For the set 4 a more detailed view is interesting as the benchmark
 targets the optimization version of the car sequencing problem. 
 
 \DTLsetseparator{,}
-\DTLloaddb[keys={name,min,max,LING,sec}]{set4}{table2.csv}
+\DTLloaddb[keys={name,min,LING,sec}]{set4}{table2.csv}
 
 \begin{table}[htbp]
     \caption{Solutions to the benchmark proposed in \cite{Gravel05} with
-    lower and upper bounds on the target function (min,max) and this
-compared to solutions on the decision version  SAT encoding with lingeling (LING). }
+    minimum violations found on the target function (violated capacity
+of options per window) by a local search method and compared to
+solutions on the decision version  SAT encoding with lingeling (LING). }
     \centering
     \DTLdisplaydb{set4}
 \end{table}
@@ -327,7 +351,7 @@ unsatisfiable.
 \end{itemize}
 
 
-\bibliography{foo}
+\bibliography{p}
 \bibliographystyle{apalike}
 
 \end{document}
