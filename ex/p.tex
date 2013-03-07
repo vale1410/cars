@@ -138,9 +138,9 @@ Now we finally have to "initialize" the counter.
 \end{equation}
 
 It should be mentioned that formula (\ref{eq:5}) defines the counter to
-accept exactly $d$ occurrences. However not needed for later it would be
-easy to change the initialiser define a constraint of at most $d$ or at
-least $d$. 
+accept exactly $d$ occurrences. However not needed for later, we can
+easily change the initialiser to define a constraint of at most $d$ or
+at least $d$. 
 
 \begin{proposition} 
     Clauses (\ref{eq:1}) to (\ref{eq:4}) encode the cardinality
@@ -157,8 +157,8 @@ least $d$.
     For GAC we need to show that given a partial assignment and assuming
     a variable $x_i$ is not unit although should have been propagated.
     This will lead to a contradiction by case analysis on true and false
-    of $x_i$ and the clauses (\ref{eq:3})( and (\ref{eq:4}). In either
-    case we are left for at least one binary clauses with index $j$ as
+    of $x_i$ and the clauses (\ref{eq:3}) and (\ref{eq:4}). In either
+    case we are left with at least one binary clauses with index $j$ as
     UP did not enforce $x_i$ and by the definition of $y_{i,j}$ we have a
     contradiction. 
 \end{proof}
@@ -363,18 +363,17 @@ We refer to this encoding as $E_4$.
 \section{Evaluation}
 
 We take the classification of the instances in the benchmark introduced
-by \cite{Siala12}. Set1 consists of 70 simple instances, Set 2 of 4 SAT,
-Set 3 of 4 UNSAT and Set 4 of new hard SAT and UNSAT instances. 
+by \cite{Siala12}. Set1 consists of 70 simple instances, Set2 of 4 SAT,
+Set3 of 4 UNSAT and Set4 of 30 new hard SAT and UNSAT instances. 
 
-We present the result on encoding $E_3$. \TODO{Include comparison with
-$E_1$ till $E_4$ (still ongoing). See Table \ref{tab:3}}
+We focus in our analysis on encoding $E_3$. \TODO{Include comparison
+with $E_1$ till $E_4$ (still ongoing). See Table \ref{tab:3}}
 
-The results given in this section can robustly be (standard heuristics)
-reproduced by current sat solvers. We compared newest version of
-minisat, lingeling, cryptominisat, glucose and clasp and they all
-consistently find solutions with the default strategy within 30 min
-runtime. In the following Table \ref{tab:1} we take the  solved
-instances by lingeling:
+The results given in this section can robustly be reproduced by current
+sat solvers. We compared newest version of minisat, lingeling,
+cryptominisat, glucose and clasp and they all consistently find
+solutions with the default strategy within 30 min runtime. In the
+following Table \ref{tab:1} we take the  solved instances by lingeling:
 
 \DTLsetseparator{,}
 \DTLloaddb[keys={res,set1,set2,set3,set4}]{all}{table1.csv}
@@ -386,7 +385,7 @@ instances by lingeling:
     \label{tab:1}
 \end{table}
 
-This is better - sometimes even far better - than the experimental
+This is comparable - sometimes considerable better - than the experimental
 sections of most papers evaluating the car sequencing problem on special
 constraints (CP) or specialized heuristics (e.g. branch and bound) or
 optimisation (IP) \cite{Hoeve09,Siala12,Gravel05}. 
@@ -448,19 +447,19 @@ instances.
         encodings and filtering algorithms in the literature. 
     \item Analyzing the quality of SAT encodings our results suggests to
         evaluate the consistency archived on the auxiliary variable
-        introduced. E.g. in the pure encoding we even had a
-        stronger notion of propagation, as also on all partial
-        assignment on $y_{i,j,k}$ we archive GAC. 
+        introduced. E.g. in the encoding $E_4$ we had a stronger notion
+        of propagation, as also on all partial assignment on $y_{i,j,k}$
+        we archive GAC. 
     \item Another interesting aspect of encoded equality relating option
         and class counter is its relation to the UTVPI constraint (see
         \cite{Seshia07} for a recent treatment). Sorting Networks with
         order encoded variables give an interesting application for
-        decomposing a more general type of constraints. Let $x_i, y$ be
+        decomposing a more similar type of constraints. Let $x_i, y$ be
         integer variables and $d$ a fixed integer. Then there is a
-        decomposition into CNF of the constraint $$ \sum_i x_i = y + d $$
-        such that by an order encoding on $x_i$ and $y$ we enforce
+        decomposition into CNF of the constraint $$ \sum_i x_i = y + d
+        $$ such that by an order encoding on $x_i$ and $y$ we enforce
         bounds consistency on the equality. This construction uses the
-        theory of cardinality networks. To my knowledge this has not
+        theory of cardinality networks. To our knowledge this has not
         been analysed in the literature. 
 \end{itemize}
 
