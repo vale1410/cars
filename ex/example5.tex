@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\node [matrix,ampersand replacement=\&,nodes={minimum size=6mm}]
+%,nodes={fill=blue!20,minimum size=5mm}] 
+    {
+        \node {3}; \& \node (x) { }; \& \node { }; \& \node {}; \& \node {U}; \& \node {U}; \& \node {U}; \\
+        \node {2}; \& \node { }; \& \node {U}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \\
+        \node {1}; \& \node {U}; \& \node {?}; \& \node {?}; \& \node {L}; \& \node {L}; \& \node {}; \\
+        \node {0}; \& \node {L}; \& \node {L}; \& \node {L}; \& \node {}; \& \node {}; \& \node (y) {};  \\
+        \node {j/i}; \& \node {0}; \& \node {1}; \& \node {2}; \& \node {3}; \& \node {4}; \& \node {5}; \\
+        \node {$x_{i}$}; \& \node {}; \& \node {}; \& \node {$0^*$}; \& \node {1}; \& \node {$0^*$}; \& \node {}; \\
+};
+\draw[gray] (x.north west) rectangle (y.south east);
+\end{tikzpicture}
+
+

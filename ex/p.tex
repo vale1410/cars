@@ -17,47 +17,49 @@
 \institute{NICTA \\ University of New South Wales \\
 \email{valentin.mayer-eichberger@nicta.com.au}}
 
-\title{SAT Encodings for the \AtMostSeqCard Constraint with Application
-on Car Sequencing}
+\title{SAT Encodings for the Car Sequencing Problem}
 
 \begin{document} \maketitle
 
 \section{Introduction}
 
-We will present several encodings of the car sequencing constraints and
+We will present several encodings of the car sequencing problem and
 discuss their differences. First we start with a rather simple and
-direct translation of the description of the problem and then  show
-gradually how to come up with a better encoding. In the constructions we
-will show how to use a partial sum and order encoding, how to compactly
-translate cardinality constraints and strengthening propagation by
-focusing on the auxiliary variables. 
+direct translation of the description of the problem and then gradually
+improve this encoding by various techniques. In the construction we will
+show how to use partial sums, order encodings and how to compactly
+translate cardinality constraints and strengthen propagation by focusing
+on the auxiliary variables. 
 
 \section{Motivation}
 
-We are seeking an compact encoding that enforces GAC on the
-\AtMostSeqCard constraint (\cite{Siala12}). This constraint treats a
-special case of the Sequence constraint (\cite{Hoeve06}) where the lower
-bound for the Amongs is $0$.  Here we will show that there are compact
-CNF encodings that shows good results on benchmarks in the CSPLIB
-\cite{Gent99}. 
+Our motivation comes from the recent good results of \cite{Siala12} on
+the car sequencing benchmark by using a specialized propagator of the
+\AtMostSeqCard constraint. This constraint treats a special case of the
+Sequence constraint (\cite{Hoeve06}) where the lower bound for the
+Amongs is $0$.  Here we will show that there is good  CNF decomposition
+that archive compatible results on the instances of benchmarks of in the
+CSP$_{\mbox{LIB}}$ \cite{Gent99}. 
 
 \section{Two simple Encoding}
 
 \begin{enumerate}
-    \item Encoding by boolean variables $x_{i,k}$ for class $k$ in position $i$ and
-        a cardinality constraint on the total number of classes on the
-        sequence and cardinality constraints on each sub window
-        restricting the capacity on options. 
+    \item Encoding by boolean variables $x_{i,k}$ for class $k$ in
+        position $i$ and a cardinality constraint on the total number of
+        classes on the sequence and cardinality constraints on each sub
+        window restricting the capacity on options. No further global
+        constraints and cardinality constraints translated by standard
+        SAT encoding. (referred to as $E_1$)
     \item As 1) but introducing auxiliary variables $x_{i,o}$ for option
-        $o$ in position $i$ and converting the capacity constraints to
-        use these variables. 
+        $o$ in position $i$ to encode the capacity constraints on options.
+        (referred to as $E_2$). 
 \end{enumerate}
 
 
 \section{Encoding of a single \AtMostSeqCard Constraint}
 
 We will first show how to encode a cardinality constraint with a counter
-encoding (\TODO{ref}, \cite{Een06} ?) and then integrate the AtMostSeq
+encoding (\TODO{First publication?}) and then integrate the AtMostSeq
 by reusing the auxiliary variables of the counter encoding. 
 
 Over this whole section we will work with the following notation. Given
@@ -66,15 +68,14 @@ holds at a position $i\in P$ iff the boolean variable $x_i$ is true.
 
 \subsection{Encoding of Counters}
 
-We want to encode the following cardinality constraint
+We show how to encode a cardinality constraint of the following form 
 
 $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$
 
-where $d$ is a fixed value. The encoding given here is named a counter
-encoding. The idea is to encode cumulative sums  and an order encoding (\cite{Tamura09}) on the auxiliary
-variables. Note that the given encoding is not the most compact for a
-single cardinality constraint.  However, the auxiliary variables are
-subsequently reused to encode the sequence of AtMost constraints. 
+where $x_i$ are boolean variables and $d$ is a fixed value. The encoding
+given here is named a counter encoding. The idea is to introduce
+auxiliary variables to denote cumulative sums with order encoding
+(\cite{Tamura09}) on these variables. 
 
 We introduce the following boolean variables (representing cumulative sums): 
 
@@ -90,22 +91,22 @@ $$ y_{i,j} \iff (j \leq \sum_{l=0}^{i} x_{l}) $$
 
 \begin{figure}
 \centering 
-\caption{The variables $y_{i,j}$ with an upper bound $d$ of two over a
-    sequence of 10. By preprocessing the variables corresponding to the
-    cells containing $U$($L$) and above(below) are set to false (true).
-The question mark identifies yet unassigned variables.}
+\caption{The variables $y_{i,j}$ with $d=2$ over a sequence of 10
+variables. By preprocessing the variables corresponding to the cells
+containing $U$($L$) and above(below) are set to false (true).  The
+question mark identifies yet unassigned variables.}
 \include{example1}
+\label{ex:1}
 \end{figure}
 
-The following binary clauses relate the variables $y$ among
-each other:
+The following binary clauses relate the variables $y$ among each other:
 
-\begin{equation}
+\begin{equation} \label{eq:1}
     \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j \in\{0..d+1\}}
     \neg y_{i,j} \vee y_{i+1,j}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq:2}
     \bigwedge_{i \in \{1..n\}} \bigwedge_{j\in \{1..d+1\}}
     \neg y_{i,j} \vee y_{i-1,j-1}
 \end{equation}
@@ -116,81 +117,112 @@ represent a counter.
 Now we need to relate these variables to $x$.  First we restrict the
 counter not to increase if $x_{i}$ is false:
 
-\begin{equation}
+\begin{equation} \label{eq:3}
     \bigwedge_{i \in \{1\ldots n\}} \bigwedge_{j\in\{0..d+1\}}
     x_{i} \vee \neg y_{i,j} \vee y_{i-1,j}
 \end{equation}
 
 Second we define clauses that push  the counter up if $x_i$ is true. 
 
-\begin{equation}
+\begin{equation} \label{eq:4}
     \bigwedge_{i \in \{0\ldots n-1\}} \bigwedge_{j\in\{0..d\}}
     \neg x_{i+1} \vee \neg y_{i,j} \vee y_{i+1,j+1}
 \end{equation}
 
 Now we finally have to "initialize" the counter. 
 
-\begin{equation}
-y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
+\begin{equation} \label{eq:5}
+    y_{n,d} \wedge \left (\bigwedge_{i\in\{0\ldots n\}} y_{i,0} \right )\wedge \neg
     y_{0,1} \wedge \left(\bigwedge_{i\in\{0\ldots n\}} \neg
         y_{i,d+1}\right )
 \end{equation}
 
+It should be mentioned that formula (\ref{eq:5}) defines the counter to
+accept exactly $d$ occurrences. However not needed for later, we can
+easily change the initialiser to define a constraint of at most $d$ or
+at least $d$. 
+
+\begin{proposition} 
+    Clauses (\ref{eq:1}) to (\ref{eq:4}) encode the cardinality
+    constraint $ \sum_{i} x_{i} = d $ and UP enforce GAC on any partial
+    assignment on variables $x_i$. 
+\end{proposition}
+
+\begin{proof}
+    We sketch the proof: Clauses (\ref{eq:3}) and (\ref{eq:4}) translate
+    directly from the definition of the auxiliary variables representing
+    cumulative sums.  Clauses (\ref{eq:1}) and (\ref{eq:2}) represent
+    the domain encoding of the bounds on the cumulative sums. 
+    
+    For GAC we need to show that given a partial assignment and assuming
+    a variable $x_i$ is not unit although should have been propagated.
+    This will lead to a contradiction by case analysis on true and false
+    of $x_i$ and the clauses (\ref{eq:3}) and (\ref{eq:4}). In either
+    case we are left with at least one binary clauses with index $j$ as
+    UP did not enforce $x_i$ and by the definition of $y_{i,j}$ we have a
+    contradiction. 
+\end{proof}
+
+Note that the given encoding is not the most compact for a single
+cardinality constraint.  However, the auxiliary variables are reused in
+the following section to encode a sequence of AtMost constraints.        
+
 
 \begin{figure}
 \centering 
-\caption{Taking the previous example and let $x_{i}$ be true for
-    position 2 and 7. Then the resulting assignment to the counter
-    variable is given in this table. }
+\caption{Taking the counter of Figure \ref{ex:1} and let $x_{i}$ be
+true for position 2 and 7. Then the resulting assignment after UP to the
+auxiliary variables is given in this table. } 
 \include{example2}
+\label{ex:2}
 \end{figure}
 
-It should be mentioned that with (6) we instruct the counter to measure
-exactly $d$ occurences. It is easy to change the intializer to at most
-$d$ or at least $d$ occurences. 
 
 \subsection{Extending to \AtMostSeqCard}
 
-Given a sequence of boolean variables among exactly $d$ have to be true
-and each window of size $q$ cannot contain more than $u$ true variables.
-This is the \AtMostSeqCard constraint: 
+\AtMostSeqCard is a specialized Sequence constraint: Given a sequence of
+boolean variables of which exactly $d$ have to be true and each window
+of size $q$ cannot contain more than $u$ true variables. More formally: 
 
 $$ \text{\AtMostSeqCard}(u,q,d,[x_{1},\ldots,x_{n}]) \iff (\sum_{i=1}^n
 x_{i} = d) \wedge \bigwedge_{i=1}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
 
-To archive GAC on this constraint we need to take the counter encoding
+To detect dis-entailment on this constraint by the CNF decomposition we
+propose to decompose the cardinality constraints by the counter encoding
 of the previous section and add the following binary clauses:
 
-\begin{equation}
+\begin{equation} \label{eq:6}
     \bigwedge_{\substack{i \in \{1 \ldots n\} \\ i-q \geq 0}}
     \bigwedge_{\substack{j\in\{1\ldots d+1\}\\ j-u \geq 0}}
     \neg y_{i,j} \vee y_{i-q,j-u}
 \end{equation}               
 
-This seems suprising! 
 
 \begin{theorem}
-    The clauses of counter encoding (1) to (5) with the clauses of (6)
-    are logically equivalent to the \AtMostSeqCard. Moreover they detect
-    disentailment with UP and thus enforce GAC with failed litenforce
-    GAC with UP and failed literal test. 
+    The clauses of counter encoding (\ref{eq:1}) to (\ref{eq:5}) with
+    the clauses of (\ref{eq:6}) are logically equivalent to the
+    \AtMostSeqCard. Moreover it detects dis-entailment with UP and thus
+    GAC with failed literal test. 
 \end{theorem}
 
 
 \begin{proof}
-    The proof uses ideas from the decompositions of the Sequence
-    Constraint \cite{Baccus07} and the encoding by cumulative sums, see
-    \cite{Brand07}
+    Idea: We need to show that together with GAC on the cardinality
+    constraints and clauses (\ref{eq:6}) we enforce bounds consistency
+    on the auxiliary cumulative sums. The proof could use the
+    construction in \cite{Bacchus07} on the sequence constraint to show
+    dis-entailment and the idea \cite{Brand07} to enforce bounds
+    consistency on the cumulative sums. 
 \end{proof}
 
 
 \subsection{Size of Encoding} 
 
-Let $s = n\cdot d-\text{upper and lower triangle}$, then we generate $s$
-auxiliary variables and $3\cdot s$ binary clauses and $2\cdot s$ tenery
-clauses. The term $n\cdot d$ dominates. The precise number of variables
-can be computed by the hight $d$ and the slope $u/q$ and a little bit of
-algebra, which leads to $d\cdot(u-q+\frac{d \cdot q}{u}) $. So the
+Let $s = (n\cdot d-\text{upper and lower triangle})$, then we require $s$
+auxiliary variables and $3\cdot (s+n)$ binary clauses and $2\cdot (s+n)$ ternary
+clauses. The term $n\cdot d$ dominates and the precise number of
+variables can be computed by the hight $d$ and the slope $u/q$ and some
+basic algebra, which leads to $d\cdot(u-q+\frac{d \cdot q}{u}) $. So the
 number of variables $s$ are
 
 $$ s = d \cdot n - d \cdot(u-q+\frac{d \cdot q}{u}) $$
@@ -201,29 +233,27 @@ if $q$ and $u$ are rather strict and/or $d$ is close to $n$. For example
 
 $ 12\cdot 22- 12\cdot ( 4-8+\frac{12 \cdot 8}{4}) = 24$ variables. 
 
-\begin{conjecture}
-    The clauses (1) to (6) enforce GAC on the \AtMostSeqCard on every
-    partial assignment with the failed literal test. 
-\end{conjecture}
-
 %\begin{figure}
 %\centering 
 %\caption{A graphical representation of the 6 rules for counters and the
 %\AtMostSeqCard constraint. }
-%\include{sketch}
+%%\include{sketch}
 %\end{figure}
 
-The power of the binary clauses are best shown in the example 
-\cite{Siala12}.
+\TODO{Give two references here}: \cite{Bacchus07} and \cite{Bessiere09}
+on decompositions of the sequence constraint and failed literal test and
+discuss size of the encoding. 
 
+The power of the binary clauses are best illustrated by reusing the
+example \cite{Siala12} in Figures \ref{fig3} and \ref{fig4}.
 
 \begin{figure}
 \centering 
 \caption{Here we analyse the initial state of variables for a constraint
-    with $u=4,q=8,d=12,n=22$. In this example we see that $x_{7}$,
-    $x_{8}$, $x_{15}$ and $x_{16}$ should be false, this is detected by
-    the failed literal test, e.g. the encoding detects dis-entailment.}
+with $u=4,q=8,d=12,n=22$. In this example we see that $x_{7}$, $x_{8}$,
+$x_{15}$ and $x_{16}$ should be false, this is detected by UP.}
 \include{example3}
+\label{fig3}
 \end{figure}
 
 \begin{figure}
@@ -233,56 +263,77 @@ The power of the binary clauses are best shown in the example
     $x_{21}$ to false. Notice the amount of propagation due to the
     clauses of the \AtMostSeqCard constraint, also notice that variable
 $x_{1}$ was a redundant choice. Normal font= choice, bold = propagated,
-()= dis-entailment detected, green arrow positve implication, red arrow
-negative implication by (6).}
+()= propagated before, green arrow positive implication, red arrow
+negative implication by (\ref{eq:6}).}
 \include{example4}
+\label{fig4}
+\end{figure}                                                
+
+\begin{figure}
+\centering 
+\caption{ Example where the the failed literal test detects
+dis-entailment.  Let $u=2$,$q=1$,$d=2$,$n=5$ and let $x_3=1$, then UP
+does not enforce $x_2=0$ nor $x_4=0$. Setting them to true will lead to
+a conflict by UP through clauses (\ref{eq:1}),(\ref{eq:2}) and
+(\ref{eq:6}).}
+\include{example5}
+\label{ex:5}
 \end{figure}
 
 \section{Encoding of Carsequencing}
 
-We need to relate the cars and options as in the problem specification.
-This can be done in two ways. First the straight forward way. 
-
-\subsection{Relating Cars and Option directly}
 
 Let $C$ be the index set identifying a class and $O$ be the index set
 for options. The instance for a car sequencing problem is given by a
 mapping $m : C\rightarrow 2^O$, relating to each class a set of options.
 For each class we have a cardinality constraint and for each option a
 AtMostSeq constraint. From this we can construct for each option and for
-each class a \AtMostSeqCard constraint (since all cars have to be
-assigned). 
+each class a \AtMostSeqCard constraint on the sequence of the plan
+(since all classes have to be assigned we know the exact number of
+options).  Each such \AtMostSeqCard constraint is decomposed to CNF. 
 
-Each such \AtMostSeqCard constraint is encoded into SAT. In addition we
-need to relate classes and options on each position. This is done by the
-following clauses.  Let $m':O \rightarrow 2^C$ be the mapping relating
-to each option the corresponding classes. 
+The second part of the encoding relates the counter for cars and for
+options as in the problem specification.  We will present two ways to do
+so. 
+
+\begin{itemize}
+    \item Relating variables for cars and options
+    \item Relating auxiliary variables in the counter encoding of cars
+        and options. 
+\end{itemize}
+
+
+\subsection{Relating Cars and Option directly}
+
+In the first encoding we relate classes and options on each position.
+This is done by the following clauses.  Let $m':O \rightarrow 2^C$ be
+the reverse mapping relating an option to its set of classes. Then
 
 \begin{equation}
     \bigwedge_{i\in \{1\ldots n\}} \bigwedge_{\substack{c \in C \\ o \in m(c)}} \neg x_{i,c} \vee x_{i,o}
 \end{equation}
 
-and the reverse
+and the support
 
 \begin{equation}
     \bigwedge_{i \in \{1\dots n\}} \bigwedge_{o\in O} \left(\neg x_{i,o} \vee
     \bigvee_{c \in m'(o)} x_{i,c}\right)
 \end{equation}
 
-Notice in an ASP encoding this would be modelled by one rule and the
-completion semantics covers for the reverse case. 
+need to hold. We refer to this encoding as $E_3$. 
 
-\subsection{Alternative: The purest encoding only relating the auxiliary variables}
+Remark: Notice in an ASP encoding this would be modelled by one rule and
+the completion semantics covers for the reverse case. 
 
-Here we will show that there is an encoding of the car sequencing
-problem that does not use at all the variables $x_{i,k}$. The encoding
-builds entirely on the auxiliary variables $y_{i,j,k}$ and their
-relationship. This is rather surprising. 
+\subsection{An Encoding only Relating Auxiliary Variables}
 
-This encoding will take care of a propagation that is not covered by the
-previous encodings and as such has stronger properties taking the
+Here we will show that omit variables $x_{i,k}$. The encoding builds
+entirely on the auxiliary variables $y_{i,j,k}$ and their relationship.
+
+This encoding will enforce more global propagation that is not covered
+by the previous encodings and as such has stronger properties taking the
 auxiliary variables into account! \TODO{give example which propagation
-is missing}
+is missing}.
 
 Here the idea: 
 
@@ -293,28 +344,37 @@ $i$ and options $ o \in O$ it has to hold:
 
 $$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
 
-Encoding this restriction should be enough to fully grasp the car
-sequencing problem. The construction can be done by a sorting network
-(e.g. \cite{Batcher68}) and the size should be $n\cdot log^2 (d) $ in the
-hight $d$ of the counter. For pure cardinality constraints this can be
-improved in a CNF encoding as in \cite{Asin11,Codish10}, but here we are faced
-with an equvialence which needs a full sorter. Maybe the recursive
-structure of the cummulative sum can be exploited in this construction,
-since in position $i-1$ we have already almost  have sorted the sequence
-with up to one difference. 
+With this we only miss the restriction that exactly one class per
+position. This can be enforced by introducing an option that all classes
+have. 
 
-Another interesting aspect of the equality above and its encoding is its
-relation to UTVPI enconstraints (see \cite{Seshia07} for a recent
-treatment). Sorting Networks give an interesting application for a
-similar types of constraint (and even a generalisation of them). 
+The decomposition of the above equality  can be done by a sorting
+network (as in \cite{Een06}, sorting networks see \cite{Batcher68}) and
+the size should be $n\cdot log^2 (d) $ in the hight $d$ of the counter.
+For pure cardinality constraints this can be improved in a CNF encoding
+as in \cite{Asin11,Codish10}, but here we face an equivalence which
+needs a full sorter. Maybe the recursive structure of the cumulative sum
+can be exploited in this construction, since in position $i-1$ we sorted
+the sequence with up to one difference with positions left and right of
+it. 
 
+We refer to this encoding as $E_4$.
 
 \section{Evaluation}
 
-Best of results that can be robustly (standard heuristics) archived by
-current sat solvers. We compared newest version of minisat, lingeling,
+We take the classification of the instances in the benchmark introduced
+by \cite{Siala12}. Set1 consists of 70 simple instances, Set2 of 4 SAT,
+Set3 of 4 UNSAT and Set4 of 30 new hard SAT and UNSAT instances. 
+
+We focus in our analysis on encoding $E_3$. \TODO{Include comparison
+with $E_1$ till $E_4$ (still ongoing). See Table \ref{tab:3}}
+
+The results given in this section can robustly be reproduced by current
+sat solvers. We compared newest version of minisat, lingeling,
 cryptominisat, glucose and clasp and they all consistently find
-solutions within 1h runtime. 
+solutions with the default strategy within 30 min runtime. In the
+following Table \ref{tab:1} we take the  solved instances by lingeling:
+
 \DTLsetseparator{,}
 \DTLloaddb[keys={res,set1,set2,set3,set4}]{all}{table1.csv}
 
@@ -322,56 +382,85 @@ solutions within 1h runtime.
     \caption{}
     \centering
     \DTLdisplaydb{all}
+    \label{tab:1}
 \end{table}
 
-
-This is by far better than most papers evaluating the car sequencing
-problem on some specialized algorithm (e.g. branch and bound) or special
-constraint (CP) or optimization (IP). 
+This is comparable - sometimes considerable better - than the experimental
+sections of most papers evaluating the car sequencing problem on special
+constraints (CP) or specialized heuristics (e.g. branch and bound) or
+optimisation (IP) \cite{Hoeve09,Siala12,Gravel05}. 
 
 For the set 4 a more detailed view is interesting as the benchmark
-targets the optimization version of the car sequencing problem. 
+introduces new hard instances of the car sequencing problem, see Table
+\ref{tab:2}. 
 
 \DTLsetseparator{,}
 \DTLloaddb[keys={name,min,LING,sec}]{set4}{table2.csv}
 
 \begin{table}[htbp]
     \caption{Solutions to the benchmark proposed in \cite{Gravel05} with
-    minimum violations found on the target function (violated capacity
-of options per window) by a local search method and compared to
-solutions on the decision version  SAT encoding with lingeling (LING). }
+        minimum violations found on the target function in their
+        experiments (violated capacity of options per window) by a local
+        search method and compared to solutions on the decision version
+    SAT encoding with lingeling (LING). }
     \centering
     \DTLdisplaydb{set4}
+    \label{tab:2}
 \end{table}
 
 
-We can solve 7 satisfiable instances and prove 13/23 instances to be
-unsatisfiable. 
+Within 1h we can solve 7 satisfiable instances and prove 13/23 instances
+to be unsatisfiable. There is to the best of our knowledge no paper that
+treats these instances as a decisions problem and proves UNSAT on any
+instances.
 
+%\DTLsetseparator{,}
+%\DTLloaddb[keys={Inst,E1,E2,E3,Inst,E1,E2,E3}]{comp}{table3.csv}
+\begin{table}[htbp]
+    \caption{Comparison of the three encodings ($E_4$ on the way). Times
+    are given in seconds, time out 1800 seconds, solver lingeling, default configuration.}
+    \centering
+%    \DTLdisplaydb{comp}
+    \include{table3}
+    \label{tab:3}
+\end{table}
 
-\section{Extensions}
+\section{Further Work}
 
 \begin{itemize}
-    \item Optimizations: there are two definitions of the cost function
-        for the car sequencing problem. First is to allow arbitrary cars
-        without any options and minimize the number of cars with
-        options. And second is to minimize the number of windows that
-        exceed the capacity constraint on their options. It would be
-        interesting to compare both definition and to evaluate against
-        published results in the literature. There are still gaps
-        between known upper and lower bounds. 
+    \item Optimisations: there are two definitions of the cost function
+        for the car sequencing problem. First extend the plan by class
+        without options and solve the corresponding decision problem.
+        The task is then to minimize the number demand for such a class
+        in order to solve the problem.  . And the second version is
+        minimize the number of windows that exceed the capacity
+        constraint on their options. It would be interesting to compare
+        both definition and to evaluate against published results in the
+        literature. There are still gaps between known upper and lower
+        bounds. 
     \item There is a natural extension of the \AtMostSeqCard constraint
         that to a cyclic version and in the same and natural way we can
-        extend the encoding given above. It would be interesting to find
-        good benchmarks. 
+        extend the encoding given above. Todo: find benchmarks that
+        could require cyclic constraints. 
     \item The Sequence constraint consists of a sequence of among
         constraints and we should compare this encoding to the known CNF
         encodings and filtering algorithms in the literature. 
     \item Analyzing the quality of SAT encodings our results suggests to
-        evaluate the consisty archived on the auxiliary variable
-        introduced. E.g. in the pure encoding we even had a
-        stronger notion of propagation, as also on all partial
-        assignment on $y_{i,j,k}$ we archive GAC. 
+        evaluate the consistency archived on the auxiliary variable
+        introduced. E.g. in the encoding $E_4$ we had a stronger notion
+        of propagation, as also on all partial assignment on $y_{i,j,k}$
+        we archive GAC. 
+    \item Another interesting aspect of encoded equality relating option
+        and class counter is its relation to the UTVPI constraint (see
+        \cite{Seshia07} for a recent treatment). Sorting Networks with
+        order encoded variables give an interesting application for
+        decomposing a more similar type of constraints. Let $x_i, y$ be
+        integer variables and $d$ a fixed integer. Then there is a
+        decomposition into CNF of the constraint $$ \sum_i x_i = y + d
+        $$ such that by an order encoding on $x_i$ and $y$ we enforce
+        bounds consistency on the equality. This construction uses the
+        theory of cardinality networks. To our knowledge this has not
+        been analysed in the literature. 
 \end{itemize}
 
 \bibliography{p}
