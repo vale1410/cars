@@ -44,19 +44,20 @@ CSP$_{\mbox{LIB}}$ \cite{Gent99}.
 \section{Two simple Encoding}
 
 \begin{enumerate}
-    \item Encoding by boolean variables $x_{i,k}$ for class $k$ in
+    \item Encoding by boolean variables $c^k_{i}$ for class $k$ in
         position $i$ and a cardinality constraint on the total number of
         classes on the sequence and cardinality constraints on each sub
         window restricting the capacity on options. No further global
         constraints and cardinality constraints translated by standard
         SAT encoding. (referred to as $E_1$)
-    \item As 1) but introducing auxiliary variables $x_{i,o}$ for option
-        $o$ in position $i$ to encode the capacity constraints on options.
+    \item As 1) but introducing auxiliary variables $o^l_{i}$ for option
+        $l$ in position $i$ to encode the capacity constraints on options.
         (referred to as $E_2$). 
 \end{enumerate}
 
 
 \section{Encoding of a single \AtMostSeqCard Constraint}
+
 
 We will first show how to encode a cardinality constraint with a counter
 encoding (\TODO{First publication?}) and then integrate the AtMostSeq
@@ -95,7 +96,7 @@ $$ y_{i,j} \iff (j \leq \sum_{l=0}^{i} x_{l}) $$
 variables. By preprocessing the variables corresponding to the cells
 containing $U$($L$) and above(below) are set to false (true).  The
 question mark identifies yet unassigned variables.}
-\include{example1}
+%\include{example1}
 \label{ex:1}
 \end{figure}
 
@@ -173,7 +174,7 @@ the following section to encode a sequence of AtMost constraints.
 \caption{Taking the counter of Figure \ref{ex:1} and let $x_{i}$ be
 true for position 2 and 7. Then the resulting assignment after UP to the
 auxiliary variables is given in this table. } 
-\include{example2}
+%\include{example2}
 \label{ex:2}
 \end{figure}
 
@@ -252,7 +253,7 @@ example \cite{Siala12} in Figures \ref{fig3} and \ref{fig4}.
 \caption{Here we analyse the initial state of variables for a constraint
 with $u=4,q=8,d=12,n=22$. In this example we see that $x_{7}$, $x_{8}$,
 $x_{15}$ and $x_{16}$ should be false, this is detected by UP.}
-\include{example3}
+%\include{example3}
 \label{fig3}
 \end{figure}
 
@@ -265,20 +266,21 @@ $x_{15}$ and $x_{16}$ should be false, this is detected by UP.}
 $x_{1}$ was a redundant choice. Normal font= choice, bold = propagated,
 ()= propagated before, green arrow positive implication, red arrow
 negative implication by (\ref{eq:6}).}
-\include{example4}
+%\include{example4}
 \label{fig4}
 \end{figure}                                                
 
 \begin{figure}
 \centering 
 \caption{ Example where the the failed literal test detects
-dis-entailment.  Let $u=2$,$q=1$,$d=2$,$n=5$ and let $x_3=1$, then UP
+dis-entailment.  Let $u=1$,$q=2$,$d=2$,$n=5$ and let $x_3=1$, then UP
 does not enforce $x_2=0$ nor $x_4=0$. Setting them to true will lead to
 a conflict by UP through clauses (\ref{eq:1}),(\ref{eq:2}) and
 (\ref{eq:6}).}
-\include{example5}
+%\include{example5}
 \label{ex:5}
 \end{figure}
+
 
 \section{Encoding of Carsequencing}
 
@@ -292,6 +294,7 @@ each class a \AtMostSeqCard constraint on the sequence of the plan
 (since all classes have to be assigned we know the exact number of
 options).  Each such \AtMostSeqCard constraint is decomposed to CNF. 
 
+
 The second part of the encoding relates the counter for cars and for
 options as in the problem specification.  We will present two ways to do
 so. 
@@ -302,6 +305,15 @@ so.
         and options. 
 \end{itemize}
 
+For clarity we introduce two types of variables. Variables $c$ denoting
+variables regarding cars and variables $o$ denoting variables regarding
+options. Super and subscripts identify the precise meaning of the
+variable. For the variables that identify weather a car $k\in C$ or a
+option $l\in O$ is at position $i$ we introduce $c^k_i$ and $o^l_j$,
+notice that these variables correspond to the single variable of $x_i$
+of the construction in the previous section. The for the counter
+variables $y$ we denote by $\hat{c}^k_{i,j}$ and $\hat{o}^l_{i,j}$. 
+
 
 \subsection{Relating Cars and Option directly}
 
@@ -310,14 +322,15 @@ This is done by the following clauses.  Let $m':O \rightarrow 2^C$ be
 the reverse mapping relating an option to its set of classes. Then
 
 \begin{equation}
-    \bigwedge_{i\in \{1\ldots n\}} \bigwedge_{\substack{c \in C \\ o \in m(c)}} \neg x_{i,c} \vee x_{i,o}
+    \bigwedge_{i\in \{1\ldots n\}} \bigwedge_{\substack{k \in C \\ l \in
+    m(k)}} \neg c^k_{i} \vee o^l_{i}
 \end{equation}
 
 and the support
 
 \begin{equation}
-    \bigwedge_{i \in \{1\dots n\}} \bigwedge_{o\in O} \left(\neg x_{i,o} \vee
-    \bigvee_{c \in m'(o)} x_{i,c}\right)
+    \bigwedge_{i \in \{1\dots n\}} \bigwedge_{l\in O} \left(\neg o^l_{i} \vee
+    \bigvee_{k \in m'(l)} c^k_{i}\right)
 \end{equation}
 
 need to hold. We refer to this encoding as $E_3$. 
@@ -327,8 +340,9 @@ the completion semantics covers for the reverse case.
 
 \subsection{An Encoding only Relating Auxiliary Variables}
 
-Here we will show that omit variables $x_{i,k}$. The encoding builds
-entirely on the auxiliary variables $y_{i,j,k}$ and their relationship.
+Here we will show that omit variables $c^k_{i}$ and $o^l_{i}$. The
+encoding builds entirely on the auxiliary variables $\hat{c}^k_{i,j}$
+and $\hat{o}^l_{i,j}$ and their relationship.
 
 This encoding will enforce more global propagation that is not covered
 by the previous encodings and as such has stronger properties taking the
@@ -337,12 +351,12 @@ is missing}.
 
 Here the idea: 
 
-For each position in the sequence, the
-sum of true $y$ for all cars that have option $o$ need to be the same
-size as the number of true $y$ for $o$. As a formula, for all positions
-$i$ and options $ o \in O$ it has to hold: 
+For each position in the sequence, the sum of true $\hat{c}^k$ for cars
+$k$ that have option $l$ need to be the same size as the number of true
+$\hat{o}^l$ for option $l$. As a formula, for all positions $i$ and
+options $ l \in O$ it has to hold: 
 
-$$ \sum_{j} y_{i,j,o} = \sum_{c \in m'(o)} \sum_j y_{i,j,c} $$
+$$ \sum_{j} o^l_{i,j} = \sum_{k \in m'(l)} \sum_j c^k_{i,j} $$
 
 With this we only miss the restriction that exactly one class per
 position. This can be enforced by introducing an option that all classes
@@ -359,6 +373,27 @@ the sequence with up to one difference with positions left and right of
 it. 
 
 We refer to this encoding as $E_4$.
+
+\section{CP Model: Cumulative Sums}
+
+This encoding uses the idea behind sequence constraint in \cite{Brand07}
+and we adapt it here for the \AtMostSeqCard with redundant constraints.
+Let $S_i$ be an integer variable encoding the partial sum of positions
+$1\ldots n$. Then we post the following linear constraints and enforce
+bounds consistency on all. For all positions $i$ and demands $d$, and
+the mapping between cars $k$ and options $l$: 
+
+\begin{align}
+    S_{i-1} & \leq S_i \\
+    S_i & \leq S_{i-1} + 1 \\
+    S_i & = S_{i-1} + x_i \\
+    S_i & \leq S_{i-q} + u  \\
+    S_n & = d \\
+    S^l_i & = \sum_{k \in m'(l)} S^k_i
+\end{align}
+
+With this set of constraints we can simulate the SAT encodings $E_3$ and $E_4$, depending on
+the choice of constraints and variables. 
 
 \section{Evaluation}
 
