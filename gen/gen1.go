@@ -25,6 +25,7 @@ func main() {
 const (
 	optionType countType = iota
 	classType
+	exactlyOne
 )
 
 type countType int
@@ -199,6 +200,7 @@ func parse(filename string) bool {
 
 	clauses := make([]clause, 0)
 
+	//clauses 1-6 for classes
 	for _, c := range classes {
 		clauses = append(clauses, createAtMostSeq13(c)...)
 		clauses = append(clauses, createAtMostSeq24(c)...)
@@ -206,6 +208,7 @@ func parse(filename string) bool {
 		clauses = append(clauses, createAtMostSeq6(c)...)
 	}
 
+	//clauses 1-6 for options
 	for _, o := range options {
 		clauses = append(clauses, createAtMostSeq13(o)...)
 		clauses = append(clauses, createAtMostSeq24(o)...)
@@ -213,33 +216,92 @@ func parse(filename string) bool {
 		clauses = append(clauses, createAtMostSeq6(o)...)
 	}
 	
-    for i := 0; i < class_count; i++ {
+	//clauses 7
+	for i := 0; i < class_count; i++ {
 	    for j := 0; j < option_count; j++ {
-            if class2option[i][j] {
+	        if class2option[i][j] {
 		        clauses = append(clauses, createAtMostSeq7(classes[i].cId,options[j].cId)...)
-            }
-        }
-    }
-    
+	        }
+	    }
+	}
+	
+	//clauses 8
 	for j := 0; j < option_count; j++ {
 
-        ops := make([]CountableId,0,class_count)
+	    ops := make([]CountableId,0,class_count)
 
-        for i := 0; i < class_count; i++ {
-            if class2option[i][j] {
-                k := len(ops)
-                ops = ops[:k+1]
-                ops[k] = classes[i].cId
-            }
-        }
+	    for i := 0; i < class_count; i++ {
+	        if class2option[i][j] {
+	            k := len(ops)
+	            ops = ops[:k+1]
+	            ops[k] = classes[i].cId
+	        }
+	    }
 		clauses = append(clauses, createAtMostSeq8(options[j].cId, ops)...)
-    }
+	}
 
-	fmt.Println("number of clauses: ", len(clauses))
-	fmt.Println("number of pos variables: ", len(gen.posVarMap))
-	fmt.Println("number of count variables: ", len(gen.countVarMap))
+	//clauses exaclty one class per position
+	clauses = append(clauses, createExactlyOne()...)
+
+	//fmt.Println("number of clauses: ", len(clauses))
+	//fmt.Println("number of pos variables: ", len(gen.posVarMap))
+	//fmt.Println("number of count variables: ", len(gen.countVarMap))
+
+    printClausesDIMACS(clauses)
 
 	return true
+}
+
+
+func printClausesDIMACS(clauses []clause) () {
+
+    fmt.Printf("p cnf %v %v\n",len(gen.posVarMap)+len(gen.countVarMap),len(clauses))
+
+    for _,c := range clauses {
+        for _,l := range c {
+            fmt.Printf("%v ", l)
+        }
+        fmt.Printf("0\n")
+    }
+}
+
+func createExactlyOne() (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	var posV1, posV2, auxV1, auxV2 PosVar
+
+	for i := 0; i < size; i++ {
+
+		posV1.pos = i
+		posV2.pos = i
+		auxV1.pos = i
+		auxV2.pos = i
+
+		atLeastOne := make(clause, class_count)
+
+		for j := 0; j < class_count-1; j++ {
+
+			posV1.cId = CountableId{classType, j}
+			posV2.cId = CountableId{classType, j+1}
+			atLeastOne[j] = getPosId(posV1)
+
+			auxV1.cId = CountableId{exactlyOne, j}
+			auxV2.cId = CountableId{exactlyOne, j+1}
+
+			c1 := clause{-getPosId(posV1),  getPosId(auxV1)}
+			c2 := clause{-getPosId(posV2), -getPosId(auxV1)}
+			c3 := clause{-getPosId(auxV1),  getPosId(auxV2)}
+			clauses = append(clauses, c1, c2, c3)
+
+		}
+
+		atLeastOne[class_count-1] = getPosId(posV2)
+		clauses = append(clauses, atLeastOne)
+
+	}
+
+	return
 }
 
 func createAtMostSeq13(c Countable) (clauses []clause) {
@@ -247,9 +309,9 @@ func createAtMostSeq13(c Countable) (clauses []clause) {
 	clauses = make([]clause, 0)
 
 	var cV1, cV2 CountVar
-    var pV PosVar
-    
-    pV.cId = c.cId
+	var pV PosVar
+
+	pV.cId = c.cId
 	cV1.cId = c.cId
 	cV2.cId = c.cId
 
@@ -257,7 +319,7 @@ func createAtMostSeq13(c Countable) (clauses []clause) {
 
 		cV1.pos = i
 		cV2.pos = i + 1
-        pV.pos = i+1
+		pV.pos = i + 1
 
 		for j := c.lower[i]; j <= c.upper[i]; j++ {
 			cV1.count = j
@@ -278,9 +340,9 @@ func createAtMostSeq24(c Countable) (clauses []clause) {
 	clauses = make([]clause, 0)
 
 	var cV1, cV2 CountVar
-    var pV PosVar
-    
-    pV.cId = c.cId
+	var pV PosVar
+
+	pV.cId = c.cId
 	cV1.cId = c.cId
 	cV2.cId = c.cId
 
@@ -288,7 +350,7 @@ func createAtMostSeq24(c Countable) (clauses []clause) {
 
 		cV1.pos = i
 		cV2.pos = i + 1
-        pV.pos = i+1
+		pV.pos = i + 1
 
 		for j := c.lower[i]; j < c.upper[i]; j++ {
 			cV1.count = j
@@ -336,21 +398,21 @@ func createAtMostSeq6(c Countable) (clauses []clause) {
 
 	cV1.cId = c.cId
 	cV2.cId = c.cId
-    q := c.window
-    u := c.capacity
+	q := c.window
+	u := c.capacity
 
 	for i := q; i < size; i++ {
 
-		cV1.pos = i-q
+		cV1.pos = i - q
 		cV2.pos = i
 
 		for j := c.lower[i-q]; j < c.upper[i-q]; j++ {
 			cV1.count = j
 			cV2.count = j + u
-            if j+u < c.upper[i] {
-			    cn := clause{getCountId(cV1), -getCountId(cV2)}
-			    clauses = append(clauses, cn)
-            }
+			if j+u < c.upper[i] {
+				cn := clause{getCountId(cV1), -getCountId(cV2)}
+				clauses = append(clauses, cn)
+			}
 		}
 	}
 
@@ -360,45 +422,45 @@ func createAtMostSeq6(c Countable) (clauses []clause) {
 }
 
 func createAtMostSeq7(cId1 CountableId, cId2 CountableId) (clauses []clause) {
-    
-    var pV1, pV2  PosVar
-    
-    pV1.cId = cId1
-    pV2.cId = cId2
+
+	var pV1, pV2 PosVar
+
+	pV1.cId = cId1
+	pV2.cId = cId2
 
 	for i := 0; i < size; i++ {
 		pV1.pos = i
 		pV2.pos = i
 		clauses = append(clauses, clause{-getPosId(pV1), getPosId(pV2)})
-    }
+	}
 
 	//fmt.Printf("7 added clauses %v\n", len(clauses))
 
-    return
+	return
 }
 
 func createAtMostSeq8(cId1 CountableId, cId2s []CountableId) (clauses []clause) {
-    
-    var pV1  PosVar
-    
-    pV1.cId = cId1
+
+	var pV1 PosVar
+
+	pV1.cId = cId1
 
 	for i := 0; i < size; i++ {
 		pV1.pos = i
 
-        c := make(clause,len(cId2s)+1)
+		c := make(clause, len(cId2s)+1)
 		c[0] = -getPosId(pV1)
 
-        for j,id := range cId2s {
-		    c[j+1] = getPosId(PosVar{id,i})
-        }
+		for j, id := range cId2s {
+			c[j+1] = getPosId(PosVar{id, i})
+		}
 
-        clauses = append(clauses, c)
-    }
+		clauses = append(clauses, c)
+	}
 
 	//fmt.Printf("8 added clauses %v\n", len(clauses))
 
-    return
+	return
 }
 
 func (c *Countable) createBounds() {
