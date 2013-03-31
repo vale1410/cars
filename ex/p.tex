@@ -395,6 +395,16 @@ the mapping between cars $k$ and options $l$:
 With this set of constraints we can simulate the SAT encodings $E_3$ and $E_4$, depending on
 the choice of constraints and variables. 
 
+\subsection{Symmetry Breaking Constraints}
+
+A simple symmetry breaking constraint is restricting the class of the first car in the sequence to be of a lower or
+equal class than the last car in sequence. This is correct we can read the sequence from the beginning to the end or the
+other way around and the capacity constraints are equally satisfied. There is one interesting point to be made,
+formulating this constraint with boolean variables. We can either multiply all combinations of violated combinations of
+cars. The size is  $n^2$ binary clauses, $n$ is the number of classes. However, we can reuse the auxiliary variables
+from the constraint that enforces exactly one car in each position. Then we introduce no new variables and express this
+constraint in size $n-1$ binary clauses. 
+
 \section{Evaluation}
 
 We take the classification of the instances in the benchmark introduced

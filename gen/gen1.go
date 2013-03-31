@@ -155,12 +155,12 @@ func printDebug(clauses []clause) {
 		fmt.Println(".")
 	}
 
-    all := []string{"id1","id2","id3","id4","id5","id6","id7","id8","lt1","gt1"}
+	all := []string{"id1", "id2", "id3", "id4", "id5", "id6", "id7", "id8", "lt1", "gt1", "sym"}
 
 	for _, key := range all {
-        fmt.Printf("c %v\t: %v\t%.1f \n", key, stat[key], 100*float64(stat[key])/float64(len(clauses)))
+		fmt.Printf("c %v\t: %v\t%.1f \n", key, stat[key], 100*float64(stat[key])/float64(len(clauses)))
 	}
-    fmt.Printf("c %v\t: %v\t%.1f \n", "tot", len(clauses), 100.0)
+	fmt.Printf("c %v\t: %v\t%.1f \n", "tot", len(clauses), 100.0)
 }
 
 func getCountId(v CountVar) (id int) {
@@ -267,7 +267,7 @@ func parse(filename string) bool {
 			}
 			state++
 		} else {
-			fmt.Println("c ",l)
+			fmt.Println("c ", l)
 		}
 	}
 
@@ -326,6 +326,9 @@ func parse(filename string) bool {
 	//clauses exaclty one class per position
 	clauses = append(clauses, createExactlyOne()...)
 
+	//symmetry breaking
+	clauses = append(clauses, createSymmetry()...)
+
 	//fmt.Println("number of clauses: ", len(clauses))
 	//fmt.Println("number of pos variables: ", len(gen.posVarMap))
 	//fmt.Println("number of count variables: ", len(gen.countVarMap))
@@ -336,61 +339,19 @@ func parse(filename string) bool {
 	return true
 }
 
-func createExactlyOne() (clauses []clause) {
-
-	clauses = make([]clause, 0)
-
-	var posV1, posV2, auxV1, auxV2 PosVar
-
-	for i := 0; i < size; i++ {
-
-		posV1.pos = i
-		posV2.pos = i
-		auxV1.pos = i
-		auxV2.pos = i
-
-		atLeastOne := make([]int, class_count)
-
-		for j := 0; j < class_count-1; j++ {
-
-			posV1.cId = CountableId{classType, j}
-			posV2.cId = CountableId{classType, j + 1}
-			atLeastOne[j] = getPosId(posV1)
-
-			auxV1.cId = CountableId{exactlyOne, j}
-			auxV2.cId = CountableId{exactlyOne, j + 1}
-
-			c1 := clause{"lt1", []int{-getPosId(posV1), getPosId(auxV1)}}
-			c2 := clause{"lt1", []int{-getPosId(posV2), -getPosId(auxV1)}}
-			clauses = append(clauses, c1, c2)
-            if j < class_count-2 {
-			    c3 := clause{"lt1", []int{-getPosId(auxV1), getPosId(auxV2)}}
-			    clauses = append(clauses, c3)
-            }
-
-		}
-
-		atLeastOne[class_count-1] = getPosId(posV2)
-		clauses = append(clauses, clause{"gt1", atLeastOne})
-
-	}
-
-	return
-}
-
 func createAtMostSeq13(c Countable) (clauses []clause) {
 
 	clauses = make([]clause, 0)
 
-    pV :=  PosVar{c.cId,0}
-	cV2 := CountVar{c.cId,0,1}
+	pV := PosVar{c.cId, 0}
+	cV2 := CountVar{c.cId, 0, 1}
 
-    cn := clause{"id3", []int{getPosId(pV), -getCountId(cV2)}}
+	cn := clause{"id3", []int{getPosId(pV), -getCountId(cV2)}}
 	clauses = append(clauses, cn)
 
 	for i := 0; i < size-1; i++ {
-    
-        cV1 := CountVar{c.cId,i,-1} 
+
+		cV1 := CountVar{c.cId, i, -1}
 		cV2.pos = i + 1
 		pV.pos = i + 1
 
@@ -412,15 +373,15 @@ func createAtMostSeq24(c Countable) (clauses []clause) {
 
 	clauses = make([]clause, 0)
 
-    pV :=  PosVar{c.cId,0}
-	cV2 := CountVar{c.cId,0,1}
+	pV := PosVar{c.cId, 0}
+	cV2 := CountVar{c.cId, 0, 1}
 
-    cn := clause{"id4", []int{-getPosId(pV), getCountId(cV2)}}
+	cn := clause{"id4", []int{-getPosId(pV), getCountId(cV2)}}
 	clauses = append(clauses, cn)
 
 	for i := 0; i < size-1; i++ {
-        
-        cV1 := CountVar{c.cId,i,-1} 
+
+		cV1 := CountVar{c.cId, i, -1}
 		cV2.pos = i + 1
 		pV.pos = i + 1
 
@@ -535,6 +496,71 @@ func createAtMostSeq8(cId1 CountableId, cId2s []CountableId) (clauses []clause) 
 	return
 }
 
+func createExactlyOne() (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	var posV1, posV2, auxV1, auxV2 PosVar
+
+	for i := 0; i < size; i++ {
+
+		posV1.pos = i
+		posV2.pos = i
+		auxV1.pos = i
+		auxV2.pos = i
+
+		atLeastOne := make([]int, class_count)
+
+		for j := 0; j < class_count-1; j++ {
+
+			posV1.cId = CountableId{classType, j}
+			posV2.cId = CountableId{classType, j + 1}
+			atLeastOne[j] = getPosId(posV1)
+
+			auxV1.cId = CountableId{exactlyOne, j}
+			auxV2.cId = CountableId{exactlyOne, j + 1}
+
+			c1 := clause{"lt1", []int{-getPosId(posV1), getPosId(auxV1)}}
+			c2 := clause{"lt1", []int{-getPosId(posV2), -getPosId(auxV1)}}
+			clauses = append(clauses, c1, c2)
+			if j < class_count-2 {
+				c3 := clause{"lt1", []int{-getPosId(auxV1), getPosId(auxV2)}}
+				clauses = append(clauses, c3)
+			}
+
+		}
+
+		atLeastOne[class_count-1] = getPosId(posV2)
+		clauses = append(clauses, clause{"gt1", atLeastOne})
+
+	}
+
+	return
+}
+
+func createSymmetry() (clauses []clause) {
+
+	var pV1, pVn PosVar
+
+	pV1.pos = 0
+	pVn.pos = size - 1
+
+	for i := 0; i < class_count-1; i++ {
+
+		pV1.cId = CountableId{exactlyOne, i}
+		pVn.cId = CountableId{exactlyOne, i}
+
+		clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn)}})
+	}
+
+	pV1.cId = CountableId{classType, class_count - 1}
+	pVn.cId = CountableId{classType, class_count - 1}
+
+	clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn)}})
+
+	return
+}
+
 func (c *Countable) createBounds() {
 	c.lower = make([]int, size)
 	c.upper = make([]int, size)
@@ -564,17 +590,17 @@ func (c *Countable) createBounds() {
 	}
 
 	h = 1
-    q := c.window - 1
+	q := c.window - 1
 	u := c.capacity - 1
 
 	for i := 0; i < size; i++ {
 
 		for i < size {
 
-			c.upper[i] = h+1
+			c.upper[i] = h + 1
 
 			if u > 0 && h < c.demand {
-                u--
+				u--
 				h++
 			}
 			q--
