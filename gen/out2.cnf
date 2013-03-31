@@ -1,0 +1,300 @@
+p cnf 47 119
+1 -2 0
+-2 3 0
+4 2 -3 0
+-5 6 0
+4 5 -6 0
+-3 7 0
+8 3 -7 0
+-6 9 0
+8 6 -9 0
+-1 2 0
+2 -6 0
+-4 -2 6 0
+3 -9 0
+-8 -3 9 0
+2 0
+-5 0
+3 0
+-6 0
+9 0
+-10 0
+2 -9 0
+11 -12 0
+-13 14 0
+15 13 -14 0
+-12 16 0
+15 12 -16 0
+-17 18 0
+15 17 -18 0
+-14 19 0
+20 14 -19 0
+-16 21 0
+20 16 -21 0
+-18 22 0
+20 18 -22 0
+-11 12 0
+13 -16 0
+-15 -13 16 0
+12 -18 0
+-15 -12 18 0
+14 -21 0
+-20 -14 21 0
+16 -22 0
+-20 -16 22 0
+13 0
+-17 0
+14 0
+-18 0
+21 0
+-22 0
+23 -24 0
+-24 25 0
+26 24 -25 0
+-27 28 0
+26 27 -28 0
+-25 29 0
+30 25 -29 0
+-28 31 0
+30 28 -31 0
+-23 24 0
+24 -28 0
+-26 -24 28 0
+25 -31 0
+-30 -25 31 0
+24 0
+-27 0
+25 0
+-28 0
+31 0
+-32 0
+24 -31 0
+33 -34 0
+-35 36 0
+37 35 -36 0
+-34 38 0
+37 34 -38 0
+-39 40 0
+37 39 -40 0
+-36 41 0
+42 36 -41 0
+-38 43 0
+42 38 -43 0
+-40 44 0
+42 40 -44 0
+-33 34 0
+35 -38 0
+-37 -35 38 0
+34 -40 0
+-37 -34 40 0
+36 -43 0
+-42 -36 43 0
+38 -44 0
+-42 -38 44 0
+35 0
+-39 0
+36 0
+-40 0
+43 0
+-44 0
+-1 23 0
+-4 26 0
+-8 30 0
+-11 33 0
+-15 37 0
+-20 42 0
+-23 1 0
+-26 4 0
+-30 8 0
+-33 11 0
+-37 15 0
+-42 20 0
+-1 45 0
+-11 -45 0
+1 11 0
+-4 46 0
+-15 -46 0
+4 15 0
+-8 47 0
+-20 -47 0
+8 20 0
+c pos(Type,Id,Position).
+c count(Type,Id,Position,Count).
+c 0 	: 
+c 1 	: pos(class,0,0)
+c 2 	: count(class,0,0,1)
+c 3 	: count(class,0,1,1)
+c 4 	: pos(class,0,1)
+c 5 	: count(class,0,0,2)
+c 6 	: count(class,0,1,2)
+c 7 	: count(class,0,2,1)
+c 8 	: pos(class,0,2)
+c 9 	: count(class,0,2,2)
+c 10 	: count(class,0,2,3)
+c 11 	: pos(class,1,0)
+c 12 	: count(class,1,0,1)
+c 13 	: count(class,1,0,0)
+c 14 	: count(class,1,1,0)
+c 15 	: pos(class,1,1)
+c 16 	: count(class,1,1,1)
+c 17 	: count(class,1,0,2)
+c 18 	: count(class,1,1,2)
+c 19 	: count(class,1,2,0)
+c 20 	: pos(class,1,2)
+c 21 	: count(class,1,2,1)
+c 22 	: count(class,1,2,2)
+c 23 	: pos(option,0,0)
+c 24 	: count(option,0,0,1)
+c 25 	: count(option,0,1,1)
+c 26 	: pos(option,0,1)
+c 27 	: count(option,0,0,2)
+c 28 	: count(option,0,1,2)
+c 29 	: count(option,0,2,1)
+c 30 	: pos(option,0,2)
+c 31 	: count(option,0,2,2)
+c 32 	: count(option,0,2,3)
+c 33 	: pos(option,1,0)
+c 34 	: count(option,1,0,1)
+c 35 	: count(option,1,0,0)
+c 36 	: count(option,1,1,0)
+c 37 	: pos(option,1,1)
+c 38 	: count(option,1,1,1)
+c 39 	: count(option,1,0,2)
+c 40 	: count(option,1,1,2)
+c 41 	: count(option,1,2,0)
+c 42 	: pos(option,1,2)
+c 43 	: count(option,1,2,1)
+c 44 	: count(option,1,2,2)
+c 45 	: pos(aux,0,0)
+c 46 	: pos(aux,0,1)
+c 47 	: pos(aux,0,2)
+c id3 +pos(class,0,0),-count(class,0,0,1).
+c id1 -count(class,0,0,1),+count(class,0,1,1).
+c id3 +pos(class,0,1),+count(class,0,0,1),-count(class,0,1,1).
+c id1 -count(class,0,0,2),+count(class,0,1,2).
+c id3 +pos(class,0,1),+count(class,0,0,2),-count(class,0,1,2).
+c id1 -count(class,0,1,1),+count(class,0,2,1).
+c id3 +pos(class,0,2),+count(class,0,1,1),-count(class,0,2,1).
+c id1 -count(class,0,1,2),+count(class,0,2,2).
+c id3 +pos(class,0,2),+count(class,0,1,2),-count(class,0,2,2).
+c id4 -pos(class,0,0),+count(class,0,0,1).
+c id2 +count(class,0,0,1),-count(class,0,1,2).
+c id4 -pos(class,0,1),-count(class,0,0,1),+count(class,0,1,2).
+c id2 +count(class,0,1,1),-count(class,0,2,2).
+c id4 -pos(class,0,2),-count(class,0,1,1),+count(class,0,2,2).
+c id5 +count(class,0,0,1).
+c id5 -count(class,0,0,2).
+c id5 +count(class,0,1,1).
+c id5 -count(class,0,1,2).
+c id5 +count(class,0,2,2).
+c id5 -count(class,0,2,3).
+c id6 +count(class,0,0,1),-count(class,0,2,2).
+c id3 +pos(class,1,0),-count(class,1,0,1).
+c id1 -count(class,1,0,0),+count(class,1,1,0).
+c id3 +pos(class,1,1),+count(class,1,0,0),-count(class,1,1,0).
+c id1 -count(class,1,0,1),+count(class,1,1,1).
+c id3 +pos(class,1,1),+count(class,1,0,1),-count(class,1,1,1).
+c id1 -count(class,1,0,2),+count(class,1,1,2).
+c id3 +pos(class,1,1),+count(class,1,0,2),-count(class,1,1,2).
+c id1 -count(class,1,1,0),+count(class,1,2,0).
+c id3 +pos(class,1,2),+count(class,1,1,0),-count(class,1,2,0).
+c id1 -count(class,1,1,1),+count(class,1,2,1).
+c id3 +pos(class,1,2),+count(class,1,1,1),-count(class,1,2,1).
+c id1 -count(class,1,1,2),+count(class,1,2,2).
+c id3 +pos(class,1,2),+count(class,1,1,2),-count(class,1,2,2).
+c id4 -pos(class,1,0),+count(class,1,0,1).
+c id2 +count(class,1,0,0),-count(class,1,1,1).
+c id4 -pos(class,1,1),-count(class,1,0,0),+count(class,1,1,1).
+c id2 +count(class,1,0,1),-count(class,1,1,2).
+c id4 -pos(class,1,1),-count(class,1,0,1),+count(class,1,1,2).
+c id2 +count(class,1,1,0),-count(class,1,2,1).
+c id4 -pos(class,1,2),-count(class,1,1,0),+count(class,1,2,1).
+c id2 +count(class,1,1,1),-count(class,1,2,2).
+c id4 -pos(class,1,2),-count(class,1,1,1),+count(class,1,2,2).
+c id5 +count(class,1,0,0).
+c id5 -count(class,1,0,2).
+c id5 +count(class,1,1,0).
+c id5 -count(class,1,1,2).
+c id5 +count(class,1,2,1).
+c id5 -count(class,1,2,2).
+c id3 +pos(option,0,0),-count(option,0,0,1).
+c id1 -count(option,0,0,1),+count(option,0,1,1).
+c id3 +pos(option,0,1),+count(option,0,0,1),-count(option,0,1,1).
+c id1 -count(option,0,0,2),+count(option,0,1,2).
+c id3 +pos(option,0,1),+count(option,0,0,2),-count(option,0,1,2).
+c id1 -count(option,0,1,1),+count(option,0,2,1).
+c id3 +pos(option,0,2),+count(option,0,1,1),-count(option,0,2,1).
+c id1 -count(option,0,1,2),+count(option,0,2,2).
+c id3 +pos(option,0,2),+count(option,0,1,2),-count(option,0,2,2).
+c id4 -pos(option,0,0),+count(option,0,0,1).
+c id2 +count(option,0,0,1),-count(option,0,1,2).
+c id4 -pos(option,0,1),-count(option,0,0,1),+count(option,0,1,2).
+c id2 +count(option,0,1,1),-count(option,0,2,2).
+c id4 -pos(option,0,2),-count(option,0,1,1),+count(option,0,2,2).
+c id5 +count(option,0,0,1).
+c id5 -count(option,0,0,2).
+c id5 +count(option,0,1,1).
+c id5 -count(option,0,1,2).
+c id5 +count(option,0,2,2).
+c id5 -count(option,0,2,3).
+c id6 +count(option,0,0,1),-count(option,0,2,2).
+c id3 +pos(option,1,0),-count(option,1,0,1).
+c id1 -count(option,1,0,0),+count(option,1,1,0).
+c id3 +pos(option,1,1),+count(option,1,0,0),-count(option,1,1,0).
+c id1 -count(option,1,0,1),+count(option,1,1,1).
+c id3 +pos(option,1,1),+count(option,1,0,1),-count(option,1,1,1).
+c id1 -count(option,1,0,2),+count(option,1,1,2).
+c id3 +pos(option,1,1),+count(option,1,0,2),-count(option,1,1,2).
+c id1 -count(option,1,1,0),+count(option,1,2,0).
+c id3 +pos(option,1,2),+count(option,1,1,0),-count(option,1,2,0).
+c id1 -count(option,1,1,1),+count(option,1,2,1).
+c id3 +pos(option,1,2),+count(option,1,1,1),-count(option,1,2,1).
+c id1 -count(option,1,1,2),+count(option,1,2,2).
+c id3 +pos(option,1,2),+count(option,1,1,2),-count(option,1,2,2).
+c id4 -pos(option,1,0),+count(option,1,0,1).
+c id2 +count(option,1,0,0),-count(option,1,1,1).
+c id4 -pos(option,1,1),-count(option,1,0,0),+count(option,1,1,1).
+c id2 +count(option,1,0,1),-count(option,1,1,2).
+c id4 -pos(option,1,1),-count(option,1,0,1),+count(option,1,1,2).
+c id2 +count(option,1,1,0),-count(option,1,2,1).
+c id4 -pos(option,1,2),-count(option,1,1,0),+count(option,1,2,1).
+c id2 +count(option,1,1,1),-count(option,1,2,2).
+c id4 -pos(option,1,2),-count(option,1,1,1),+count(option,1,2,2).
+c id5 +count(option,1,0,0).
+c id5 -count(option,1,0,2).
+c id5 +count(option,1,1,0).
+c id5 -count(option,1,1,2).
+c id5 +count(option,1,2,1).
+c id5 -count(option,1,2,2).
+c id7 -pos(class,0,0),+pos(option,0,0).
+c id7 -pos(class,0,1),+pos(option,0,1).
+c id7 -pos(class,0,2),+pos(option,0,2).
+c id7 -pos(class,1,0),+pos(option,1,0).
+c id7 -pos(class,1,1),+pos(option,1,1).
+c id7 -pos(class,1,2),+pos(option,1,2).
+c id8 -pos(option,0,0),+pos(class,0,0).
+c id8 -pos(option,0,1),+pos(class,0,1).
+c id8 -pos(option,0,2),+pos(class,0,2).
+c id8 -pos(option,1,0),+pos(class,1,0).
+c id8 -pos(option,1,1),+pos(class,1,1).
+c id8 -pos(option,1,2),+pos(class,1,2).
+c lt1 -pos(class,0,0),+pos(aux,0,0).
+c lt1 -pos(class,1,0),-pos(aux,0,0).
+c gt1 +pos(class,0,0),+pos(class,1,0).
+c lt1 -pos(class,0,1),+pos(aux,0,1).
+c lt1 -pos(class,1,1),-pos(aux,0,1).
+c gt1 +pos(class,0,1),+pos(class,1,1).
+c lt1 -pos(class,0,2),+pos(aux,0,2).
+c lt1 -pos(class,1,2),-pos(aux,0,2).
+c gt1 +pos(class,0,2),+pos(class,1,2).
+c id1	: 20	16.8 
+c id2	: 12	10.1 
+c id3	: 24	20.2 
+c id4	: 16	13.4 
+c id5	: 24	20.2 
+c id6	: 2	1.7 
+c id7	: 6	5.0 
+c id8	: 6	5.0 
+c lt1	: 6	5.0 
+c gt1	: 3	2.5 
+c tot	: 119	100.0 
