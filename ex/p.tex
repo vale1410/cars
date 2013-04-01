@@ -389,7 +389,8 @@ the mapping between cars $k$ and options $l$:
     S_i & = S_{i-1} + x_i \\
     S_i & \leq S_{i-q} + u  \\
     S_n & = d \\
-    S^l_i & = \sum_{k \in m'(l)} S^k_i
+    S^l_i & = \sum_{k \in m'(l)} S^k_i \\
+    i & = \sum_{k \in C} S^k_i
 \end{align}
 
 With this set of constraints we can simulate the SAT encodings $E_3$ and $E_4$, depending on

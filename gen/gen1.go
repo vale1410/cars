@@ -10,16 +10,22 @@ import (
 	"strings"
 )
 
+var name = flag.String("file", "test.txt", "Name of the txt file")
+var sym = flag.Bool("sym", false, "Order the sequence in one direction")
+var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause.")
+var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses")
+var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses")
+var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses")
+var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses) ")
+
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
 
-var name = flag.String("file", "test.txt", "Name of the txt file")
 var size, class_count, option_count int
 var gen IdGen
 
 func main() {
 	flag.Parse()
-	filename := *name
-	parse(filename)
+	parse(*name)
 }
 
 const (
@@ -155,7 +161,20 @@ func printDebug(clauses []clause) {
 		fmt.Println(".")
 	}
 
-	all := []string{"id1", "id2", "id3", "id4", "id5", "id6", "id7", "id8", "lt1", "gt1", "sym"}
+	all := []string{"id1",
+		"id2",
+		"id3",
+		"id4",
+		"id5",
+		"id6",
+		"id7",
+		"id8",
+		"id9",
+		"lt1",
+		"gt1",
+		"sym",
+		"re1",
+		"re2"}
 
 	for _, key := range all {
 		fmt.Printf("c %v\t: %v\t%.1f \n", key, stat[key], 100*float64(stat[key])/float64(len(clauses)))
@@ -189,7 +208,7 @@ func parse(filename string) bool {
 	input, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		fmt.Printf("problem in newInput:\n ")
+		fmt.Println("Could not read file: ",filename)
 		return false
 	}
 
@@ -205,7 +224,7 @@ func parse(filename string) bool {
 
 	// parse stuff
 	for _, l := range lines {
-		numbers := strings.Split(l, " ")
+		numbers := strings.Split(strings.TrimSpace(l), " ")
 		if digitRegexp.MatchString(numbers[0]) {
 			switch state {
 			case 0:
@@ -297,44 +316,60 @@ func parse(filename string) bool {
 		clauses = append(clauses, createAtMostSeq24(o)...)
 		clauses = append(clauses, createAtMostSeq5(o)...)
 		clauses = append(clauses, createAtMostSeq6(o)...)
+		if *re1 {
+			clauses = append(clauses, createRedundant1(o)...)
+		}
+		if *re2 {
+			clauses = append(clauses, createRedundant2(o)...)
+		}
 	}
 
-	//clauses 7
+	//clauses 7 and 9
 	for i := 0; i < class_count; i++ {
 		for j := 0; j < option_count; j++ {
 			if class2option[i][j] {
 				clauses = append(clauses, createAtMostSeq7(classes[i].cId, options[j].cId)...)
+			} else {
+				if *id9 {
+					clauses = append(clauses, createAtMostSeq9(classes[i].cId, options[j].cId)...)
+				}
 			}
 		}
 	}
 
 	//clauses 8
-	for j := 0; j < option_count; j++ {
+	if *id8 {
+	    for j := 0; j < option_count; j++ {
 
-		ops := make([]CountableId, 0, class_count)
+	    	ops := make([]CountableId, 0, class_count)
 
-		for i := 0; i < class_count; i++ {
-			if class2option[i][j] {
-				k := len(ops)
-				ops = ops[:k+1]
-				ops[k] = classes[i].cId
-			}
-		}
-		clauses = append(clauses, createAtMostSeq8(options[j].cId, ops)...)
-	}
+	    	for i := 0; i < class_count; i++ {
+	    		if class2option[i][j] {
+	    			k := len(ops)
+	    			ops = ops[:k+1]
+	    			ops[k] = classes[i].cId
+	    		}
+	    	}
+	    	clauses = append(clauses, createAtMostSeq8(options[j].cId, ops)...)
+	    }
+    }
 
 	//clauses exaclty one class per position
 	clauses = append(clauses, createExactlyOne()...)
 
 	//symmetry breaking
-	clauses = append(clauses, createSymmetry()...)
+	if *sym {
+		clauses = append(clauses, createSymmetry()...)
+	}
 
 	//fmt.Println("number of clauses: ", len(clauses))
 	//fmt.Println("number of pos variables: ", len(gen.posVarMap))
 	//fmt.Println("number of count variables: ", len(gen.countVarMap))
 
 	printClausesDIMACS(clauses)
-	//printDebug(clauses)
+	if *debug {
+		printDebug(clauses)
+	}
 
 	return true
 }
@@ -364,8 +399,6 @@ func createAtMostSeq13(c Countable) (clauses []clause) {
 		}
 	}
 
-	//fmt.Printf("13 for %v added clauses %v\n", c.cId, len(clauses))
-
 	return
 }
 
@@ -394,8 +427,6 @@ func createAtMostSeq24(c Countable) (clauses []clause) {
 		}
 	}
 
-	//fmt.Printf("24 for %v added clauses %v\n", c.cId, len(clauses))
-
 	return
 }
 
@@ -417,8 +448,6 @@ func createAtMostSeq5(c Countable) (clauses []clause) {
 		cn = clause{"id5", []int{-getCountId(cV)}}
 		clauses = append(clauses, cn)
 	}
-
-	//fmt.Printf("5 for %v added clauses %v\n", c.cId, len(clauses))
 
 	return
 }
@@ -449,8 +478,6 @@ func createAtMostSeq6(c Countable) (clauses []clause) {
 		}
 	}
 
-	//fmt.Printf("6 for %v added clauses %v\n", c.cId, len(clauses))
-
 	return
 }
 
@@ -466,8 +493,6 @@ func createAtMostSeq7(cId1 CountableId, cId2 CountableId) (clauses []clause) {
 		pV2.pos = i
 		clauses = append(clauses, clause{"id7", []int{-getPosId(pV1), getPosId(pV2)}})
 	}
-
-	//fmt.Printf("7 added clauses %v\n", len(clauses))
 
 	return
 }
@@ -491,7 +516,21 @@ func createAtMostSeq8(cId1 CountableId, cId2s []CountableId) (clauses []clause) 
 		clauses = append(clauses, clause{"id8", c})
 	}
 
-	//fmt.Printf("8 added clauses %v\n", len(clauses))
+	return
+}
+
+func createAtMostSeq9(cId1 CountableId, cId2 CountableId) (clauses []clause) {
+
+	var pV1, pV2 PosVar
+
+	pV1.cId = cId1
+	pV2.cId = cId2
+
+	for i := 0; i < size; i++ {
+		pV1.pos = i
+		pV2.pos = i
+		clauses = append(clauses, clause{"id9", []int{-getPosId(pV1), -getPosId(pV2)}})
+	}
 
 	return
 }
@@ -555,8 +594,74 @@ func createSymmetry() (clauses []clause) {
 
 	pV1.cId = CountableId{classType, class_count - 1}
 	pVn.cId = CountableId{classType, class_count - 1}
+        pVn2 := PosVar{ CountableId{exactlyOne, class_count - 2}, size-1 }
 
-	clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn)}})
+	clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn), -getPosId(pVn2)}})
+                                                                                                
+	return
+}
+
+func createRedundant1(c Countable) (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	var pV1, pV2 PosVar
+
+	pV1.cId = c.cId
+	pV2.cId = c.cId
+
+	q := c.window
+	u := c.capacity
+
+	if u == 1 {
+		for i := 0; i < size; i++ {
+
+			pV1.pos = i
+
+			for j := i + 1; j < i+q && j < size; j++ {
+				pV2.pos = j
+				cn := clause{"re1", []int{-getPosId(pV1), -getPosId(pV2)}}
+				clauses = append(clauses, cn)
+			}
+		}
+	}
+
+	return
+}
+
+func createRedundant2(c Countable) (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	q := c.window
+	u := c.capacity
+
+	if u == 2 {
+
+		var pV1, pV2, pV3 PosVar
+
+		pV1.cId = c.cId
+		pV2.cId = c.cId
+		pV3.cId = c.cId
+
+		for i := 0; i < size; i++ {
+
+			pV1.pos = i
+
+			for j := i + 1; j < i+q && j < size; j++ {
+
+				pV2.pos = j
+
+				for k := j + 1; k < i+q && k < size; k++ {
+
+					pV3.pos = k
+
+					cn := clause{"re2", []int{-getPosId(pV1), -getPosId(pV2), -getPosId(pV3)}}
+					clauses = append(clauses, cn)
+				}
+			}
+		}
+	}
 
 	return
 }
