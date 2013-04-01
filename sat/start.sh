@@ -9,18 +9,19 @@ source prll.sh
 
 data=${1-data/test}
 output=${2-output}
-time=${3-18000}
+time=${3-1200}
 
 mkdir -p $output
 
 argument=()
 
-for data in *.cnf
+for instance in $data/*.cnf
 do
-    for solver in {1,2,3,4,5}
+    #for solver in {1,2,3,4,5}
+    for solver in {6,7,8,9}
     #for solver in 2
     do
-        a=$data' '$solver' '$time' '$output/$(basename $data .cnf)'_'$solver'_'$time'.log'
+        a=$instance' '$solver' '$time' '$output/$(basename $instance .cnf)'_'$solver'_'$time'.log'
         argument+=($a)
     done
 done
@@ -35,4 +36,3 @@ myfn() {
 }
 
 prll -c 6 myfn $argument
-
