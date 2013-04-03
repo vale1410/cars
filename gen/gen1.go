@@ -12,11 +12,14 @@ import (
 
 var name = flag.String("file", "test.txt", "Name of the file specifing the car sequencing according to the CSPlib.")
 var sym = flag.Bool("sym", false, "Order the sequence in one direction")
+var cnt = flag.Bool("cnt", false, "Counter based encodeing, should be set to true.")
+var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the demand, should be set to true (alternative to re1 and re2 in special cases)")
+var id7 = flag.Bool("id7", false, "Implications from Classes to Options, should be set to true.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
 var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses (alternative to id8) ")
 var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses")
 var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses")
-var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to generate counters.  (this is needed for correct optimization version of the sequencing problem")
+var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to generate counters.  (use in context with optimization")
 var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses) ")
 
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
@@ -262,7 +265,9 @@ func parse(filename string) bool {
 					// find option with lowest slope
 					// to determine capacity and windows
 
-					slope := 1.0
+                    classes[num].capacity = 1
+			        classes[num].window = 1
+                    slope := 1.0
 
 					for i, v := range numbers {
 						if i == 1 {
@@ -306,18 +311,26 @@ func parse(filename string) bool {
 
 	//clauses 1-6 for classes
 	for _, c := range classes {
-		clauses = append(clauses, createAtMostSeq13(c)...)
-		clauses = append(clauses, createAtMostSeq24(c)...)
-		clauses = append(clauses, createAtMostSeq5(c)...)
-		clauses = append(clauses, createAtMostSeq6(c)...)
+		if *cnt {
+			clauses = append(clauses, createAtMostSeq13(c)...)
+			clauses = append(clauses, createAtMostSeq24(c)...)
+			clauses = append(clauses, createAtMostSeq5(c)...)
+		}
+		if *id6 {
+			clauses = append(clauses, createAtMostSeq6(c)...)
+		}
 	}
 
 	//clauses 1-6 for options
 	for _, o := range options {
-		clauses = append(clauses, createAtMostSeq13(o)...)
-		clauses = append(clauses, createAtMostSeq24(o)...)
-		clauses = append(clauses, createAtMostSeq5(o)...)
-		clauses = append(clauses, createAtMostSeq6(o)...)
+		if *cnt {
+			clauses = append(clauses, createAtMostSeq13(o)...)
+			clauses = append(clauses, createAtMostSeq24(o)...)
+			clauses = append(clauses, createAtMostSeq5(o)...)
+		}
+		if *id6 {
+			clauses = append(clauses, createAtMostSeq6(o)...)
+		}
 		if *re1 {
 			clauses = append(clauses, createRedundant1(o)...)
 		}
@@ -330,7 +343,9 @@ func parse(filename string) bool {
 	for i := 0; i < class_count; i++ {
 		for j := 0; j < option_count; j++ {
 			if class2option[i][j] {
-				clauses = append(clauses, createAtMostSeq7(classes[i].cId, options[j].cId)...)
+				if *id7 {
+                    clauses = append(clauses, createAtMostSeq7(classes[i].cId, options[j].cId)...)
+                }
 			} else {
 				if *id9 {
 					clauses = append(clauses, createAtMostSeq9(classes[i].cId, options[j].cId)...)
@@ -677,6 +692,7 @@ func createRedundant2(c Countable) (clauses []clause) {
 	return
 }
 
+//// only create these with options (defintion of optimization statement)
 //func createOpt1(c Countable) (clauses []clause) {
 //
 //	clauses = make([]clause, 0)
@@ -690,6 +706,15 @@ func createRedundant2(c Countable) (clauses []clause) {
 //
 //	q := c.window
 //	u := c.capacity
+//
+//	if *sbd {
+//		// needed because avoid zero column, now extra work for sbd
+//		cV1.pos = q - 1
+//		cV1.count = u + 1
+//		cn := clause{"id6", []int{-getCountId(cV1)}}
+//		clauses = append(clauses, cn)
+//
+//	}
 //
 //	for i := q; i < size; i++ {
 //
