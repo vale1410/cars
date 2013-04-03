@@ -10,12 +10,13 @@ import (
 	"strings"
 )
 
-var name = flag.String("file", "test.txt", "Name of the txt file")
+var name = flag.String("file", "test.txt", "Name of the file specifing the car sequencing according to the CSPlib.")
 var sym = flag.Bool("sym", false, "Order the sequence in one direction")
-var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause.")
-var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses")
+var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
+var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses (alternative to id8) ")
 var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses")
 var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses")
+var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to generate counters.  (this is needed for correct optimization version of the sequencing problem")
 var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses) ")
 
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
@@ -32,6 +33,7 @@ const (
 	optionType countType = iota
 	classType
 	exactlyOne
+	optType
 )
 
 type countType int
@@ -208,7 +210,7 @@ func parse(filename string) bool {
 	input, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		fmt.Println("Could not read file: ",filename)
+		fmt.Println("Could not read file: ", filename)
 		return false
 	}
 
@@ -294,9 +296,9 @@ func parse(filename string) bool {
 		options[i].createBounds()
 	}
 
-	//fmt.Println("options: ", options)
-	//fmt.Println("classes: ", classes)
-	//fmt.Println("class2option: ", class2option)
+	fmt.Println("c options: ", options)
+	fmt.Println("c classes: ", classes)
+	fmt.Println("c class2option: ", class2option)
 
 	NewIdGen()
 
@@ -339,20 +341,20 @@ func parse(filename string) bool {
 
 	//clauses 8
 	if *id8 {
-	    for j := 0; j < option_count; j++ {
+		for j := 0; j < option_count; j++ {
 
-	    	ops := make([]CountableId, 0, class_count)
+			ops := make([]CountableId, 0, class_count)
 
-	    	for i := 0; i < class_count; i++ {
-	    		if class2option[i][j] {
-	    			k := len(ops)
-	    			ops = ops[:k+1]
-	    			ops[k] = classes[i].cId
-	    		}
-	    	}
-	    	clauses = append(clauses, createAtMostSeq8(options[j].cId, ops)...)
-	    }
-    }
+			for i := 0; i < class_count; i++ {
+				if class2option[i][j] {
+					k := len(ops)
+					ops = ops[:k+1]
+					ops[k] = classes[i].cId
+				}
+			}
+			clauses = append(clauses, createAtMostSeq8(options[j].cId, ops)...)
+		}
+	}
 
 	//clauses exaclty one class per position
 	clauses = append(clauses, createExactlyOne()...)
@@ -463,6 +465,15 @@ func createAtMostSeq6(c Countable) (clauses []clause) {
 	q := c.window
 	u := c.capacity
 
+	if *sbd {
+		// needed because I tried to avoid the first column, now extra work for sbd
+		cV1.pos = q - 1
+		cV1.count = u + 1
+		cn := clause{"id6", []int{-getCountId(cV1)}}
+		clauses = append(clauses, cn)
+
+	}
+
 	for i := q; i < size; i++ {
 
 		cV1.pos = i - q
@@ -471,7 +482,7 @@ func createAtMostSeq6(c Countable) (clauses []clause) {
 		for j := c.lower[i-q]; j < c.upper[i-q]; j++ {
 			cV1.count = j
 			cV2.count = j + u
-			if j+u < c.upper[i] {
+			if c.lower[i] <= j+u && j+u < c.upper[i] {
 				cn := clause{"id6", []int{getCountId(cV1), -getCountId(cV2)}}
 				clauses = append(clauses, cn)
 			}
@@ -594,10 +605,10 @@ func createSymmetry() (clauses []clause) {
 
 	pV1.cId = CountableId{classType, class_count - 1}
 	pVn.cId = CountableId{classType, class_count - 1}
-        pVn2 := PosVar{ CountableId{exactlyOne, class_count - 2}, size-1 }
+	pVn2 := PosVar{CountableId{exactlyOne, class_count - 2}, size - 1}
 
 	clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn), -getPosId(pVn2)}})
-                                                                                                
+
 	return
 }
 
@@ -666,7 +677,72 @@ func createRedundant2(c Countable) (clauses []clause) {
 	return
 }
 
+//func createOpt1(c Countable) (clauses []clause) {
+//
+//	clauses = make([]clause, 0)
+//
+//	var cV1, cV2 CountVar
+//	var optV PosVar
+//
+//	cV1.cId = c.cId
+//	cV2.cId = c.cId
+//	optV.cId = c.cId
+//
+//	q := c.window
+//	u := c.capacity
+//
+//	for i := q; i < size; i++ {
+//
+//		cV1.pos = i - q
+//		optV.pos = i - q
+//		cV2.pos = i
+//
+//		for j := c.lower[i-q]; j < c.upper[i-q]; j++ {
+//			cV1.count = j
+//			cV2.count = j + u
+//			if j+u < c.upper[i] {
+//				cn := clause{"id6", []int{-getPosId(optV), getCountId(cV1), -getCountId(cV2)}}
+//				clauses = append(clauses, cn)
+//			}
+//		}
+//	}
+//
+//	return
+//}
+
 func (c *Countable) createBounds() {
+	if *sbd {
+		c.createSimpleBounds()
+	} else {
+		c.createImprovedBounds()
+	}
+}
+
+func (c *Countable) createSimpleBounds() {
+
+	c.lower = make([]int, size)
+	c.upper = make([]int, size)
+
+	h := c.demand
+
+	for i := size - 1; i >= 0; i-- {
+		c.lower[i] = h
+		if h > 0 {
+			h--
+		}
+	}
+
+	h = 2
+
+	for i := 0; i < size; i++ {
+		c.upper[i] = h
+		if h <= c.demand {
+			h++
+		}
+	}
+}
+
+func (c *Countable) createImprovedBounds() {
 	c.lower = make([]int, size)
 	c.upper = make([]int, size)
 
