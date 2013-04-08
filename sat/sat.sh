@@ -10,7 +10,7 @@ solver=${2-1}
 timeout=${3-60}
 
 case $solver in
-    1) timeout $timeout minisat $instance  ;;
+    1) minisat $instance -cpu-lim=$timeout  ;;
     2) timeout $timeout cryptominisat $instance --nosolprint  ;;
     3) timeout $timeout lingeling --verbose $instance  ;;
     4) clasp --time-limit=$timeout -q --stats --configuration=handy $instance  ;;
