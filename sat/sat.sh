@@ -19,4 +19,5 @@ case $solver in
     7) clasp --time-limit=$timeout -q --stats --configuration=crafty $instance  ;;
     8) clasp --time-limit=$timeout -q --stats --configuration=trendy $instance  ;;
     9) clasp --time-limit=$timeout -q --stats --configuration=frumpy $instance  ;;
+    10) cryptominisat -s 0 --maxtime $timeout $instance ;;
 esac

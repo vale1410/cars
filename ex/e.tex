@@ -1,0 +1,83 @@
+\documentclass[]{llncs} 
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{datatool}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphics}
+
+
+\newcommand{\TODO}[1]{ {\color{red}{#1} }}
+\newcommand{\com}[1]{ {\color{blue}{--- #1 ---}}}
+
+\newcommand{\AtMostSeqCard}{AtMostSeqCard }
+%
+%\author{Valentin Mayer-Eichberger}
+%
+%\institute{NICTA \\ University of New South Wales \\
+%\email{valentin.mayer-eichberger@nicta.com.au}}
+
+\title{Modelling in Propositional Logic: A Case Study}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+    Car sequencing has been a traditional benchmark in the Operation Research and Constraint Programming community. In
+    this paper we will demonstrate that state of the art propositional satisfiability solvers can compete with these
+    established paradigms.  We will show how to express the traditional car sequencing problem in different ways in
+    propositional logic and give an empirical evaluation of these translations. The results underline the practical
+    challenge how NP-complete problems are reduced to SAT. 
+\end{abstract}
+
+\section{Introduction}
+
+Contributions of the paper: 
+
+1) to the (best of our konwledge) first SAT model for car sequencing and 2) demonstration of its usefulness on experiments
+with the CSP lib 3) a comprehensive future work secion with future work and promising research directives. 
+
+\section{SAT Solving}
+
+Formally state the SAT problems. Give reference to NP compleness problems and reductions. Give reference to Handbook. 
+Short overview of techniques of current state of the art SAT solvers. 
+
+\subsection{Modelling in SAT}
+
+Discribe the challenges in boolean modelling. Declarativity of the problem. Propagators of CP are rather procedural
+descriptions of the reasoning task. Low level view and give advantages when tweaking the model, which can make the
+difference for hard instances. 
+
+Give list of techniques on what to focus on with encodings. Modelling in SAT is not just translating to CNF and a solver
+will find the solution. 1) Design of variables 2) identifying higher constraints 3) espressing these constraints by
+introducing auxiliary variables and 4) introduce redundant constraints and break symmetries. 
+
+\subsection{Car Sequencing}
+
+Describe the problem in short words and give references and their approaches to solve the probelems. Then reference the
+benchmark set in \cite{Gent99}. 
+
+\subsection{Literature Review}
+
+Numerous publications on approaches to CS. 
+
+Tradintional Models for CP. Give short formula. 
+
+Give CP and MIP formulations. reference latest good results on the benchmark by a more global view on the problems. 
+
+\subsection{Counter Encoding}
+
+First we will show how to do a counter encoding. 
+
+\section{Car Sequencing in CNF}
+
+\section{Evaluation}
+
+\section{Conclusion and  Future Work}
+
+
+\bibliography{p}
+\bibliographystyle{apalike}
+
+\end{document}

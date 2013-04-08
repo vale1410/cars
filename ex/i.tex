@@ -1,0 +1,59 @@
+\documentclass[]{llncs} 
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{datatool}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphics}
+
+
+\newcommand{\TODO}[1]{ {\color{red}{#1} }}
+\newcommand{\com}[1]{ {\color{blue}{--- #1 ---}}}
+
+\begin{document}
+
+\section{Preprocessing Lower Bounds}
+
+The Idea to this method goes back to the proof in \cite{Gent98} to show a lower bound of 2 for the instance 19/97. Here
+we will show how to generalize this technique and apply this method on all problems from the benchmark in \cite{Gravel05}. 
+
+The idea is to compute the demand for subsets of options and its adjacent classes. If such a class fulfills certain
+properties, then we can compute the demand of cars that have none of the options. 
+
+
+The following three cases lead to lower bounds: 
+
+\begin{itemize}
+    \item A set of options $O$ that contains only $1/q$ capacity constraints and at least on of them is $1/2$. Let the
+        collective demand for this set of options be $k$, then for a legal sequence of cars there have to be at least
+        $k-1$ cars that do not have any of the options in $O$. 
+    \item A set of options $O$ that contains only $1/q$ with $q \geq 3$ capacity constraints. Let the collective demand
+        for this set of options be $k$, then for a legal sequence of cars there have to be at least $2\cdot (k-1_)$ cars
+        that do not have any of the options in $O$. 
+    \item A set of options $O$ that contain at least one $1/q$ where $q \geq 3$ and exactly one $2/r$ where $r \geq 3$
+        and arbitrary many $1/s$ constraints. If the demand for this set is $k$, then there have to be at least $k-1$ cars
+        that have none of these options in $O$. 
+\end{itemize}
+
+\begin{proposition}
+    For all three cases above, the difference to the demand and availability of adjacent cars give a lower bound on
+    the violation of capacity constraints.
+\end{proposition}
+
+
+\section{New Lower Bounds}
+
+The following table shows the known upper bounds and lower bounds published in the following works \cite{Regin97},
+\cite{Gent98}. \cite{Gottlieb03}, \cite{Gravel05}, \cite{Estellon06}.
+
+\begin{table}[htbp]
+    \caption{}
+    \centering
+    \include{lb}
+    \label{tab:1}
+\end{table}
+
+\bibliography{p}
+\bibliographystyle{apalike}
+
+\end{document}

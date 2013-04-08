@@ -10,17 +10,23 @@ import (
 	"strings"
 )
 
-var name = flag.String("file", "test.txt", "Name of the file specifing the car sequencing according to the CSPlib.")
-var sym = flag.Bool("sym", false, "Order the sequence in one direction")
-var cnt = flag.Bool("cnt", false, "Counter based encodeing, should be set to true.")
-var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the demand, should be set to true (alternative to re1 and re2 in special cases)")
-var id7 = flag.Bool("id7", false, "Implications from Classes to Options, should be set to true.")
+var name = flag.String("file", "test.txt", "Path of the file specifying the car sequencing according to the CSPlib.")
+var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9, sym.")
+var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9, sym.")
+var ex1 = flag.Bool("ex1", false, "Adds clauses to state that in each position there is exactly one car.")
+var cnt = flag.Bool("cnt", false, "Counter based encoding, should be set to true.")
+var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the demand, should be set to true (alternative to re1 and re2 in special cases).")
+var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
-var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses (alternative to id8) ")
-var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses")
-var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses")
-var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to generate counters.  (use in context with optimization")
-var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses) ")
+var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses (alternative to id8).")
+var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses.")
+var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses.")
+var sym = flag.Bool("sym", false, "Order the sequence in one direction (first car has lower or equal class id than last).")
+var ian = flag.Bool("ian", false, "A redundant constraint that precomputes sets of classes that need to be neighbours.")
+var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to generate counters.  (context optimization).")
+var opt = flag.Int("opt", -1, "Adds optimization statement with value given. Should be used with -sbd and without -re1 -re2.")
+var add = flag.Int("add", 0, "Add n dummy cars without any option. (simulates optimization).")
+var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses).")
 
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
 
@@ -29,14 +35,36 @@ var gen IdGen
 
 func main() {
 	flag.Parse()
+	setFlags()
 	parse(*name)
+}
+
+func setFlags() {
+	t := true
+	if *e2 {
+		ex1 = &t
+		cnt = &t
+		re1 = &t
+		re2 = &t
+		id7 = &t
+		id8 = &t
+		id9 = &t
+	}
+	if *e3 {
+		ex1 = &t
+		cnt = &t
+		id6 = &t
+		id7 = &t
+		id8 = &t
+		id9 = &t
+	}
 }
 
 const (
 	optionType countType = iota
 	classType
 	exactlyOne
-	optType
+	optimizationType
 )
 
 type countType int
@@ -108,6 +136,8 @@ func printDebug(clauses []clause) {
 			s = "pos(class,"
 		case exactlyOne:
 			s = "pos(aux,"
+		case optimizationType:
+			s = "pos(opti,"
 		}
 		s += strconv.Itoa(key.cId.index)
 		s += ","
@@ -123,6 +153,8 @@ func printDebug(clauses []clause) {
 			s = "count(option,"
 		case classType:
 			s = "count(class,"
+		case optimizationType:
+			s = "count(opti,"
 		}
 		s += strconv.Itoa(key.cId.index)
 		s += ","
@@ -179,7 +211,12 @@ func printDebug(clauses []clause) {
 		"gt1",
 		"sym",
 		"re1",
-		"re2"}
+		"re2",
+		"op0",
+		"op1",
+		"op2",
+		"op3",
+		"op4"}
 
 	for _, key := range all {
 		fmt.Printf("c %v\t: %v\t%.1f \n", key, stat[key], 100*float64(stat[key])/float64(len(clauses)))
@@ -265,9 +302,9 @@ func parse(filename string) bool {
 					// find option with lowest slope
 					// to determine capacity and windows
 
-                    classes[num].capacity = 1
-			        classes[num].window = 1
-                    slope := 1.0
+					classes[num].capacity = 1
+					classes[num].window = 1
+					slope := 1.0
 
 					for i, v := range numbers {
 						if i == 1 {
@@ -288,7 +325,6 @@ func parse(filename string) bool {
 							}
 						}
 					}
-					classes[num].createBounds()
 				}
 			}
 			state++
@@ -297,13 +333,22 @@ func parse(filename string) bool {
 		}
 	}
 
+	if *add > 0 {
+		cId := CountableId{classType, class_count}
+		dummy := Countable{cId: cId, window: 1, capacity: 1, demand: *add}
+		classes = append(classes, dummy)
+		class2option = append(class2option, make([]bool, option_count))
+		class_count++
+		size += *add
+	}
+
 	for i := range options {
 		options[i].createBounds()
 	}
 
-	fmt.Println("c options: ", options)
-	fmt.Println("c classes: ", classes)
-	fmt.Println("c class2option: ", class2option)
+	for i := range classes {
+		classes[i].createBounds()
+	}
 
 	NewIdGen()
 
@@ -337,6 +382,10 @@ func parse(filename string) bool {
 		if *re2 {
 			clauses = append(clauses, createRedundant2(o)...)
 		}
+		if *opt > 0 {
+			clauses = append(clauses, createOptPositions(o)...)
+			clauses = append(clauses, createOptCounter(o)...)
+		}
 	}
 
 	//clauses 7 and 9
@@ -344,8 +393,8 @@ func parse(filename string) bool {
 		for j := 0; j < option_count; j++ {
 			if class2option[i][j] {
 				if *id7 {
-                    clauses = append(clauses, createAtMostSeq7(classes[i].cId, options[j].cId)...)
-                }
+					clauses = append(clauses, createAtMostSeq7(classes[i].cId, options[j].cId)...)
+				}
 			} else {
 				if *id9 {
 					clauses = append(clauses, createAtMostSeq9(classes[i].cId, options[j].cId)...)
@@ -372,7 +421,9 @@ func parse(filename string) bool {
 	}
 
 	//clauses exaclty one class per position
-	clauses = append(clauses, createExactlyOne()...)
+	if *ex1 {
+		clauses = append(clauses, createExactlyOne()...)
+	}
 
 	//symmetry breaking
 	if *sym {
@@ -383,12 +434,125 @@ func parse(filename string) bool {
 	//fmt.Println("number of pos variables: ", len(gen.posVarMap))
 	//fmt.Println("number of count variables: ", len(gen.countVarMap))
 
+	if *ian {
+		createIanConstraints(options, classes, class2option)
+	}
+
 	printClausesDIMACS(clauses)
 	if *debug {
+		fmt.Println("c options: ", options)
+		fmt.Println("c classes: ", classes)
+		fmt.Println("c class2option: ", class2option)
 		printDebug(clauses)
 	}
 
 	return true
+}
+
+func createIanConstraints(options []Countable, classes []Countable, class2option [][]bool) (clauses []clause) {
+
+	first := make([]bool, option_count, option_count)
+
+	sets := createSubSets(0, first)
+
+	// how many 1/2
+	cap12 := make([]int, len(sets))
+	// how many 1/k, k > 2
+	cap1k := make([]int, len(sets))
+	// how many 2/k > 2
+	cap2k := make([]int, len(sets))
+	demands := make([]int, len(sets))
+	supplies := make([]int, len(sets))
+	rest := make([]int, len(sets))
+
+	for s, set := range sets {
+		// find max capacity among options
+		for j, b := range set {
+			if b && options[j].window > 1 {
+				if options[j].window == 2 && options[j].capacity == 1 {
+					cap12[s]++
+				} else if options[j].window > 2 && options[j].capacity == 1 {
+					cap1k[s]++
+				} else if options[j].window > 2 && options[j].capacity == 2 {
+					cap2k[s]++
+				}
+			}
+		}
+
+		for i, class := range classes {
+			alwaysfit := true
+			neverfit := true
+			for j, b := range set {
+				if b {
+					if class2option[i][j] {
+						neverfit = false
+					} else {
+						alwaysfit = false
+					}
+				}
+			}
+			if alwaysfit {
+				demands[s] += class.demand
+			}
+			if neverfit {
+				supplies[s] += class.demand
+			}
+			if !alwaysfit && !neverfit {
+				rest[s] += class.demand
+			}
+
+		}
+	}
+
+	fmt.Println("-----\tcap12\tcap1k\tcap2k\tdemand\tsupply\trest")
+
+	for s, set := range sets {
+
+		restriction := false
+
+		if cap12[s] > 0 && cap2k[s] == 0 && demands[s]-2 >= supplies[s] {
+			restriction = true
+		} else if cap1k[s] > 0 && cap2k[s] == 0 && 2*(demands[s]-1) >= supplies[s] {
+			restriction = true
+		} else if cap1k[s] > 0 && cap2k[s] == 1 && demands[s]-2 >= supplies[s] {
+			restriction = true
+		}
+
+		if restriction {
+
+			for i, b := range set {
+				if b {
+					fmt.Print(i)
+				} else {
+					fmt.Print("-")
+				}
+
+			}
+			fmt.Println("\t", cap12[s], "\t", cap1k[s], "\t", cap2k[s], "\t", demands[s], "\t", supplies[s], "\t", rest[s])
+		}
+
+	}
+	return
+}
+
+func createSubSets(i int, set []bool) (sets [][]bool) {
+
+	if i == option_count {
+		sets = make([][]bool, 1)
+		sets[0] = set
+		return
+	}
+
+	pos := make([]bool, len(set))
+	neg := make([]bool, len(set))
+	copy(pos, set)
+	copy(neg, set)
+
+	pos[i] = true
+	i++
+	sets = createSubSets(i, pos)
+	sets = append(sets, createSubSets(i, neg)...)
+	return
 }
 
 func createAtMostSeq13(c Countable) (clauses []clause) {
@@ -692,48 +856,105 @@ func createRedundant2(c Countable) (clauses []clause) {
 	return
 }
 
-//// only create these with options (defintion of optimization statement)
-//func createOpt1(c Countable) (clauses []clause) {
-//
-//	clauses = make([]clause, 0)
-//
-//	var cV1, cV2 CountVar
-//	var optV PosVar
-//
-//	cV1.cId = c.cId
-//	cV2.cId = c.cId
-//	optV.cId = c.cId
-//
-//	q := c.window
-//	u := c.capacity
-//
-//	if *sbd {
-//		// needed because avoid zero column, now extra work for sbd
-//		cV1.pos = q - 1
-//		cV1.count = u + 1
-//		cn := clause{"id6", []int{-getCountId(cV1)}}
-//		clauses = append(clauses, cn)
-//
-//	}
-//
-//	for i := q; i < size; i++ {
-//
-//		cV1.pos = i - q
-//		optV.pos = i - q
-//		cV2.pos = i
-//
-//		for j := c.lower[i-q]; j < c.upper[i-q]; j++ {
-//			cV1.count = j
-//			cV2.count = j + u
-//			if j+u < c.upper[i] {
-//				cn := clause{"id6", []int{-getPosId(optV), getCountId(cV1), -getCountId(cV2)}}
-//				clauses = append(clauses, cn)
-//			}
-//		}
-//	}
-//
-//	return
-//}
+// only create these with options (1. definition of optimization statement)
+func createOptPositions(c Countable) (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	var cV1, cV2 CountVar
+	var optV PosVar
+
+	cV1.cId = c.cId
+	cV2.cId = c.cId
+	optV.cId = c.cId
+	optV.cId.typ = optimizationType
+
+	q := c.window
+	u := c.capacity
+
+	if *sbd {
+		// needed because avoid zero column, now extra work for sbd
+		cV1.pos = q - 1
+		optV.pos = q - 1
+		cV1.count = u + 1
+		cn := clause{"op1", []int{getPosId(optV), -getCountId(cV1)}}
+		clauses = append(clauses, cn)
+
+	}
+
+	for i := q; i < size; i++ {
+
+		cV1.pos = i - q
+		optV.pos = i
+		cV2.pos = i
+
+		for j := c.lower[i-q]; j < c.upper[i-q]; j++ {
+			cV1.count = j
+			cV2.count = j + u
+			if j+u < c.upper[i] {
+				cn := clause{"op0", []int{getPosId(optV), getCountId(cV1), -getCountId(cV2)}}
+				clauses = append(clauses, cn)
+			}
+		}
+	}
+
+	return
+}
+
+func createOptCounter(c Countable) (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	{ // set upper and lower bound for counters 
+		c.lower = make([]int, size)
+		c.upper = make([]int, size)
+
+		h := c.demand
+
+		for i := 0; i < size; i++ {
+			c.lower[i] = 0
+			c.upper[i] = h
+			if h <= c.demand {
+				h++
+			}
+		}
+	}
+
+	pV := PosVar{c.cId, 0}
+	cV2 := CountVar{c.cId, 0, 1}
+
+	for i := *opt - 1; i < size-1; i++ {
+
+		cV1 := CountVar{c.cId, i, -1}
+		cV2.pos = i + 1
+		pV.pos = i + 1
+
+		for j := c.lower[i]; j <= c.upper[i]; j++ {
+			cV1.count = j
+			cV2.count = j
+			c1 := clause{"op1", []int{-1 * getCountId(cV1), getCountId(cV2)}}
+			c3 := clause{"op3", []int{getPosId(pV), getCountId(cV1), -getCountId(cV2)}}
+			clauses = append(clauses, c1, c3)
+		}
+	}
+
+	for i := *opt - 1; i < size-1; i++ {
+
+		cV1 := CountVar{c.cId, i, -1}
+		cV2.pos = i + 1
+		pV.pos = i + 1
+
+		for j := c.lower[i]; j < c.upper[i]; j++ {
+			cV1.count = j
+			cV2.count = j + 1
+			c2 := clause{"op2", []int{getCountId(cV1), -getCountId(cV2)}}
+			c4 := clause{"op4", []int{-getPosId(pV), -getCountId(cV1), getCountId(cV2)}}
+			clauses = append(clauses, c2, c4)
+		}
+	}
+
+	return
+}
 
 func (c *Countable) createBounds() {
 	if *sbd {
