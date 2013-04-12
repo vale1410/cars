@@ -1,4 +1,0 @@
- ,set1,set2,set3,set4,
-sat,70,4,0,2,
-unsat,0,0,4,12,
-unknown,0,0,1,16,

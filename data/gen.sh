@@ -7,6 +7,6 @@ do
     do
         typeset -i v=$x
         echo $a[1] $x
-        ../gen/gen1 -file $a[1] -e3 -re1 -re2 -add $v > cnf/$(basename $a[1] .txt)_lb_$x.cnf
+        ../gen/gen1 -file $a[1] -cnt -sym -re1 -re2 -id7 -id8 -id9 -add $v > cnf/$(basename $a[1] .txt)_lb_$x.cnf
     done
 done
