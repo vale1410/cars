@@ -26,6 +26,19 @@ do
     done
 done
 
+time=1800
+
+for instance in $data/*.cnf
+do
+    #for solver in {1,2,3,4,5}
+    #for solver in {6,7,8,9}
+    for solver in 1
+    do
+        a=$instance' '$solver' '$time' '$output/$(basename $instance .cnf)'_'$solver'_'$time'.log'
+        argument+=($a)
+    done
+done
+
 myfn() {
     x1=$(echo $1 | cut -d' ' -f1)
     x2=$(echo $1 | cut -d' ' -f2)

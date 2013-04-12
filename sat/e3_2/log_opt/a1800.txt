@@ -1,807 +1,1076 @@
 
 p00_lb_00_1_1800.log
+CPU time              : 0.096006 s
 SATISFIABLE
 
 p01_lb_00_1_1800.log
+CPU time              : 7.88449 s
 UNSATISFIABLE
 
 p01_lb_01_1_1800.log
+CPU time              : 39.3145 s
 UNSATISFIABLE
 
 p01_lb_02_1_1800.log
+CPU time              : 56.7955 s
 UNSATISFIABLE
 
 p01_lb_03_1_1800.log
+CPU time              : 217.858 s
 UNSATISFIABLE
 
 p01_lb_04_1_1800.log
+CPU time              : 65.2561 s
 UNSATISFIABLE
 
 p01_lb_05_1_1800.log
+CPU time              : 673.874 s
 UNSATISFIABLE
 
 p01_lb_06_1_1800.log
+CPU time              : 0.048003 s
 SATISFIABLE
 
 p02_lb_00_1_1800.log
+CPU time              : 7.70048 s
 UNSATISFIABLE
 
 p02_lb_01_1_1800.log
+CPU time              : 1795.06 s
 INDETERMINATE
 
 p02_lb_02_1_1800.log
+CPU time              : 0.184011 s
 SATISFIABLE
 
 p03_lb_00_1_1800.log
+CPU time              : 0.068004 s
 SATISFIABLE
 
 p04_lb_00_1_1800.log
+CPU time              : 1793.12 s
 INDETERMINATE
 
 p04_lb_01_1_1800.log
+CPU time              : 1794.07 s
 INDETERMINATE
 
 p04_lb_02_1_1800.log
+CPU time              : 0.388024 s
 SATISFIABLE
 
 p05_lb_00_1_1800.log
+CPU time              : 150.665 s
 UNSATISFIABLE
 
 p05_lb_01_1_1800.log
+CPU time              : 1793.7 s
 INDETERMINATE
 
 p05_lb_02_1_1800.log
+CPU time              : 0.108006 s
 SATISFIABLE
 
 p06_lb_00_1_1800.log
+CPU time              : 31.61 s
 UNSATISFIABLE
 
 p06_lb_01_1_1800.log
+CPU time              : 0.212013 s
 SATISFIABLE
 
 p06_lb_02_1_1800.log
+CPU time              : 0.060003 s
 SATISFIABLE
 
 p07_lb_00_1_1800.log
+CPU time              : 0.044002 s
 SATISFIABLE
 
 p08_lb_00_1_1800.log
+CPU time              : 0.104006 s
 SATISFIABLE
 
 pb_200_01_lb_00_1_1800.log
+CPU time              : 33.1101 s
 SATISFIABLE
 
 pb_200_02_lb_00_1_1800.log
+CPU time              : 1795.14 s
 INDETERMINATE
 
 pb_200_02_lb_01_1_1800.log
+CPU time              : 1794 s
 INDETERMINATE
 
 pb_200_02_lb_02_1_1800.log
+CPU time              : 1.38809 s
 SATISFIABLE
 
 pb_200_03_lb_00_1_1800.log
+CPU time              : 22.4054 s
 UNSATISFIABLE
 
 pb_200_03_lb_01_1_1800.log
+CPU time              : 690.647 s
 UNSATISFIABLE
 
 pb_200_03_lb_02_1_1800.log
+CPU time              : 1258.1 s
 UNSATISFIABLE
 
 pb_200_03_lb_03_1_1800.log
+CPU time              : 28.3338 s
 SATISFIABLE
 
 pb_200_04_lb_00_1_1800.log
+CPU time              : 4.35627 s
 UNSATISFIABLE
 
 pb_200_04_lb_01_1_1800.log
+CPU time              : 1795 s
 INDETERMINATE
 
 pb_200_04_lb_02_1_1800.log
+CPU time              : 1794.81 s
 INDETERMINATE
 
 pb_200_04_lb_03_1_1800.log
+CPU time              : 1795.18 s
 INDETERMINATE
 
 pb_200_04_lb_04_1_1800.log
+CPU time              : 1794.44 s
 INDETERMINATE
 
 pb_200_04_lb_05_1_1800.log
+CPU time              : 1794.28 s
 INDETERMINATE
 
 pb_200_04_lb_06_1_1800.log
+CPU time              : 1793.97 s
 INDETERMINATE
 
 pb_200_04_lb_07_1_1800.log
+CPU time              : 3.92024 s
 SATISFIABLE
 
 pb_200_05_lb_00_1_1800.log
+CPU time              : 1109.32 s
 UNSATISFIABLE
 
 pb_200_05_lb_01_1_1800.log
+CPU time              : 1795.72 s
 INDETERMINATE
 
 pb_200_05_lb_02_1_1800.log
+CPU time              : 1795.38 s
 INDETERMINATE
 
 pb_200_05_lb_03_1_1800.log
+CPU time              : 2.57616 s
 SATISFIABLE
 
 pb_200_05_lb_04_1_1800.log
+CPU time              : 1.31608 s
 SATISFIABLE
 
 pb_200_05_lb_05_1_1800.log
+CPU time              : 1.26808 s
 SATISFIABLE
 
 pb_200_05_lb_06_1_1800.log
+CPU time              : 0.340021 s
 SATISFIABLE
 
 pb_200_06_lb_00_1_1800.log
+CPU time              : 1794.76 s
 INDETERMINATE
 
 pb_200_06_lb_01_1_1800.log
+CPU time              : 1794.5 s
 INDETERMINATE
 
 pb_200_06_lb_02_1_1800.log
+CPU time              : 1794.67 s
 INDETERMINATE
 
 pb_200_06_lb_03_1_1800.log
+CPU time              : 1794.17 s
 INDETERMINATE
 
 pb_200_06_lb_04_1_1800.log
+CPU time              : 1794.5 s
 INDETERMINATE
 
 pb_200_06_lb_05_1_1800.log
+CPU time              : 1794.4 s
 INDETERMINATE
 
 pb_200_06_lb_06_1_1800.log
+CPU time              : 9.5486 s
 SATISFIABLE
 
 pb_200_07_lb_00_1_1800.log
+CPU time              : 0.620038 s
 SATISFIABLE
 
 pb_200_08_lb_00_1_1800.log
+CPU time              : 1794.48 s
 INDETERMINATE
 
 pb_200_08_lb_01_1_1800.log
+CPU time              : 1794.16 s
 INDETERMINATE
 
 pb_200_08_lb_02_1_1800.log
+CPU time              : 1794.32 s
 INDETERMINATE
 
 pb_200_08_lb_03_1_1800.log
+CPU time              : 1794.19 s
 INDETERMINATE
 
 pb_200_08_lb_04_1_1800.log
+CPU time              : 1794.54 s
 INDETERMINATE
 
 pb_200_08_lb_05_1_1800.log
+CPU time              : 1794.27 s
 INDETERMINATE
 
 pb_200_08_lb_06_1_1800.log
+CPU time              : 1794.24 s
 INDETERMINATE
 
 pb_200_08_lb_07_1_1800.log
+CPU time              : 1794.13 s
 INDETERMINATE
 
 pb_200_08_lb_08_1_1800.log
+CPU time              : 5.46434 s
 SATISFIABLE
 
 pb_200_09_lb_00_1_1800.log
+CPU time              : 496.463 s
 UNSATISFIABLE
 
 pb_200_09_lb_01_1_1800.log
+CPU time              : 1795.76 s
 INDETERMINATE
 
 pb_200_09_lb_02_1_1800.log
+CPU time              : 1795.14 s
 INDETERMINATE
 
 pb_200_09_lb_03_1_1800.log
+CPU time              : 1795.22 s
 INDETERMINATE
 
 pb_200_09_lb_04_1_1800.log
+CPU time              : 1794.59 s
 INDETERMINATE
 
 pb_200_09_lb_05_1_1800.log
+CPU time              : 1794.1 s
 INDETERMINATE
 
 pb_200_09_lb_06_1_1800.log
+CPU time              : 1794.07 s
 INDETERMINATE
 
 pb_200_09_lb_07_1_1800.log
+CPU time              : 1793.99 s
 INDETERMINATE
 
 pb_200_09_lb_08_1_1800.log
+CPU time              : 1793.97 s
 INDETERMINATE
 
 pb_200_09_lb_09_1_1800.log
+CPU time              : 1793.66 s
 INDETERMINATE
 
 pb_200_09_lb_10_1_1800.log
+CPU time              : 1.5601 s
 SATISFIABLE
 
 pb_200_10_lb_00_1_1800.log
+CPU time              : 4.08425 s
 UNSATISFIABLE
 
 pb_200_10_lb_01_1_1800.log
+CPU time              : 49.6031 s
 UNSATISFIABLE
 
 pb_200_10_lb_02_1_1800.log
+CPU time              : 162.906 s
 UNSATISFIABLE
 
 pb_200_10_lb_03_1_1800.log
+CPU time              : 50.2831 s
 UNSATISFIABLE
 
 pb_200_10_lb_04_1_1800.log
+CPU time              : 52.5753 s
 UNSATISFIABLE
 
 pb_200_10_lb_05_1_1800.log
+CPU time              : 79.1809 s
 UNSATISFIABLE
 
 pb_200_10_lb_06_1_1800.log
+CPU time              : 52.6033 s
 UNSATISFIABLE
 
 pb_200_10_lb_07_1_1800.log
+CPU time              : 44.7988 s
 UNSATISFIABLE
 
 pb_200_10_lb_08_1_1800.log
+CPU time              : 55.2835 s
 UNSATISFIABLE
 
 pb_200_10_lb_09_1_1800.log
+CPU time              : 130.504 s
 UNSATISFIABLE
 
 pb_200_10_lb_10_1_1800.log
+CPU time              : 79.457 s
 UNSATISFIABLE
 
 pb_200_10_lb_11_1_1800.log
+CPU time              : 249.468 s
 UNSATISFIABLE
 
 pb_200_10_lb_12_1_1800.log
+CPU time              : 1796.16 s
 INDETERMINATE
 
 pb_200_10_lb_13_1_1800.log
+CPU time              : 798.098 s
 UNSATISFIABLE
 
 pb_200_10_lb_14_1_1800.log
+CPU time              : 1794.85 s
 INDETERMINATE
 
 pb_200_10_lb_15_1_1800.log
+CPU time              : 1794.81 s
 INDETERMINATE
 
 pb_200_10_lb_16_1_1800.log
+CPU time              : 1794.53 s
 INDETERMINATE
 
 pb_200_10_lb_17_1_1800.log
+CPU time              : 6.28439 s
 SATISFIABLE
 
 pb_200_10_lb_18_1_1800.log
+CPU time              : 0.924057 s
 SATISFIABLE
 
 pb_200_10_lb_19_1_1800.log
+CPU time              : 1.5401 s
 SATISFIABLE
 
 pb_300_01_lb_00_1_1800.log
+CPU time              : 3.73623 s
 SATISFIABLE
 
 pb_300_02_lb_00_1_1800.log
+CPU time              : 1795.39 s
 INDETERMINATE
 
 pb_300_02_lb_01_1_1800.log
+CPU time              : 1795.19 s
 INDETERMINATE
 
 pb_300_02_lb_02_1_1800.log
+CPU time              : 1794.88 s
 INDETERMINATE
 
 pb_300_02_lb_03_1_1800.log
+CPU time              : 1794.71 s
 INDETERMINATE
 
 pb_300_02_lb_04_1_1800.log
+CPU time              : 1794.71 s
 INDETERMINATE
 
 pb_300_02_lb_05_1_1800.log
+CPU time              : 1794.18 s
 INDETERMINATE
 
 pb_300_02_lb_06_1_1800.log
+CPU time              : 17.5971 s
 SATISFIABLE
 
 pb_300_02_lb_07_1_1800.log
+CPU time              : 1.6001 s
 SATISFIABLE
 
 pb_300_02_lb_08_1_1800.log
+CPU time              : 1.04407 s
 SATISFIABLE
 
 pb_300_02_lb_09_1_1800.log
+CPU time              : 3.89624 s
 SATISFIABLE
 
 pb_300_02_lb_10_1_1800.log
+CPU time              : 2.02013 s
 SATISFIABLE
 
 pb_300_02_lb_11_1_1800.log
+CPU time              : 1.6881 s
 SATISFIABLE
 
 pb_300_02_lb_12_1_1800.log
+CPU time              : 1.25608 s
 SATISFIABLE
 
 pb_300_03_lb_00_1_1800.log
+CPU time              : 274.449 s
 UNSATISFIABLE
 
 pb_300_03_lb_01_1_1800.log
+CPU time              : 586.029 s
 UNSATISFIABLE
 
 pb_300_03_lb_02_1_1800.log
+CPU time              : 1795.67 s
 INDETERMINATE
 
 pb_300_03_lb_03_1_1800.log
+CPU time              : 1794.93 s
 INDETERMINATE
 
 pb_300_03_lb_04_1_1800.log
+CPU time              : 1794.84 s
 INDETERMINATE
 
 pb_300_03_lb_05_1_1800.log
+CPU time              : 1794.83 s
 INDETERMINATE
 
 pb_300_03_lb_06_1_1800.log
+CPU time              : 1794.63 s
 INDETERMINATE
 
 pb_300_03_lb_07_1_1800.log
+CPU time              : 1794.76 s
 INDETERMINATE
 
 pb_300_03_lb_08_1_1800.log
+CPU time              : 1794.86 s
 INDETERMINATE
 
 pb_300_03_lb_09_1_1800.log
+CPU time              : 1794.45 s
 INDETERMINATE
 
 pb_300_03_lb_10_1_1800.log
+CPU time              : 1794.72 s
 INDETERMINATE
 
 pb_300_03_lb_11_1_1800.log
+CPU time              : 1794.54 s
 INDETERMINATE
 
 pb_300_03_lb_12_1_1800.log
+CPU time              : 1794.19 s
 INDETERMINATE
 
 pb_300_03_lb_13_1_1800.log
+CPU time              : 15.0329 s
 SATISFIABLE
 
 pb_300_04_lb_00_1_1800.log
+CPU time              : 2.22014 s
 UNSATISFIABLE
 
 pb_300_04_lb_01_1_1800.log
+CPU time              : 2.95218 s
 UNSATISFIABLE
 
 pb_300_04_lb_02_1_1800.log
+CPU time              : 12.5648 s
 UNSATISFIABLE
 
 pb_300_04_lb_03_1_1800.log
+CPU time              : 10.8087 s
 UNSATISFIABLE
 
 pb_300_04_lb_04_1_1800.log
+CPU time              : 10.0326 s
 UNSATISFIABLE
 
 pb_300_04_lb_05_1_1800.log
+CPU time              : 274.477 s
 UNSATISFIABLE
 
 pb_300_04_lb_06_1_1800.log
+CPU time              : 1795.88 s
 INDETERMINATE
 
 pb_300_04_lb_07_1_1800.log
+CPU time              : 21.4773 s
 SATISFIABLE
 
 pb_300_05_lb_00_1_1800.log
+CPU time              : 0.556034 s
 UNSATISFIABLE
 
 pb_300_05_lb_01_1_1800.log
+CPU time              : 2.29214 s
 UNSATISFIABLE
 
 pb_300_05_lb_02_1_1800.log
+CPU time              : 4.17626 s
 UNSATISFIABLE
 
 pb_300_05_lb_03_1_1800.log
+CPU time              : 9.48859 s
 UNSATISFIABLE
 
 pb_300_05_lb_04_1_1800.log
+CPU time              : 29.0298 s
 UNSATISFIABLE
 
 pb_300_05_lb_05_1_1800.log
+CPU time              : 58.7397 s
 UNSATISFIABLE
 
 pb_300_05_lb_06_1_1800.log
+CPU time              : 52.8713 s
 UNSATISFIABLE
 
 pb_300_05_lb_07_1_1800.log
+CPU time              : 78.0969 s
 UNSATISFIABLE
 
 pb_300_05_lb_08_1_1800.log
+CPU time              : 708.916 s
 UNSATISFIABLE
 
 pb_300_05_lb_09_1_1800.log
+CPU time              : 1101.27 s
 UNSATISFIABLE
 
 pb_300_05_lb_10_1_1800.log
+CPU time              : 1796.19 s
 INDETERMINATE
 
 pb_300_05_lb_11_1_1800.log
+CPU time              : 1795.5 s
 INDETERMINATE
 
 pb_300_05_lb_12_1_1800.log
+CPU time              : 1795.43 s
 INDETERMINATE
 
 pb_300_05_lb_13_1_1800.log
+CPU time              : 1795.18 s
 INDETERMINATE
 
 pb_300_05_lb_14_1_1800.log
+CPU time              : 1795.61 s
 INDETERMINATE
 
 pb_300_05_lb_15_1_1800.log
+CPU time              : 1795.44 s
 INDETERMINATE
 
 pb_300_05_lb_16_1_1800.log
+CPU time              : 1795.12 s
 INDETERMINATE
 
 pb_300_05_lb_17_1_1800.log
+CPU time              : 899.484 s
 SATISFIABLE
 
 pb_300_05_lb_18_1_1800.log
+CPU time              : 117.119 s
 SATISFIABLE
 
 pb_300_05_lb_19_1_1800.log
+CPU time              : 116.955 s
 SATISFIABLE
 
 pb_300_05_lb_20_1_1800.log
+CPU time              : 28.2618 s
 SATISFIABLE
 
 pb_300_05_lb_21_1_1800.log
+CPU time              : 109.715 s
 SATISFIABLE
 
 pb_300_05_lb_22_1_1800.log
+CPU time              : 4.07225 s
 SATISFIABLE
 
 pb_300_05_lb_23_1_1800.log
+CPU time              : 31.978 s
 SATISFIABLE
 
 pb_300_05_lb_24_1_1800.log
+CPU time              : 1.84811 s
 SATISFIABLE
 
 pb_300_05_lb_25_1_1800.log
+CPU time              : 2.02413 s
 SATISFIABLE
 
 pb_300_05_lb_26_1_1800.log
+CPU time              : 3.82024 s
 SATISFIABLE
 
 pb_300_05_lb_27_1_1800.log
+CPU time              : 1.34408 s
 SATISFIABLE
 
 pb_300_05_lb_28_1_1800.log
+CPU time              : 3.1362 s
 SATISFIABLE
 
 pb_300_06_lb_00_1_1800.log
+CPU time              : 1795.66 s
 INDETERMINATE
 
 pb_300_06_lb_01_1_1800.log
+CPU time              : 1795.27 s
 INDETERMINATE
 
 pb_300_06_lb_02_1_1800.log
+CPU time              : 337.125 s
 SATISFIABLE
 
 pb_300_07_lb_00_1_1800.log
+CPU time              : 1.5881 s
 SATISFIABLE
 
 pb_300_08_lb_00_1_1800.log
+CPU time              : 102.258 s
 UNSATISFIABLE
 
 pb_300_08_lb_01_1_1800.log
+CPU time              : 1794.72 s
 INDETERMINATE
 
 pb_300_08_lb_02_1_1800.log
+CPU time              : 1794.91 s
 INDETERMINATE
 
 pb_300_08_lb_03_1_1800.log
+CPU time              : 1794.46 s
 INDETERMINATE
 
 pb_300_08_lb_04_1_1800.log
+CPU time              : 1794.98 s
 INDETERMINATE
 
 pb_300_08_lb_05_1_1800.log
+CPU time              : 1794.88 s
 INDETERMINATE
 
 pb_300_08_lb_06_1_1800.log
+CPU time              : 1794.31 s
 INDETERMINATE
 
 pb_300_08_lb_07_1_1800.log
+CPU time              : 1794.67 s
 INDETERMINATE
 
 pb_300_08_lb_08_1_1800.log
+CPU time              : 30.3699 s
 SATISFIABLE
 
 pb_300_09_lb_00_1_1800.log
+CPU time              : 1794.62 s
 INDETERMINATE
 
 pb_300_09_lb_01_1_1800.log
+CPU time              : 1794.75 s
 INDETERMINATE
 
 pb_300_09_lb_02_1_1800.log
+CPU time              : 1794.71 s
 INDETERMINATE
 
 pb_300_09_lb_03_1_1800.log
+CPU time              : 1794.7 s
 INDETERMINATE
 
 pb_300_09_lb_04_1_1800.log
+CPU time              : 1794.34 s
 INDETERMINATE
 
 pb_300_09_lb_05_1_1800.log
+CPU time              : 1794.41 s
 INDETERMINATE
 
 pb_300_09_lb_06_1_1800.log
+CPU time              : 1794.2 s
 INDETERMINATE
 
 pb_300_09_lb_07_1_1800.log
+CPU time              : 5.81236 s
 SATISFIABLE
 
 pb_300_10_lb_00_1_1800.log
+CPU time              : 1.03206 s
 UNSATISFIABLE
 
 pb_300_10_lb_01_1_1800.log
+CPU time              : 3.83624 s
 UNSATISFIABLE
 
 pb_300_10_lb_02_1_1800.log
+CPU time              : 9.95662 s
 UNSATISFIABLE
 
 pb_300_10_lb_03_1_1800.log
+CPU time              : 21.1573 s
 UNSATISFIABLE
 
 pb_300_10_lb_04_1_1800.log
+CPU time              : 56.3555 s
 UNSATISFIABLE
 
 pb_300_10_lb_05_1_1800.log
+CPU time              : 128.984 s
 UNSATISFIABLE
 
 pb_300_10_lb_06_1_1800.log
+CPU time              : 180.659 s
 UNSATISFIABLE
 
 pb_300_10_lb_07_1_1800.log
+CPU time              : 1200.46 s
 UNSATISFIABLE
 
 pb_300_10_lb_08_1_1800.log
+CPU time              : 1796.04 s
 INDETERMINATE
 
 pb_300_10_lb_09_1_1800.log
+CPU time              : 1795.58 s
 INDETERMINATE
 
 pb_300_10_lb_10_1_1800.log
+CPU time              : 1795.46 s
 INDETERMINATE
 
 pb_300_10_lb_11_1_1800.log
+CPU time              : 1795.07 s
 INDETERMINATE
 
 pb_300_10_lb_12_1_1800.log
+CPU time              : 1426.53 s
 SATISFIABLE
 
 pb_300_10_lb_13_1_1800.log
+CPU time              : 579.772 s
 SATISFIABLE
 
 pb_300_10_lb_14_1_1800.log
+CPU time              : 70.0484 s
 SATISFIABLE
 
 pb_300_10_lb_15_1_1800.log
+CPU time              : 144.457 s
 SATISFIABLE
 
 pb_300_10_lb_16_1_1800.log
+CPU time              : 6.60441 s
 SATISFIABLE
 
 pb_300_10_lb_17_1_1800.log
+CPU time              : 63.0039 s
 SATISFIABLE
 
 pb_300_10_lb_18_1_1800.log
+CPU time              : 5.15632 s
 SATISFIABLE
 
 pb_300_10_lb_19_1_1800.log
+CPU time              : 3.57622 s
 SATISFIABLE
 
 pb_300_10_lb_20_1_1800.log
+CPU time              : 5.95237 s
 SATISFIABLE
 
 pb_300_10_lb_21_1_1800.log
+CPU time              : 1.28008 s
 SATISFIABLE
 
 pb_400_01_lb_00_1_1800.log
+CPU time              : 1795.18 s
 INDETERMINATE
 
 pb_400_01_lb_01_1_1800.log
+CPU time              : 1793.97 s
 INDETERMINATE
 
 pb_400_02_lb_00_1_1800.log
+CPU time              : 1795.7 s
 INDETERMINATE
 
 pb_400_02_lb_01_1_1800.log
+CPU time              : 1795.92 s
 INDETERMINATE
 
 pb_400_02_lb_02_1_1800.log
+CPU time              : 1795.72 s
 INDETERMINATE
 
 pb_400_02_lb_03_1_1800.log
+CPU time              : 1795.54 s
 INDETERMINATE
 
 pb_400_02_lb_04_1_1800.log
+CPU time              : 1795.18 s
 INDETERMINATE
 
 pb_400_02_lb_05_1_1800.log
+CPU time              : 1795.32 s
 INDETERMINATE
 
 pb_400_02_lb_06_1_1800.log
+CPU time              : 1795.49 s
 INDETERMINATE
 
 pb_400_02_lb_07_1_1800.log
+CPU time              : 1795.55 s
 INDETERMINATE
 
 pb_400_02_lb_08_1_1800.log
+CPU time              : 1795.59 s
 INDETERMINATE
 
 pb_400_02_lb_09_1_1800.log
+CPU time              : 1795.06 s
 INDETERMINATE
 
 pb_400_02_lb_10_1_1800.log
+CPU time              : 1795.12 s
 INDETERMINATE
 
 pb_400_02_lb_11_1_1800.log
+CPU time              : 1795.33 s
 INDETERMINATE
 
 pb_400_02_lb_12_1_1800.log
+CPU time              : 1795.19 s
 INDETERMINATE
 
 pb_400_02_lb_13_1_1800.log
+CPU time              : 1795.26 s
 INDETERMINATE
 
 pb_400_02_lb_14_1_1800.log
+CPU time              : 1794.79 s
 INDETERMINATE
 
 pb_400_02_lb_15_1_1800.log
+CPU time              : 62.6879 s
 SATISFIABLE
 
 pb_400_03_lb_00_1_1800.log
+CPU time              : 52.6793 s
 UNSATISFIABLE
 
 pb_400_03_lb_01_1_1800.log
+CPU time              : 73.7286 s
 UNSATISFIABLE
 
 pb_400_03_lb_02_1_1800.log
+CPU time              : 79.649 s
 UNSATISFIABLE
 
 pb_400_03_lb_03_1_1800.log
+CPU time              : 134.148 s
 UNSATISFIABLE
 
 pb_400_03_lb_04_1_1800.log
+CPU time              : 294.802 s
 UNSATISFIABLE
 
 pb_400_03_lb_05_1_1800.log
+CPU time              : 434.891 s
 UNSATISFIABLE
 
 pb_400_03_lb_06_1_1800.log
+CPU time              : 715.529 s
 UNSATISFIABLE
 
 pb_400_03_lb_07_1_1800.log
+CPU time              : 1543.67 s
 UNSATISFIABLE
 
 pb_400_03_lb_08_1_1800.log
+CPU time              : 1796.3 s
 INDETERMINATE
 
 pb_400_03_lb_09_1_1800.log
+CPU time              : 1793.91 s
 INDETERMINATE
 
 pb_400_04_lb_00_1_1800.log
+CPU time              : 12.0208 s
 UNSATISFIABLE
 
 pb_400_04_lb_01_1_1800.log
+CPU time              : 7.76448 s
 UNSATISFIABLE
 
 pb_400_04_lb_02_1_1800.log
+CPU time              : 14.9329 s
 UNSATISFIABLE
 
 pb_400_04_lb_03_1_1800.log
+CPU time              : 22.6254 s
 UNSATISFIABLE
 
 pb_400_04_lb_04_1_1800.log
+CPU time              : 60.1278 s
 UNSATISFIABLE
 
 pb_400_04_lb_05_1_1800.log
+CPU time              : 1794 s
 INDETERMINATE
 
 pb_400_04_lb_06_1_1800.log
+CPU time              : 1794.34 s
 INDETERMINATE
 
 pb_400_04_lb_07_1_1800.log
+CPU time              : 1792.32 s
 INDETERMINATE
 
 pb_400_04_lb_08_1_1800.log
+CPU time              : 1794.55 s
 INDETERMINATE
 
 pb_400_04_lb_09_1_1800.log
+CPU time              : 1794.72 s
 INDETERMINATE
 
 pb_400_04_lb_10_1_1800.log
+CPU time              : 1794.26 s
 INDETERMINATE
 
 pb_400_04_lb_11_1_1800.log
+CPU time              : 1794.5 s
 INDETERMINATE
 
 pb_400_04_lb_12_1_1800.log
+CPU time              : 1794.86 s
 INDETERMINATE
 
 pb_400_04_lb_13_1_1800.log
+CPU time              : 1794.64 s
 INDETERMINATE
 
 pb_400_04_lb_14_1_1800.log
+CPU time              : 1794.53 s
 INDETERMINATE
 
 pb_400_04_lb_15_1_1800.log
+CPU time              : 1794.86 s
 INDETERMINATE
 
 pb_400_04_lb_16_1_1800.log
+CPU time              : 1794.52 s
 INDETERMINATE
 
 pb_400_04_lb_17_1_1800.log
+CPU time              : 1794.31 s
 INDETERMINATE
 
 pb_400_04_lb_18_1_1800.log
+CPU time              : 1794.64 s
 INDETERMINATE
 
 pb_400_04_lb_19_1_1800.log
+CPU time              : 550.03 s
 SATISFIABLE
 
 pb_400_05_lb_00_1_1800.log
+CPU time              : 143.577 s
 SATISFIABLE
 
 pb_400_06_lb_00_1_1800.log
+CPU time              : 20.9573 s
 SATISFIABLE
 
 pb_400_07_lb_00_1_1800.log
+CPU time              : 1795.52 s
 INDETERMINATE
 
 pb_400_07_lb_01_1_1800.log
+CPU time              : 1795.28 s
 INDETERMINATE
 
 pb_400_07_lb_02_1_1800.log
+CPU time              : 1795.58 s
 INDETERMINATE
 
 pb_400_07_lb_03_1_1800.log
+CPU time              : 1795.36 s
 INDETERMINATE
 
 pb_400_07_lb_04_1_1800.log
+CPU time              : 1794.86 s
 INDETERMINATE
 
 pb_400_08_lb_00_1_1800.log
+CPU time              : 1795.86 s
 INDETERMINATE
 
 pb_400_08_lb_01_1_1800.log
+CPU time              : 1795.5 s
 INDETERMINATE
 
 pb_400_08_lb_02_1_1800.log
+CPU time              : 1795.33 s
 INDETERMINATE
 
 pb_400_08_lb_03_1_1800.log
+CPU time              : 1795.65 s
 INDETERMINATE
 
 pb_400_08_lb_04_1_1800.log
+CPU time              : 1795.75 s
 INDETERMINATE
 
 pb_400_09_lb_00_1_1800.log
+CPU time              : 41.0026 s
 UNSATISFIABLE
 
 pb_400_09_lb_01_1_1800.log
+CPU time              : 47.0069 s
 UNSATISFIABLE
 
 pb_400_09_lb_02_1_1800.log
+CPU time              : 237.279 s
 UNSATISFIABLE
 
 pb_400_09_lb_03_1_1800.log
+CPU time              : 633.612 s
 UNSATISFIABLE
 
 pb_400_09_lb_04_1_1800.log
+CPU time              : 1795.77 s
 INDETERMINATE
 
 pb_400_09_lb_05_1_1800.log
+CPU time              : 57.8036 s
 SATISFIABLE
 
 pb_400_10_lb_00_1_1800.log
+CPU time              : 4.28027 s
 SATISFIABLE
