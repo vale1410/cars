@@ -11,14 +11,21 @@ import (
 )
 
 var name = flag.String("file", "test.txt", "Path of the file specifying the car sequencing according to the CSPlib.")
-var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9, sym.")
-var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9, sym.")
+var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
+var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9.")
 var ex1 = flag.Bool("ex1", false, "Adds clauses to state that in each position there is exactly one car.")
-var cnt = flag.Bool("cnt", false, "Counter based encoding, should be set to true.")
-var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the demand, should be set to true (alternative to re1 and re2 in special cases).")
+var cnt = flag.Bool("cnt", false, "Meta flag: sets id1, id2, id3, id4, id5.")
+var id1 = flag.Bool("id1", false, "Counter clauses 1 (see paper).")
+var id2 = flag.Bool("id2", false, "Counter clauses 2 (see paper).")
+var id3 = flag.Bool("id3", false, "Counter clauses 3 (see paper).")
+var id4 = flag.Bool("id4", false, "Counter clauses 4 (see paper).")
+var id5 = flag.Bool("id5", false, "Initializes the counter to be a cardinality constraint.")
+var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the "+
+	" demand, should be set to true (alternative to re1 and re2 in special cases).")
 var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
-var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary clauses (alternative to id8).")
+var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary"+
+	" clauses (alternative to id8).")
 var re1 = flag.Bool("re1", false, "Implications of options that are of the form 1/q. Adds binary clauses.")
 var re2 = flag.Bool("re2", false, "Implications of options that are of the form 2/q. Adds binary clauses.")
 var sym = flag.Bool("sym", false, "Order the sequence in one direction (first car has lower or equal class id than last).")
@@ -57,6 +64,14 @@ func setFlags() {
 		id7 = &t
 		id8 = &t
 		id9 = &t
+	}
+
+	if *cnt {
+		id1 = &t
+		id2 = &t
+		id3 = &t
+		id4 = &t
+		id5 = &t
 	}
 }
 
@@ -356,9 +371,10 @@ func parse(filename string) bool {
 
 	//clauses 1-6 for classes
 	for _, c := range classes {
-		if *cnt {
-			clauses = append(clauses, createAtMostSeq13(c)...)
-			clauses = append(clauses, createAtMostSeq24(c)...)
+        if *id1 || *id2 ||*id3 ||*id4 {
+			clauses = append(clauses, createCounter(c)...)
+        }
+		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(c)...)
 		}
 		if *id6 {
@@ -368,9 +384,10 @@ func parse(filename string) bool {
 
 	//clauses 1-6 for options
 	for _, o := range options {
-		if *cnt {
-			clauses = append(clauses, createAtMostSeq13(o)...)
-			clauses = append(clauses, createAtMostSeq24(o)...)
+        if *id1 || *id2 ||*id3 ||*id4 {
+			clauses = append(clauses, createCounter(o)...)
+        }
+		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(o)...)
 		}
 		if *id6 {
@@ -420,7 +437,7 @@ func parse(filename string) bool {
 		}
 	}
 
-	//clauses exaclty one class per position
+	//clauses exactly one class per position
 	if *ex1 {
 		clauses = append(clauses, createExactlyOne()...)
 	}
@@ -555,15 +572,17 @@ func createSubSets(i int, set []bool) (sets [][]bool) {
 	return
 }
 
-func createAtMostSeq13(c Countable) (clauses []clause) {
+func createCounter(c Countable) (clauses []clause) {
 
 	clauses = make([]clause, 0)
 
 	pV := PosVar{c.cId, 0}
 	cV2 := CountVar{c.cId, 0, 1}
 
-	cn := clause{"id3", []int{getPosId(pV), -getCountId(cV2)}}
-	clauses = append(clauses, cn)
+	if *id3 {
+		cn := clause{"id3", []int{getPosId(pV), -getCountId(cV2)}}
+		clauses = append(clauses, cn)
+	}
 
 	for i := 0; i < size-1; i++ {
 
@@ -574,24 +593,24 @@ func createAtMostSeq13(c Countable) (clauses []clause) {
 		for j := c.lower[i]; j <= c.upper[i]; j++ {
 			cV1.count = j
 			cV2.count = j
-			c1 := clause{"id1", []int{-1 * getCountId(cV1), getCountId(cV2)}}
-			c3 := clause{"id3", []int{getPosId(pV), getCountId(cV1), -getCountId(cV2)}}
-			clauses = append(clauses, c1, c3)
+			if *id1 {
+				c1 := clause{"id1", []int{-1 * getCountId(cV1), getCountId(cV2)}}
+				clauses = append(clauses, c1)
+			}
+			if *id3 {
+				c3 := clause{"id3", []int{getPosId(pV), getCountId(cV1), -getCountId(cV2)}}
+				clauses = append(clauses, c3)
+			}
 		}
 	}
 
-	return
-}
+	pV = PosVar{c.cId, 0}
+	cV2 = CountVar{c.cId, 0, 1}
 
-func createAtMostSeq24(c Countable) (clauses []clause) {
-
-	clauses = make([]clause, 0)
-
-	pV := PosVar{c.cId, 0}
-	cV2 := CountVar{c.cId, 0, 1}
-
-	cn := clause{"id4", []int{-getPosId(pV), getCountId(cV2)}}
-	clauses = append(clauses, cn)
+	if *id4 {
+		cn := clause{"id4", []int{-getPosId(pV), getCountId(cV2)}}
+		clauses = append(clauses, cn)
+	}
 
 	for i := 0; i < size-1; i++ {
 
@@ -602,9 +621,14 @@ func createAtMostSeq24(c Countable) (clauses []clause) {
 		for j := c.lower[i]; j < c.upper[i]; j++ {
 			cV1.count = j
 			cV2.count = j + 1
-			c2 := clause{"id2", []int{getCountId(cV1), -getCountId(cV2)}}
-			c4 := clause{"id4", []int{-getPosId(pV), -getCountId(cV1), getCountId(cV2)}}
-			clauses = append(clauses, c2, c4)
+			if *id2 {
+				c2 := clause{"id2", []int{getCountId(cV1), -getCountId(cV2)}}
+				clauses = append(clauses, c2)
+			}
+			if *id4 {
+				c4 := clause{"id4", []int{-getPosId(pV), -getCountId(cV1), getCountId(cV2)}}
+				clauses = append(clauses, c4)
+			}
 		}
 	}
 
@@ -932,7 +956,7 @@ func createOptCounter(c Countable) (clauses []clause) {
 		for j := c.lower[i]; j <= c.upper[i]; j++ {
 			cV1.count = j
 			cV2.count = j
-			c1 := clause{"op1", []int{-1 * getCountId(cV1), getCountId(cV2)}}
+			c1 := clause{"op1", []int{-getCountId(cV1), getCountId(cV2)}}
 			c3 := clause{"op3", []int{getPosId(pV), getCountId(cV1), -getCountId(cV2)}}
 			clauses = append(clauses, c1, c3)
 		}
@@ -955,6 +979,10 @@ func createOptCounter(c Countable) (clauses []clause) {
 
 	return
 }
+
+//func createOptDecision(c Countable, bound int) (clauses []clause) {
+//
+//}
 
 func (c *Countable) createBounds() {
 	if *sbd {
