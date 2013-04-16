@@ -11,10 +11,11 @@ import (
 )
 
 var name = flag.String("file", "test.txt", "Path of the file specifying the car sequencing according to the CSPlib.")
-var e1 = flag.Bool("e1", false, "Collection of flags: ex1, ca1, ca2, ca3, ca4, ca5, cnt, id7, id8, id9.")
+var e1 = flag.Bool("e1", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, id7, id8, id9.")
 var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
 var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9.")
 var e4 = flag.Bool("e4", false, "Collection of flags: ex1, cnt, re1, re2, id6, id7, id8, id9.")
+var e5 = flag.Bool("e5", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, re1, re2, id6, id7, id8, id9.")
 var ex1 = flag.Bool("ex1", false, "Adds clauses to state that in each position there is exactly one car.")
 var cnt = flag.Bool("cnt", false, "Meta flag: sets id1, id2, id3, id4, id5.")
 var ca1 = flag.Bool("ca1", false, "Sequential Counter for capacity constraints, type 1.")
@@ -27,8 +28,7 @@ var id2 = flag.Bool("id2", false, "Sequential Counter for cardinality, clauses 2
 var id3 = flag.Bool("id3", false, "Sequential Counter for cardinality, clauses 3 (see paper).")
 var id4 = flag.Bool("id4", false, "Sequential Counter for cardinality, clauses 4 (see paper).")
 var id5 = flag.Bool("id5", false, "Initializes the counter to be a cardinality constraint.")
-var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of the cardinality constraints on the "+
-	" demand, should be set to true (alternative to re1 and re2 in special cases).")
+var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand");
 var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
 var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary"+
@@ -98,6 +98,23 @@ func setFlags() {
 		id8 = &t
 		id9 = &t
 	}
+
+	if *e5 {
+		ex1 = &t
+		cnt = &t
+        ca1 = &t
+        ca2 = &t
+        ca3 = &t
+        ca4 = &t
+        ca5 = &t
+		re1 = &t
+		re2 = &t
+		id6 = &t
+		id7 = &t
+		id8 = &t
+		id9 = &t
+	}
+
 
 	if *cnt {
 		id1 = &t
