@@ -11,6 +11,7 @@ import (
 )
 
 var name = flag.String("file", "test.txt", "Path of the file specifying the car sequencing according to the CSPlib.")
+var ver = flag.Bool("ver", false, "Show version info.")
 var e1 = flag.Bool("e1", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, id7, id8, id9.")
 var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
 var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9.")
@@ -49,6 +50,14 @@ var gen IdGen
 
 func main() {
 	flag.Parse()
+    if *ver { 
+        fmt.Println(` CNF generator for car sequencing problem from CSPLib 
+        Version tag: 1.0
+        For infos about flags use -help
+        Rights with NICTA and Valentin Mayer-Eichberger`)
+        return
+    } 
+
 	setFlags()
 	parse(*name)
 }
