@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var name = flag.String("file", "test.txt", "Path of the file specifying the car sequencing according to the CSPlib.")
+var name = flag.String("file", "", "Path of the file specifying the car sequencing according to the CSPlib.")
 var ver = flag.Bool("ver", false, "Show version info.")
 var e1 = flag.Bool("e1", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, id7, id8, id9.")
 var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
@@ -51,14 +51,18 @@ var gen IdGen
 func main() {
 	flag.Parse()
     if *ver { 
-        fmt.Println(` CNF generator for car sequencing problem from CSPLib 
-        Version tag: 1.0
-        For infos about flags use -help
-        Rights with NICTA and Valentin Mayer-Eichberger`)
+        fmt.Println(`CNF generator for car sequencing problem from CSPLib 
+Version tag: 1.0
+For infos about flags use -help
+Copyright (C) NICTA and Valentin Mayer-Eichberger
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
+There is NO WARRANTY, to the extent permitted by law.`)
         return
     } 
-
 	setFlags()
+    if *name == "" { 
+        *name = flag.Arg(0)
+    } 
 	parse(*name)
 }
 
@@ -371,7 +375,7 @@ func parse(filename string) bool {
 	input, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		fmt.Println("Could not read file: ", filename)
+        fmt.Println("Please specifiy correct path to instance. Does not exist: ", filename)
 		return false
 	}
 
