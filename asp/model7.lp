@@ -40,13 +40,13 @@ is_class_counter(P2,C,M+1) :-
     next(P1,P2),
     is_car(P2,C).
 
-:-  class_count(C,M),
-    last(P),
-    is_class_counter(P,C,M+1).
-
-:-  class_count(C,M),
-    last(P),
-    not is_class_counter(P,C,M).
+%:-  class_count(C,M),
+%    last(P),
+%    is_class_counter(P,C,M+1).
+%
+%:-  class_count(C,M),
+%    last(P),
+%    not is_class_counter(P,C,M).
 
 % restriction on options:
 
@@ -104,11 +104,11 @@ is_option_counter(P2,O,W+1,M+1) :-
     not N { is_option(_,O) } N. 
 
 
-#hide.
-#show is_car/2. 
-#show is_option/2. 
-#show class/1. 
-#show next/2. 
-#show first/1. 
-#show option/1. 
+%#hide.
+%#show is_car/2. 
+%#show is_option/2. 
+%#show class/1. 
+%#show next/2. 
+%#show first/1. 
+%#show option/1. 
                                                                                               

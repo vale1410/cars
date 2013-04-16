@@ -52,11 +52,11 @@ printOptionHead(N) :-
     ).
     
 start:-
-    printOverview,nl,
-    first(F), 
-    printRow(F), 
-    forall(class(O),printCounter(c,O)), 
-    forall(option(O),printCounter(o,O)). 
+    printOverview,nl.
+    %    first(F), 
+    %    printRow(F), 
+    %    forall(class(O),printCounter(c,O)), 
+    %    forall(option(O),printCounter(o,O)). 
 
 is_car(P,C) :- 
     is(c,C,P). 
@@ -85,50 +85,52 @@ printOption(C,O) :-
      nl
     ).
 
-printPos(P) :- 
-    writeS(P), 
-    (next(P,PP) ->
-        printPos(PP); 
-        nl
-    ). 
+%printPos(P) :- 
+%    writeS(P), 
+%    (next(P,PP) ->
+%        printPos(PP); 
+%        nl
+%    ). 
+%
+%printCounter(T,I) :- 
+%    writeS(' '),nl,
+%    write(T), 
+%    write('/'),
+%    writeS(I), 
+%    printPos(0), 
+%    counter(T,I,_,_,N), 
+%    NN is N +1, 
+%    printCount(T,I,NN). 
+%
+%printCount(T,I,N) :- 
+%    writeS(N), 
+%    printCounterRow(T,I,0,N), 
+%    NN is N-1, 
+%    (N > 0 ->
+%    printCount(T,I,NN); 
+%    nl). 
+%
+%printCounterRow(T,I,P,N) :- 
+%    (lower(T,I,P,N) ->
+%     writeS('L');
+%        (upper(T,I,P,N) ->
+%         writeS('U');
+%            (in(T,I,P,N) ->
+%             writeS('1'); 
+%             (domain(T,I,P,N) ->
+%              writeS('0');
+%              writeS(' '))
+%          )
+%         )
+%     ),
+%
+%
+%    (next(P,PP)->
+%     printCounterRow(T,I,PP,N); 
+%     nl
+%    ).
 
-printCounter(T,I) :- 
-    writeS(' '),nl,
-    write(T), 
-    write('/'),
-    writeS(I), 
-    printPos(0), 
-    counter(T,I,_,_,N), 
-    NN is N +1, 
-    printCount(T,I,NN). 
 
-printCount(T,I,N) :- 
-    writeS(N), 
-    printCounterRow(T,I,0,N), 
-    NN is N-1, 
-    (N > 0 ->
-    printCount(T,I,NN); 
-    nl). 
-
-printCounterRow(T,I,P,N) :- 
-    (lower(T,I,P,N) ->
-     writeS('L');
-        (upper(T,I,P,N) ->
-         writeS('U');
-            (in(T,I,P,N) ->
-             writeS('1'); 
-             (domain(T,I,P,N) ->
-              writeS('0');
-              writeS(' '))
-          )
-         )
-     ),
-
-
-    (next(P,PP)->
-     printCounterRow(T,I,PP,N); 
-     nl
-    ).
-
-
+option(O) :- class_option(_,O). 
+class(C) :- class_count(C,_). 
 
