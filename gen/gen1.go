@@ -73,8 +73,8 @@ func setFlags() {
 		ex1 = &t
 		cnt = &t
         ca1 = &t
-        ca2 = &t
-        ca3 = &t
+//        ca2 = &t
+//        ca3 = &t
         ca4 = &t
         ca5 = &t
 		id7 = &t
@@ -116,8 +116,8 @@ func setFlags() {
 		ex1 = &t
 		cnt = &t
         ca1 = &t
-        ca2 = &t
-        ca3 = &t
+//        ca2 = &t
+//        ca3 = &t
         ca4 = &t
         ca5 = &t
 		re1 = &t
