@@ -14,7 +14,7 @@
 
 \section{Preprocessing Lower Bounds}
 
-The Idea to this method goes back to the proof in \cite{Gent98} to show a lower bound of 2 for the instance 19/97. Here
+The idea to this method goes back to the proof in \cite{Gent98} to show a lower bound of 2 for the instance 19/97. Here
 we will show how to generalize this technique and apply this method on all problems from the benchmark in \cite{Gravel05}. 
 
 We start with instance 300-04 as an example. The demands and options are given in Table \ref{tab:2}. 
@@ -26,13 +26,13 @@ We start with instance 300-04 as an example. The demands and options are given i
     \label{tab:2}
 \end{table}
 
-There are two classes, 21 and 23, that require options 0, 1, 2 and 4 and sum of demands is 9. All other classes share at
-least one options with these two classes.  First observation is that cars of class 21 and 23 have to be put at least 5
-apart, so they cannot share a neighbour.  Second they cannot be neighbour to any of the classes that have a $1/q$
-restriction. This leaves us with the classes that only share the option 1 and for each car at most one adjacent car can
-have restriction $2/3$. Since the first and the last car in the sequence can have any neighbour with that restriction,
-the number of cars that share no option is at least $9-2=7$. Since there are no such cars, the lower bound for
-violations (dummy cars or violated capacity constraints) is 7. 
+There are two classes, 21 and 23, that require options 0, 1, 2 and 4 and sum of demands is 9. First observation is that
+all other classes share at least one options with these two classes.  Secondly cars of class 21 and 23 have to be put at
+least 5 apart, so they cannot share a neighbour.  Second they cannot be neighbour to any of the classes that have a
+$1/q$ restriction. This leaves us with the classes that only share the option 1 and for each car at most one adjacent
+car can have restriction $2/3$. Since the first and the last car in the sequence can have any neighbour with that
+restriction, the number of cars that share no option is at least $9-2=7$. Since there are no such cars, the lower bound
+for violations (dummy cars or violated capacity constraints) is 7. 
 
 A similar argument can be made for classes 21, 22, 23 that share options 0, 1 and 2. Here the collective demand is 20
 and the supply of cars that have neither of these options is $20 - 13 = 7$. This gives a lower bound of 5, which is weaker than the
@@ -58,16 +58,17 @@ the number of cars that do not share any options with this subset.
 \end{proposition}
 
 \begin{proof}
-    For convenience we describe sequences of cars by words of the alphabet $\{a,b,c\}$, $a$ denotes a car that requires
-    at least one option in $B$, $b$ denotes a car that requires all options in $B$ and $c$ denotes a car that requires
-    no option in $B$. 
-    \begin{enumerate}
-        \item For each car having all options in $B$ there cannot be cars next to it that require at least one option in
-            $B$.  Neighbours can be shared, so the sequence as $bcbcbc\ldots cb$ is one with least number of $c$s
-            necessary. Thus there have to be at least $k-1$ cars with no option of $B$. 
-        \item Similar to 1) but here neighbours cannot be shared. 
-        \item Neighbours cannot be shared and due to the capacity constraint with $2/q$ one of the neighbors. 
-    \end{enumerate}
+    still working on it...
+%    For convenience we describe sequences of cars by words of the alphabet $\{a,b,c\}$, $a$ denotes a car that requires
+%    at least one option in $B$, $b$ denotes a car that requires all options in $B$ and $c$ denotes a car that requires
+%    no option in $B$. 
+%    \begin{enumerate}
+%        \item For each car having all options in $B$ there cannot be cars next to it that require at least one option in
+%            $B$.  Neighbours can be shared, so the sequence as $bcbcbc\ldots cb$ is one with least number of $c$s
+%            necessary. Thus there have to be at least $k-1$ cars with no option of $B$. 
+%        \item Similar to 1) but here neighbours cannot be shared. 
+%        \item Neighbours cannot be shared and due to the capacity constraint with $2/q$ one of the neighbors. 
+%    \end{enumerate}
 \end{proof}
 
 

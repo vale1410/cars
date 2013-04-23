@@ -1,5 +1,5 @@
 
-NAME=i
+NAME=s
 OUTPUT=$(NAME).pdf
 
 all: show 
