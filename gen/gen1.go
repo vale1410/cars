@@ -12,24 +12,25 @@ import (
 
 var name = flag.String("file", "", "Path of the file specifying the car sequencing according to the CSPlib.")
 var ver = flag.Bool("ver", false, "Show version info.")
-var e1 = flag.Bool("e1", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, id7, id8, id9.")
-var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
-var e3 = flag.Bool("e3", false, "Collection of flags: ex1, cnt, id6, id7, id8, id9.")
-var e4 = flag.Bool("e4", false, "Collection of flags: ex1, cnt, re1, re2, id6, id7, id8, id9.")
-var e5 = flag.Bool("e5", false, "Collection of flags: ex1, cnt, ca1, ca2, ca3, ca4, ca5, re1, re2, id6, id7, id8, id9.")
+var e1 = flag.Bool("e1", false, "Collection of flags: -ex1 -cnt -ca    -id7 -id8 -id9.")
+var e2 = flag.Bool("e2", false, "Collection of flags: -ex1 -cnt -id6 3 -id7 -id8 -id9.")
+var e3 = flag.Bool("e3", false, "Collection of flags: -ex1 -cnt -ca -id6 3 -id7 -id8 -id9.")
+//var e4 = flag.Bool("e4", false, "Collection of flags: ex1, cnt, re1, re2, id6, id7, id8, id9.")
+//var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
 var ex1 = flag.Bool("ex1", false, "Adds clauses to state that in each position there is exactly one car.")
 var cnt = flag.Bool("cnt", false, "Meta flag: sets id1, id2, id3, id4, id5.")
-var ca1 = flag.Bool("ca1", false, "Sequential Counter for capacity constraints, type 1.")
-var ca2 = flag.Bool("ca2", false, "Sequential Counter for capacity constraints, type 2.")
-var ca3 = flag.Bool("ca3", false, "Sequential Counter for capacity constraints, type 3.")
-var ca4 = flag.Bool("ca4", false, "Sequential Counter for capacity constraints, type 4.")
-var ca5 = flag.Bool("ca5", false, "Initializes the counter to be a AtMost constraint.")
 var id1 = flag.Bool("id1", false, "Sequential Counter for cardinality, clauses 1 (see paper).")
 var id2 = flag.Bool("id2", false, "Sequential Counter for cardinality, clauses 2 (see paper).")
 var id3 = flag.Bool("id3", false, "Sequential Counter for cardinality, clauses 3 (see paper).")
 var id4 = flag.Bool("id4", false, "Sequential Counter for cardinality, clauses 4 (see paper).")
 var id5 = flag.Bool("id5", false, "Initializes the counter to be a cardinality constraint.")
-var id6 = flag.Bool("id6", false, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand");
+var ca  = flag.Bool("ca",  false, "Meta flag: sets ca1, ca2, ca3, ca4, ca5.")
+var ca1 = flag.Bool("ca1", false, "Sequential Counter for capacity constraints, type 1.")
+var ca2 = flag.Bool("ca2", false, "Sequential Counter for capacity constraints, type 2.")
+var ca3 = flag.Bool("ca3", false, "Sequential Counter for capacity constraints, type 3.")
+var ca4 = flag.Bool("ca4", false, "Sequential Counter for capacity constraints, type 4.")
+var ca5 = flag.Bool("ca5", false, "Initializes the counter to be a AtMost constraint.")
+var id6 = flag.Int("id6", 0, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand. 0: none, 1: just on options; 2: just on classes; 3: on options and classes");
 var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
 var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary"+
@@ -52,7 +53,7 @@ func main() {
 	flag.Parse()
     if *ver { 
         fmt.Println(`CNF generator for car sequencing problem from CSPLib 
-Version tag: 1.0
+Version tag: 1.1
 For infos about flags use -help
 Copyright (C) NICTA and Valentin Mayer-Eichberger
 License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
@@ -68,25 +69,22 @@ There is NO WARRANTY, to the extent permitted by law.`)
 
 func setFlags() {
 	t := true
+    n3 := 3
 
 	if *e1 {
 		ex1 = &t
 		cnt = &t
-        ca1 = &t
-        ca2 = &t
-        ca3 = &t
-        ca4 = &t
-        ca5 = &t
+        ca = &t
 		id7 = &t
 		id8 = &t
 		id9 = &t
 	}
 
+
 	if *e2 {
 		ex1 = &t
 		cnt = &t
-		re1 = &t
-		re2 = &t
+		id6 = &n3
 		id7 = &t
 		id8 = &t
 		id9 = &t
@@ -95,39 +93,40 @@ func setFlags() {
 	if *e3 {
 		ex1 = &t
 		cnt = &t
-		id6 = &t
+        ca = &t
+		id6 = &n3
 		id7 = &t
 		id8 = &t
 		id9 = &t
 	}
 
-	if *e4 {
-		ex1 = &t
-		cnt = &t
-		re1 = &t
-		re2 = &t
-		id6 = &t
-		id7 = &t
-		id8 = &t
-		id9 = &t
-	}
+	//if *e2 {
+	//	ex1 = &t
+	//	cnt = &t
+	//	re1 = &t
+	//	re2 = &t
+	//	id7 = &t
+	//	id8 = &t
+	//	id9 = &t
+	//}
+	//if *e4 {
+	//	ex1 = &t
+	//	cnt = &t
+	//	re1 = &t
+	//	re2 = &t
+	//	id6 = &n3
+	//	id7 = &t
+	//	id8 = &t
+	//	id9 = &t
+	//}
 
-	if *e5 {
-		ex1 = &t
-		cnt = &t
-        ca1 = &t
-        ca2 = &t
-        ca3 = &t
-        ca4 = &t
-        ca5 = &t
-		re1 = &t
-		re2 = &t
-		id6 = &t
-		id7 = &t
-		id8 = &t
-		id9 = &t
+	if *ca {
+		ca1 = &t
+		ca2 = &t
+		ca3 = &t
+		ca4 = &t
+		ca5 = &t
 	}
-
 
 	if *cnt {
 		id1 = &t
@@ -487,7 +486,7 @@ func parse(filename string) bool {
 		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(c)...)
 		}
-		if *id6 {
+		if *id6 == 2 || *id6 == 3 {
 			clauses = append(clauses, createAtMostSeq6(c)...)
 		}
 	}
@@ -503,7 +502,7 @@ func parse(filename string) bool {
 		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(o)...)
 		}
-		if *id6 {
+		if *id6 == 1 || *id6 == 3 {
 			clauses = append(clauses, createAtMostSeq6(o)...)
 		}
 		if *re1 {

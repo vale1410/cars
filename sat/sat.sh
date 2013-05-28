@@ -11,7 +11,7 @@ timeout=${3-60}
 
 case $solver in
     1) minisat $instance -cpu-lim=$timeout  ;;
-    2) timeout $timeout cryptominisat $instance --nosolprint  ;;
+    2) cmsat $instance -s 0 --maxtime $timeout ;;
     3) timeout $timeout lingeling --verbose $instance  ;;
     4) clasp --time-limit=$timeout -q --stats --configuration=handy $instance  ;;
     5) timeout $timeout glucose_static $instance | grep '^[^v]' ;;

@@ -6,7 +6,11 @@ Modelling attempts for the car sequencing problem from the CSPLIB
 Description of the models
 -------------------------
 
-Model: 
+SAT Models: (subfolder gen)
+
+e1 - e5) see paper description
+
+ASP Models (subfolder asp)
 
 1) ASP naive (for each window and option (for each window and option
 

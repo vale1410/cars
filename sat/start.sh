@@ -9,24 +9,18 @@ source prll.sh
 
 data=${1-data/test}
 output=${2-output}
-time=${3-600}
+time=${3-5000}
 
 
 argument=()
-for e in e4
-do
-    mkdir -p $e/$output
-    for instance in $e/$data/*.cnf
+    for instance in $data/*.cnf
     do
-        #for solver in {1,2,3,4,5}
-        #for solver in {6,7,8,9}
-        for solver in 1
+        for solver in {1,2,3}
         do
-            a=$instance' '$solver' '$time' '$e/$output/$(basename $instance .cnf)'_'$solver'_'$time'.log'
+            a=$instance' '$solver' '$time' '$output/$(basename $instance .cnf)'_'$solver'_'$time'.log'
             argument+=($a)
         done
     done
-done
 
 
 myfn() {
@@ -38,4 +32,4 @@ myfn() {
     ./sat.sh $x1 $x2 $x3 | tee $x4
 }
 
-prll -c 6 myfn $argument
+prll -c 3 myfn $argument
