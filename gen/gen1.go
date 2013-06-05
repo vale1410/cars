@@ -15,8 +15,6 @@ var ver = flag.Bool("ver", false, "Show version info.")
 var e1 = flag.Bool("e1", false, "Collection of flags: -ex1 -cnt -ca    -id7 -id8 -id9.")
 var e2 = flag.Bool("e2", false, "Collection of flags: -ex1 -cnt -id6 3 -id7 -id8 -id9.")
 var e3 = flag.Bool("e3", false, "Collection of flags: -ex1 -cnt -ca -id6 3 -id7 -id8 -id9.")
-//var e4 = flag.Bool("e4", false, "Collection of flags: ex1, cnt, re1, re2, id6, id7, id8, id9.")
-//var e2 = flag.Bool("e2", false, "Collection of flags: ex1, cnt, re1, re2, id7, id8, id9.")
 var ex1 = flag.Bool("ex1", false, "Adds clauses to state that in each position there is exactly one car.")
 var cnt = flag.Bool("cnt", false, "Meta flag: sets id1, id2, id3, id4, id5.")
 var id1 = flag.Bool("id1", false, "Sequential Counter for cardinality, clauses 1 (see paper).")
@@ -24,13 +22,13 @@ var id2 = flag.Bool("id2", false, "Sequential Counter for cardinality, clauses 2
 var id3 = flag.Bool("id3", false, "Sequential Counter for cardinality, clauses 3 (see paper).")
 var id4 = flag.Bool("id4", false, "Sequential Counter for cardinality, clauses 4 (see paper).")
 var id5 = flag.Bool("id5", false, "Initializes the counter to be a cardinality constraint.")
-var ca  = flag.Bool("ca",  false, "Meta flag: sets ca1, ca2, ca3, ca4, ca5.")
+var ca = flag.Bool("ca", false, "Meta flag: sets ca1, ca2, ca3, ca4, ca5.")
 var ca1 = flag.Bool("ca1", false, "Sequential Counter for capacity constraints, type 1.")
 var ca2 = flag.Bool("ca2", false, "Sequential Counter for capacity constraints, type 2.")
 var ca3 = flag.Bool("ca3", false, "Sequential Counter for capacity constraints, type 3.")
 var ca4 = flag.Bool("ca4", false, "Sequential Counter for capacity constraints, type 4.")
 var ca5 = flag.Bool("ca5", false, "Initializes the counter to be a AtMost constraint.")
-var id6 = flag.Int("id6", 0, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand. 0: none, 1: just on options; 2: just on classes; 3: on options and classes");
+var id6 = flag.Int("id6", 0, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand. 0: none, 1: just on options; 2: just on classes; 3: on options and classes")
 var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
 var id8 = flag.Bool("id8", false, "Class to Option relations, alternative 1: Completion Clause. (alternative to id9)")
 var id9 = flag.Bool("id9", false, "Class to Option relations, alternative 2: class implies neg options. Adds binary"+
@@ -51,35 +49,34 @@ var gen IdGen
 
 func main() {
 	flag.Parse()
-    if *ver { 
-        fmt.Println(`CNF generator for car sequencing problem from CSPLib 
+	if *ver {
+		fmt.Println(`CNF generator for car sequencing problem from CSPLib 
 Version tag: 1.1
 For infos about flags use -help
 Copyright (C) NICTA and Valentin Mayer-Eichberger
 License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
 There is NO WARRANTY, to the extent permitted by law.`)
-        return
-    } 
+		return
+	}
 	setFlags()
-    if *name == "" { 
-        *name = flag.Arg(0)
-    } 
+	if *name == "" {
+		*name = flag.Arg(0)
+	}
 	parse(*name)
 }
 
 func setFlags() {
 	t := true
-    n3 := 3
+	n3 := 3
 
 	if *e1 {
 		ex1 = &t
 		cnt = &t
-        ca = &t
+		ca = &t
 		id7 = &t
 		id8 = &t
 		id9 = &t
 	}
-
 
 	if *e2 {
 		ex1 = &t
@@ -93,7 +90,7 @@ func setFlags() {
 	if *e3 {
 		ex1 = &t
 		cnt = &t
-        ca = &t
+		ca = &t
 		id6 = &n3
 		id7 = &t
 		id8 = &t
@@ -138,17 +135,13 @@ func setFlags() {
 }
 
 const (
-	optionType countType = iota
+	optiontype counttype = iota
 	classType
 	exactlyOne
 	optimizationType
 )
 
 type countType int
-type clause struct {
-	desc     string
-	literals []int
-}
 
 type CountableId struct {
 	typ   countType
@@ -182,18 +175,23 @@ type AtMostVar struct {
 	count int
 }
 
+type clause struct {
+	desc     string
+	literals []int
+}
+
 type IdGen struct {
-	id          int
-	countVarMap map[CountVar]int
-	posVarMap   map[PosVar]int
-	atMostVarMap   map[AtMostVar]int
+	id           int
+	countVarMap  map[CountVar]int
+	posVarMap    map[PosVar]int
+	atMostVarMap map[AtMostVar]int
 }
 
 func NewIdGen() {
 	gen.id = 0
 	gen.posVarMap = make(map[PosVar]int, size*(class_count+option_count)) //just an approximation of size of map
-	gen.countVarMap = make(map[CountVar]int, size*class_count^2)  //just an approximation of size of map  
-	gen.atMostVarMap = make(map[AtMostVar]int, size*class_count^2) //just an approximation of size of map
+	gen.countVarMap = make(map[CountVar]int, size*class_count^2)          //just an approximation of size of map  
+	gen.atMostVarMap = make(map[AtMostVar]int, size*class_count^2)        //just an approximation of size of map
 	return
 }
 
@@ -374,7 +372,7 @@ func parse(filename string) bool {
 	input, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-        fmt.Println("Please specifiy correct path to instance. Does not exist: ", filename)
+		fmt.Println("Please specifiy correct path to instance. Does not exist: ", filename)
 		return false
 	}
 
@@ -480,9 +478,9 @@ func parse(filename string) bool {
 
 	//clauses 1-6 for classes
 	for _, c := range classes {
-        if *id1 || *id2 ||*id3 ||*id4 {
+		if *id1 || *id2 || *id3 || *id4 {
 			clauses = append(clauses, createCounter(c)...)
-        }
+		}
 		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(c)...)
 		}
@@ -493,12 +491,12 @@ func parse(filename string) bool {
 
 	//clauses 1-6 for options
 	for _, o := range options {
-        if *ca1 || *ca2 || *ca3 || *ca4 || *ca5 {
+		if *ca1 || *ca2 || *ca3 || *ca4 || *ca5 {
 			clauses = append(clauses, createCapacityConstraints(o)...)
-        }
-        if *id1 || *id2 ||*id3 ||*id4 {
+		}
+		if *id1 || *id2 || *id3 || *id4 {
 			clauses = append(clauses, createCounter(o)...)
-        }
+		}
 		if *id5 {
 			clauses = append(clauses, createAtMostSeq5(o)...)
 		}
@@ -567,9 +565,9 @@ func parse(filename string) bool {
 		createIanConstraints(options, classes, class2option)
 	}
 
-    if len(clauses) > 0 { 
-	    printClausesDIMACS(clauses)
-    } 
+	if len(clauses) > 0 {
+		printClausesDIMACS(clauses)
+	}
 	if *debug {
 		fmt.Println("c options: ", options)
 		fmt.Println("c classes: ", classes)
@@ -686,96 +684,94 @@ func createSubSets(i int, set []bool) (sets [][]bool) {
 	return
 }
 
-
 func createCapacityConstraints(c Countable) (clauses []clause) {
 
 	clauses = make([]clause, 0)
 
-    // first,position,count
+	// first,position,count
 
-    q := c.window
-    u := c.capacity
+	q := c.window
+	u := c.capacity
 
-    for first := 0 ; first < size - q + 1; first++ { 
-        
-        // first,position,count
-        cV1 := AtMostVar{c.cId, first, first, 0}
-        cV2 := AtMostVar{c.cId, first, first, 1}
-        pV  := PosVar{c.cId, first}
+	for first := 0; first < size-q+1; first++ {
 
-	    if *ca3 {
-	    	cn := clause{"ca3", []int{getPosId(pV), -getAtMostId(cV2)}}
-	    	clauses = append(clauses, cn)
-	    }
+		// first,position,count
+		cV1 := AtMostVar{c.cId, first, first, 0}
+		cV2 := AtMostVar{c.cId, first, first, 1}
+		pV := PosVar{c.cId, first}
 
-	    for i := first; i < first + q - 1; i++ {
+		if *ca3 {
+			cn := clause{"ca3", []int{getPosId(pV), -getAtMostId(cV2)}}
+			clauses = append(clauses, cn)
+		}
 
-	    	cV1.pos = i 
-	    	cV2.pos = i + 1
-	    	pV.pos = i + 1
+		for i := first; i < first+q-1; i++ {
 
-	    	for j := 0; j <= u+1; j++ {
-	    		cV1.count = j
-	    		cV2.count = j
-	    		if *ca1 {
-	    			c1 := clause{"ca1", []int{-1 * getAtMostId(cV1), getAtMostId(cV2)}}
-	    			clauses = append(clauses, c1)
-	    		}
-	    		if *ca3 {
-	    			c3 := clause{"ca3", []int{getPosId(pV), getAtMostId(cV1), -getAtMostId(cV2)}}
-	    			clauses = append(clauses, c3)
-	    		}
-	    	}
-	    }
+			cV1.pos = i
+			cV2.pos = i + 1
+			pV.pos = i + 1
 
-        cV1 = AtMostVar{c.cId, first, first, 0}
-	    cV2 = AtMostVar{c.cId, first, first, 1}
-	    pV = PosVar{c.cId, first}
+			for j := 0; j <= u+1; j++ {
+				cV1.count = j
+				cV2.count = j
+				if *ca1 {
+					c1 := clause{"ca1", []int{-1 * getAtMostId(cV1), getAtMostId(cV2)}}
+					clauses = append(clauses, c1)
+				}
+				if *ca3 {
+					c3 := clause{"ca3", []int{getPosId(pV), getAtMostId(cV1), -getAtMostId(cV2)}}
+					clauses = append(clauses, c3)
+				}
+			}
+		}
 
-	    if *ca4 {
-	    	cn := clause{"ca4", []int{-getPosId(pV), getAtMostId(cV2)}}
-	    	clauses = append(clauses, cn)
-	    }
+		cV1 = AtMostVar{c.cId, first, first, 0}
+		cV2 = AtMostVar{c.cId, first, first, 1}
+		pV = PosVar{c.cId, first}
 
-	    for i := first; i < first + q - 1; i++ {
+		if *ca4 {
+			cn := clause{"ca4", []int{-getPosId(pV), getAtMostId(cV2)}}
+			clauses = append(clauses, cn)
+		}
 
-	    	cV1.pos = i
-	    	cV2.pos = i + 1
-	    	pV.pos = i + 1
+		for i := first; i < first+q-1; i++ {
 
-	    	for j := 0; j <= u; j++ {
-	    		cV1.count = j
-	    		cV2.count = j + 1
+			cV1.pos = i
+			cV2.pos = i + 1
+			pV.pos = i + 1
 
-	    		if *ca2 {
-	    			c2 := clause{"ca2", []int{getAtMostId(cV1), -getAtMostId(cV2)}}
-	    			clauses = append(clauses, c2)
-	    		}
-	    		if *ca4 {
-	    			c4 := clause{"ca4", []int{-getPosId(pV), -getAtMostId(cV1), getAtMostId(cV2)}}
-	    			clauses = append(clauses, c4)
-	    		}
-	    	}
-	    }
+			for j := 0; j <= u; j++ {
+				cV1.count = j
+				cV2.count = j + 1
 
-        if *ca5 { //initialize
+				if *ca2 {
+					c2 := clause{"ca2", []int{getAtMostId(cV1), -getAtMostId(cV2)}}
+					clauses = append(clauses, c2)
+				}
+				if *ca4 {
+					c4 := clause{"ca4", []int{-getPosId(pV), -getAtMostId(cV1), getAtMostId(cV2)}}
+					clauses = append(clauses, c4)
+				}
+			}
+		}
 
-        cV1 := AtMostVar{c.cId, first, first, 2}
-        cV2 := AtMostVar{c.cId, first, first + q - 1, u+1}
-        cV3 := AtMostVar{c.cId, first, first , 0}
+		if *ca5 { //initialize
 
-        clauses = append(clauses,clause{"ca5", []int{-getAtMostId(cV1)}})
-        clauses = append(clauses,clause{"ca5", []int{-getAtMostId(cV2)}})
-        clauses = append(clauses,clause{"ca5", []int{getAtMostId(cV3)}})
+			cV1 := AtMostVar{c.cId, first, first, 2}
+			cV2 := AtMostVar{c.cId, first, first + q - 1, u + 1}
+			cV3 := AtMostVar{c.cId, first, first, 0}
 
-        } 
+			clauses = append(clauses, clause{"ca5", []int{-getAtMostId(cV1)}})
+			clauses = append(clauses, clause{"ca5", []int{-getAtMostId(cV2)}})
+			clauses = append(clauses, clause{"ca5", []int{getAtMostId(cV3)}})
 
-    }
+		}
+
+	}
 
 	return
 
-} 
-
+}
 
 func createCounter(c Countable) (clauses []clause) {
 
