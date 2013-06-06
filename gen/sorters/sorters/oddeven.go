@@ -20,7 +20,7 @@ func compareAndSwap(array []int, comparators []Comparator, i int, j int) {
 	pos++
 	array[i] = newId - 2
 	array[j] = newId - 1
-//	fmt.Println(array)
+	//	fmt.Println(array)
 }
 
 func oddevenMerge(array []int, comparators []Comparator, lo int, hi int, r int) {
@@ -45,7 +45,7 @@ func oddevenMergeRange(array []int, comparators []Comparator, lo int, hi int) {
 	}
 }
 
-// it generates the id set for one comparator run of size n
+// it generates the id set for one comparator run of size s
 func CreateOddEvenEncoding(s int) []Comparator {
 	//grow to be 2^n
 	n := 1
@@ -70,23 +70,83 @@ func CreateOddEvenEncoding(s int) []Comparator {
 
 	oddevenMergeRange(array, comparators, 0, len(array)-1)
 
-    var last int
+	var last int
 	for i, comp := range comparators {
 		if comp.a == 0 && comp.b == 0 {
-            last = i
-            break 
-        } 
-    } 
-    comparators = comparators[:last]
-    fmt.Println("Number of comparators:",last)
+			last = i
+			break
+		}
+	}
+	comparators = comparators[:last]
+	fmt.Println("Number of comparators before shrinking:", last)
 
-	//fmt.Println(comparators)
-    //printGraph(comparators)
+	// shrink the comparator to size s by setting the last n-s to 0 
+	// and propagate through
+	mapping := make(map[int]int, n-s)
+
+	for i := s; i < n; i++ {
+		mapping[i] = -1
+	}
+
+	fmt.Println(comparators)
+	comparators = propagate(comparators, mapping)
+	fmt.Println("Number of comparators after shrinking:", len(comparators))
+
+	fmt.Println(comparators)
+	fmt.Println(mapping)
+
+	//printGraph(comparators)
 
 	//do the magic
 
 	// shrink again
 	return comparators
+}
+
+func propagate(comparators []Comparator, mapping map[int]int) []Comparator {
+
+	l := 0
+
+	zero := Comparator{0, 0, 0, 0}
+
+	for i, comp := range comparators {
+		a, aok := mapping[comp.a]
+		b, bok := mapping[comp.b]
+
+		if aok {
+			comparators[i].a = a
+		}
+
+		if bok {
+			comparators[i].b = b
+		}
+
+		if aok && a == -1 {
+			comparators[i] = zero
+			mapping[comp.c] = -1
+			mapping[comp.d] = comp.b
+		}
+
+		if bok && b == -1 {
+			comparators[i] = zero
+			mapping[comp.c] = -1
+			mapping[comp.d] = comp.a
+		}
+
+		if comparators[i] == zero {
+			l++
+		}
+	}
+
+	//create return comparators
+	out := make([]Comparator, 0, l)
+
+	for _, comp := range comparators {
+		if comp != zero {
+			out = append(out, comp)
+		}
+	}
+	return out
 }
 
 func printGraph(comparators []Comparator) {

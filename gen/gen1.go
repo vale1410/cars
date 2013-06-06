@@ -97,26 +97,6 @@ func setFlags() {
 		id9 = &t
 	}
 
-	//if *e2 {
-	//	ex1 = &t
-	//	cnt = &t
-	//	re1 = &t
-	//	re2 = &t
-	//	id7 = &t
-	//	id8 = &t
-	//	id9 = &t
-	//}
-	//if *e4 {
-	//	ex1 = &t
-	//	cnt = &t
-	//	re1 = &t
-	//	re2 = &t
-	//	id6 = &n3
-	//	id7 = &t
-	//	id8 = &t
-	//	id9 = &t
-	//}
-
 	if *ca {
 		ca1 = &t
 		ca2 = &t
@@ -134,46 +114,6 @@ func setFlags() {
 	}
 }
 
-const (
-	optiontype counttype = iota
-	classType
-	exactlyOne
-	optimizationType
-)
-
-type countType int
-
-type CountableId struct {
-	typ   countType
-	index int
-}
-
-type Countable struct {
-	cId      CountableId
-	window   int
-	capacity int
-	demand   int
-	lower    []int
-	upper    []int
-}
-
-type PosVar struct {
-	cId CountableId
-	pos int
-}
-
-type CountVar struct {
-	cId   CountableId
-	pos   int
-	count int
-}
-
-type AtMostVar struct {
-	cId   CountableId
-	first int
-	pos   int
-	count int
-}
 
 type clause struct {
 	desc     string
@@ -214,13 +154,13 @@ func printDebug(clauses []clause) {
 	for key, valueInt := range gen.posVarMap {
 		s := ""
 		switch key.cId.typ {
-		case optionType:
+		case OptionType:
 			s = "pos(option,"
-		case classType:
+		case ClassType:
 			s = "pos(class,"
-		case exactlyOne:
+		case ExactlyOne:
 			s = "pos(aux,"
-		case optimizationType:
+		case OptimizationType:
 			s = "pos(opti,"
 		}
 		s += strconv.Itoa(key.cId.index)
@@ -233,11 +173,11 @@ func printDebug(clauses []clause) {
 	for key, valueInt := range gen.countVarMap {
 		s := ""
 		switch key.cId.typ {
-		case optionType:
+		case OptionType:
 			s = "count(option,"
-		case classType:
+		case ClassType:
 			s = "count(class,"
-		case optimizationType:
+		case OptimizationType:
 			s = "count(opti,"
 		}
 		s += strconv.Itoa(key.cId.index)
@@ -252,11 +192,11 @@ func printDebug(clauses []clause) {
 	for key, valueInt := range gen.atMostVarMap {
 		s := ""
 		switch key.cId.typ {
-		case optionType:
+		case OptionType:
 			s = "atMost(option,"
-		case classType:
+		case ClassType:
 			s = "atMost(class,"
-		case optimizationType:
+		case OptimizationType:
 			s = "atMost(opti,"
 		}
 		s += strconv.Itoa(key.cId.index)
@@ -404,7 +344,7 @@ func parse(filename string) bool {
 				{
 					for i, v := range numbers {
 						capacity, _ := strconv.Atoi(v)
-						options[i].cId = CountableId{optionType, i}
+						options[i].cId = CountableId{OptionType, i}
 						options[i].capacity = capacity
 					}
 				}
@@ -418,7 +358,7 @@ func parse(filename string) bool {
 			default:
 				{
 					num, _ := strconv.Atoi(numbers[0])
-					classes[num].cId = CountableId{classType, num}
+					classes[num].cId = CountableId{ClassType, num}
 					class2option[num] = make([]bool, option_count)
 
 					// find option with lowest slope
@@ -456,7 +396,7 @@ func parse(filename string) bool {
 	}
 
 	if *add > 0 {
-		cId := CountableId{classType, class_count}
+		cId := CountableId{ClassType, class_count}
 		dummy := Countable{cId: cId, window: 1, capacity: 1, demand: *add}
 		classes = append(classes, dummy)
 		class2option = append(class2option, make([]bool, option_count))
@@ -967,12 +907,12 @@ func createExactlyOne() (clauses []clause) {
 
 		for j := 0; j < class_count-1; j++ {
 
-			posV1.cId = CountableId{classType, j}
-			posV2.cId = CountableId{classType, j + 1}
+			posV1.cId = CountableId{ClassType, j}
+			posV2.cId = CountableId{ClassType, j + 1}
 			atLeastOne[j] = getPosId(posV1)
 
-			auxV1.cId = CountableId{exactlyOne, j}
-			auxV2.cId = CountableId{exactlyOne, j + 1}
+			auxV1.cId = CountableId{ExactlyOne, j}
+			auxV2.cId = CountableId{ExactlyOne, j + 1}
 
 			c1 := clause{"lt1", []int{-getPosId(posV1), getPosId(auxV1)}}
 			c2 := clause{"lt1", []int{-getPosId(posV2), -getPosId(auxV1)}}
@@ -1001,15 +941,15 @@ func createSymmetry() (clauses []clause) {
 
 	for i := 0; i < class_count-1; i++ {
 
-		pV1.cId = CountableId{exactlyOne, i}
-		pVn.cId = CountableId{exactlyOne, i}
+		pV1.cId = CountableId{ExactlyOne, i}
+		pVn.cId = CountableId{ExactlyOne, i}
 
 		clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn)}})
 	}
 
-	pV1.cId = CountableId{classType, class_count - 1}
-	pVn.cId = CountableId{classType, class_count - 1}
-	pVn2 := PosVar{CountableId{exactlyOne, class_count - 2}, size - 1}
+	pV1.cId = CountableId{ClassType, class_count - 1}
+	pVn.cId = CountableId{ClassType, class_count - 1}
+	pVn2 := PosVar{CountableId{ExactlyOne, class_count - 2}, size - 1}
 
 	clauses = append(clauses, clause{"sym", []int{getPosId(pV1), -getPosId(pVn), -getPosId(pVn2)}})
 
@@ -1092,7 +1032,7 @@ func createOptPositions(c Countable) (clauses []clause) {
 	cV1.cId = c.cId
 	cV2.cId = c.cId
 	optV.cId = c.cId
-	optV.cId.typ = optimizationType
+	optV.cId.typ = OptimizationType
 
 	q := c.window
 	u := c.capacity
