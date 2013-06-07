@@ -54,7 +54,7 @@ func main() {
 	flag.Parse()
 	if *ver {
 		fmt.Println(`CNF generator for car sequencing problem from CSPLib 
-Version tag: 1.1
+Version tag: 1.2a
 For infos about flags use -help
 Copyright (C) NICTA and Valentin Mayer-Eichberger
 License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
