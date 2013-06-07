@@ -68,7 +68,7 @@ There is NO WARRANTY, to the extent permitted by law.`)
 	options, classes, class2option := parse(*name)
 
 	if *pb {
-		pbo.CreatePBOModel(options, classes, class2option)
+		pbo.CreatePBOModel(size,options, classes, class2option)
 	} else {
 		createSATModel(options, classes, class2option)
 	}
@@ -394,10 +394,10 @@ func parse(filename string) (options, classes []base.Countable, class2option [][
 			}
 			state++
 		} else {
-			fmt.Println("c ", l)
+			//fmt.Println("c ", l)
 		}
 	}
-    return 
+	return
 
 }
 
