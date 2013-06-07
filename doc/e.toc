@@ -1,0 +1,13 @@
+\contentsline {title}{Modelling in Propositional Logic: A Case Study}{1}
+\authcount {1}
+\contentsline {author}{No Author Given}{1}
+\contentsline {section}{\numberline {1}Introduction}{2}
+\contentsline {subsection}{\numberline {1.1}SAT Solving}{2}
+\contentsline {subsection}{\numberline {1.2}Modelling in SAT}{3}
+\contentsline {subsection}{\numberline {1.3}Literature Review on Car Sequencing}{3}
+\contentsline {subsection}{\numberline {1.4}Car Sequencing}{3}
+\contentsline {section}{\numberline {2}Modelling in CNF}{3}
+\contentsline {subsection}{\numberline {2.1}Counter Encoding}{3}
+\contentsline {subsection}{\numberline {2.2}Car Sequencing in CNF}{4}
+\contentsline {section}{\numberline {3}Evaluation}{4}
+\contentsline {section}{\numberline {4}Conclusion and Future Work}{4}

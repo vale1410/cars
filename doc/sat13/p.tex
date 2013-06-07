@@ -1,0 +1,98 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{datatool}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphics}
+
+\newcounter{Examplecount}
+\setcounter{Examplecount}{0}
+\newenvironment{example}
+{% This is the begin code
+    \stepcounter{Examplecount} Example \arabic{Examplecount} 
+\begin{it}
+    } 
+    {% This is the end code
+\end{it} 
+}
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{SAT Benchmark for the Car Sequencing Problem}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Valentin Mayer-Eichberger}
+\IEEEauthorblockA{NICTA and\\University of New South Wales\\
+Valentin.Mayer-Eichberger@nicta.com.au}}
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+    Car sequencing occurs in the production process of the automotive industry. It addresses the problem of scheduling
+    cars along an assembly line such that capacities of different workstations along the line are not exceeded. We
+    provide the SAT competition with a selection of hard car sequencing problems from the CSP$_{\mbox{LIB}}$
+    \cite{Gent99}. The encoding is based on a variant of the sequential counter encoding of cardinality constraints and
+    the reuse of auxiliary variables.  
+\end{abstract}
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+
+Car sequencing deals with the problem of scheduling cars along an assembly line with capacity constraints for different
+stations (e.g. radio, sun roof, air-conditioning, etc). Cars are partitioned into classes according to their
+requirements. The stations are denoted as \emph{options} and defined by a ratio $u/q$ restricting the maximal number $u$
+of cars that can be scheduled on every subsequence of length $q$.
+
+\begin{example} 
+    Given classes $C = \{1,2,3\}$ and options $O = \{a,b\}$. The demands (number of cars) for the classes are $3,2,2$,
+    respectively. Capacity constraints on options are given by $a:1/2$ and $b:1/5$, respectively. Class 1 has no restrictions,
+    class 2 requires option $a$ and class 3 needs options $\{a, b\}$. The only legal sequence for this problem is
+    $[3,1,2,1,2,1,3]$, since class 2 and 3 cannot be sequenced after another and class 3 need to be at least 5 positions
+    apart.
+\end{example}                                     
+
+Car sequencing in the CSPlib contains a selection of benchmark problems of this form ranging from 100 to 400 cars. Over
+the years different approaches have been used to solve these instances, among them constraint programming, local search
+and integer programming \cite{Regin97}\cite{Gottlieb03}\cite{Gravel05}\cite{Estellon06}\cite{Siala12}.
+
+Car sequencing has also been treated as an optimisation problem and several versions for the opimisation goal have been
+proposed. Most of the approaches use a variant of minimising the number of violated capacity constraints.  However, for
+this benchmark we use the definition of \cite{Perron04} which transforms easily to sequence of decision problems and SAT
+solving can be directly applied: An unsatisfiable car sequencing problem can be made solvable by adding empty slots to
+the sequence. The goal is then to minimise the number of empty slots needed for a valid sequence. A lower bound $lb$ is
+proven by unsatisfiability with $lb-1$ additional empty slots. 
+
+\section{The Encoding}
+
+The car sequencing problem can be naturally modelled by Boolean cardinality constraints. Our approach is to  translate
+cardinality constraints by a variant of the sequential counter encoding proposed by \cite{Sinz05}. The key idea is then
+to integrate capacity constraint into the sequential counter of the demand constraints by reusing the auxiliary
+variables. This enforces a global view on the conjunction of these two constraints and facilitates propagation. Our own
+experiments show that this encodings is far better than naive approaches or an automatic translation from the pseudo
+Boolean model. 
+
+\section{The Benchmark}
+
+A command line tool that generates CNF in DIMACS format from a problem description in the CSPlib is freely available at
+\verb+github.com/vale1410/car-sequencing+. With this tool one can generate different encodings and compare the runtime
+of SAT solvers. For this benchmark we chose the best encoding according to our experiments and we are interested if the
+solvers from the competition are able to prove stronger bounds. 
+
+\section*{Acknowledgement}
+
+NICTA is funded by the Australian Government as represented by the Department of Broadband, Communications and the
+Digital Economy and the Australian Research Council through the ICT Centre of Excellence program.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{p}
+
+\end{document}

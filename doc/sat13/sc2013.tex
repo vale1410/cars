@@ -1,0 +1,150 @@
+\documentclass[conference]{IEEEtran}
+
+\begin{document}
+	
+% paper title
+\title{MySolver}
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Michael Shell}
+\IEEEauthorblockA{Georgia Institute of Technology\\
+  Atlanta, Georgia}
+\and
+\IEEEauthorblockN{Homer Simpson}
+\IEEEauthorblockA{Twentieth Century Fox\\
+  Springfield, USA}
+\and
+\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
+\IEEEauthorblockA{Starfleet Academy\\
+  San Francisco, CA, USA}
+}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+\maketitle
+
+% the abstract is optional
+\begin{abstract}
+This document describes the SAT solver ``MySolver'', a new kind of hybrid solver combining
+local search, CDCL, and survey propagation.
+\end{abstract}
+
+\section{Introduction}
+
+This instructions provide general guidelines on what a good solver description contains. 
+The sectioning may be changes, as long as the required details are presented.
+
+Notice that the solver description should be specific to the particular version of your solver that 
+is submitted to SAT Competition 2013. Even if you have previously published a paper
+on a previous version of your solver, simply providing such an earlier paper 
+or just referring to such a paper does not meet the requirements for solver descriptions
+for SAT Competition 2013.
+
+Notice also that, following the principles of scientific writing, necessary references
+to known techniques implemented in your solver should be provided.
+Example reference: \cite{JeroslowWang:1990}
+
+Naming convention for the solver description PDF: 
+name the file according to the name of your solver.
+
+Make sure that page numbering is turned off.
+
+\section{Main Techniques}
+
+Which algorithmic paradigm(s) the solver is based on: CDCL, SLS, look-ahead, hybrid (of what), portfolio (of what type of solvers, which solvers) ? 
+
+What further solving techniques are used (e.g. preprocessing, restart/learning/... strategies, ...)?
+
+
+\section{Main Parameters}
+
+
+
+\begin{enumerate}
+\item What are the performance-sensitive parameters (both under user control and 
+internally-used) and what do they control? 
+\item Are there any ``magic constants''? What are they?
+\item What values do these parameters take for the competition? 
+\item Are the parameters dependent on instance properties? If yes, provide 
+on the properties and how they are used.
+\item \ldots
+\end{enumerate}
+
+Pay special attention to the parameters you have tuned (by hand or automatically) 
+for SAT Competition 2013.
+
+\section{Special Algorithms, Data Structures, and Other Features}
+
+Implementation-level details: special data structures, algorithmic details, \ldots
+
+
+\section{Implementation details}
+
+\begin{enumerate}
+\item In which program language(s) is the solver implemented in?
+\item Was the solver implemented from scratch, or is it based on other solver(s)? Which solver?
+\item \ldots
+\end{enumerate}
+ 
+\section{SAT Competition 2013 Specifics}
+\begin{enumerate}
+  \item In which tracks was the solver submitted to?
+  \item Which compiler (including version) was used?
+  \item What optimization flags were used in compilation?
+  \item 32-bit or 64-bit binary?
+  \item Command-line options? Which solver parameters were set to which values?
+\item \ldots
+\end{enumerate}
+
+\section{Availability}
+
+\begin{enumerate}
+  \item Is the solver open source, publicly available? Under which license?
+  \item Provide a URL from which the solver can be downloaded
+\item \ldots
+\end{enumerate}
+
+
+
+
+\section*{Acknowledgment}
+The authors would like to thank...
+
+\bigskip
+What should not be in the system description:
+\begin{enumerate}
+  \item Basic definitions related to SAT. (However, any formal notations used in the description should be defined.)
+  \item Empirical results on the solver's performance.
+\end{enumerate}
+
+\bibliographystyle{IEEEtran}
+\bibliography{sc2013}
+
+\end{document}
+
+
