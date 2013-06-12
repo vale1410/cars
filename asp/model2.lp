@@ -1,4 +1,4 @@
-% Simplest Model: 
+% A straight forward Model: 
 
 % This model uses two variable: 
 % is_car(Position,Type),

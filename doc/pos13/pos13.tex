@@ -1,5 +1,6 @@
 \documentclass[]{llncs} 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{verbatim}
 \usepackage{datatool}
 \usepackage{tikz}
@@ -9,6 +10,8 @@
 
 \newcommand{\todo}[1]{ {\color{red}{#1} }}
 \newcommand{\AtMostSeqCard}{AtMostSeqCard }
+
+\def\min{{\texttt{minimise}}}
 
 
 \author{Valentin Mayer-Eichberger and Toby Walsh}
@@ -80,19 +83,19 @@ option $l\in O$ we denote $C_l$ the set of classes that require this options. A 
 cars. 
 
 Let $n$ be the length of the total sequence. The following pseudo Boolean model is a basis for our translation to CNF.
-We use 0/1 variables $x^m_i$ to denote that an object(class or option) $m$ is at position $i$. For the sequence it must
-hold: 
+We use 0/1 variables $c^k_i$ to denote that a car $k\in C$ is at position $i$, likewise $o^l_i$ for option $l\in O$. For
+the sequence it must hold: 
 
 \begin{itemize}
-    \item Demand constraints: $\forall k \in C$ $$\sum^n_1 x^k_i = d_k$$                       
-    \item Capacity constraints: $\forall l \in O$ with ratio $u_l/q_l$ $$\bigwedge_{i=0}^{n-q_l}(\sum_{j=1}^{q_lo} x^l_{i+j} \leq u_l )$$
+    \item Demand constraints: $\forall k \in C$ $$\sum^n_{i=1} c^k_i = d_k$$                       
+    \item Capacity constraints: $\forall l \in O$ with ratio $u_l/q_l$ $$\bigwedge_{i=0}^{n-q_l}(\sum_{j=1}^{q_l} o^l_{i+j} \leq u_l )$$
 \end{itemize}
         And in all positions $i \in \{1\ldots n\}$ of the sequence it must hold:                                                    
 \begin{itemize}
     \item Link between classes and options: for each $k\in C$ and 
- $$\forall l \in O_k :\;\; x^k_i - x^l_i \leq 0$$  
- $$\forall l \not \in O_k : :\;\; x^k_i + x^l_i \leq 1$$  
-    \item Exactly one car:  $$\sum_{k\in C} x^k_i = 1$$  
+$$\forall l \in O_k :\;\; c^k_i - o^l_i \leq 0$$  
+$$\forall l \in O \text{ with } l \not \in O_k :\;\; c^k_i + o^l_i \leq 1$$  
+    \item Exactly one car:  $$\sum_{k\in C} c^k_i = 1$$  
 \end{itemize}
 
 \begin{example} 
@@ -104,15 +107,29 @@ hold:
 
 Car sequencing in the CSPlib contains a selection of benchmark problems of this form ranging from 100 to 400 cars. Over
 the years different approaches have been used to solve these instances, among them constraint programming, local search
-and integer programming \cite{Regin97}\cite{Gottlieb03}\cite{Gravel05}\cite{Estellon06}\cite{Siala12}.
+and integer programming \cite{Regin97}\cite{Gottlieb03}\cite{Gravel05}\cite{Estellon06}\cite{Siala12}. The complexity of
+the decision problem has been shown to be NP-Complete \cite{Kis04}\cite{Gent98}. 
 
 Car sequencing has also been treated as an optimisation problem, although the literature does not agree on a common
 optimisation function and several versions have been proposed. There are several variations for the optimisation
-function minimising the number of violated capacity constraints.  However, in this paper we use the definition of
-\cite{Perron04}. Fortuitously for us, this transforms easily to a decision problem and SAT solving can be directly
-applied.  An unsatisfiable car sequencing problem can be made solvable by adding empty slots (also called dummy cars) to
-the sequence. The task is then to minimise the number of dummy cars needed for a valid sequence. A lower bound of $lb$
-to an instance is shown by proving unsatisfiability with $lb-1$ dummy cars.
+function minimising the number of violated capacity constraints. However, in this paper we use the definition of
+\cite{Perron04} which transforms easily to a decision problem and SAT solving can be directly applied. 
+An unsatisfiable car sequencing problem can be made solvable by adding empty slots (also called dummy cars) to
+the sequence. The task is then to minimise the number of dummy cars needed to generate a valid sequence.
+          
+We state the optimisation function used in our models (OPT1) and for completeness provide also the optimisation function
+(OPT2) to which we compare in the experimental section. 
+
+\begin{itemize} 
+    \item[OPT1] Let $z\in C$ be the class of additional cars that require no options with variable demand $d_z \in
+    \mathbb{N}$. Then the optimisation function can be stated as $\min \;\; d_z$
+    \item[OPT2] Let $v^l_{i}$ be 1 if the capacity constraint of option $l$ is violated in the subsequence starting at
+        position $i$ otherwise 0. Then the optimisation function is $$\min \sum_{l\in O} \sum_{i=1}^{n-q_l+1} v_i^l$$
+\end{itemize} 
+
+A lower $LB$ for these functions is shown by providing a proof of unsatisfiability with a value of $LB-1$. Likewise an
+upper bound is shown by a certificate (a solution) with value $UB$. If lower and upper bound coincide, optimality of the
+solution is proven. 
 
 \section{Modelling the Car Sequencing Problem}
 \label{sec:modelling}
@@ -179,10 +196,10 @@ above(below) are set to false (true) by preprocessing. The question mark identif
 before variable assignments, right: after variable assignment $x_2$ and $x_7$ to true.
 \begin{center}
 \begin{minipage}[t]{0.5\textwidth}
-\include{example1}
+%\include{example1}
 \end{minipage}%
 \begin{minipage}[t]{0.5\textwidth}
-\include{example2}
+%\include{example2}
 \end{minipage}
 \end{center}
 \label{ex:1}
@@ -233,8 +250,8 @@ interesting two cases are shown by an arrow. (Configuration of this example take
 \centering 
 \caption{The grid of variables of Example \ref{ex:large}. Notation for bottom row: normal font = decision variable, bold
 = propagated, in brackets = propagated previously.}
-\include{example3}
-\include{example4}
+%\include{example3}
+%\include{example4}
 \label{fig3}
 \end{figure}
 
@@ -365,18 +382,19 @@ canonical implementation of state-of-the-art CDCL solvers. All experiments are d
 2.27GHs.
 
 \begin{table}[htbp]
-    \caption{SAT solving on the three different models.}
+    \caption{Comparison of the three SAT models, one ASP model and one PB model. The upper table gives the SAT instances
+    and the lower gives the UNSAT instances, that were solved by at least one of the models. }
     \centering
-    \begin{minipage}[t]{0.5\textwidth}
-    \begin{center}
+    %\begin{minipage}[t]{0.5\textwidth}
+    %\begin{center}
     \include{exp11}
-    \end{center}
-    \end{minipage}%
-    \begin{minipage}[t]{0.5\textwidth}
-    \begin{center}
+    %\end{center}
+    %\end{minipage}%
+    %\begin{minipage}[t]{0.5\textwidth}
+    %\begin{center}
     \include{exp12}
-    \end{center}
-    \end{minipage}
+    %\end{center}
+    %\end{minipage}
     \label{tab:2}
 \end{table}
 

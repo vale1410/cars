@@ -320,7 +320,7 @@ func parse(filename string) (options, classes []base.Countable, class2option [][
 	input, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		fmt.Println("Please specifiy correct path to instance. Does not exist: ", filename)
+		fmt.Println("Please specifiy correct path to instance. File does not exist: ", filename)
 		return
 	}
 
@@ -365,7 +365,7 @@ func parse(filename string) (options, classes []base.Countable, class2option [][
 					class2option[num] = make([]bool, option_count)
 
 					// find option with lowest slope
-					// to determine.Capacity and windows
+					// to determine capacity and windows
 
 					classes[num].Capacity = 1
 					classes[num].Window = 1
