@@ -29,7 +29,7 @@ func CreatePBOModel(N int, options, classes []base.Countable, class2option [][]b
 	// demand on classes
 	ncons += M
 
-	fmt.Printf("* #variable= %v #constraints= %v *\n", (N * (M + O)), ncons)
+	fmt.Printf("* #variable= %v #constraint= %v\n", (N * (M + O)), ncons)
 
 	// exactly one car per slot
 	for pos := 0; pos < N; pos++ {
