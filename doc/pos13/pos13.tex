@@ -121,7 +121,7 @@ An unsatisfiable car sequencing problem can be made solvable by adding empty slo
 the sequence. The task is then to minimise the number of dummy cars needed to generate a valid sequence.
           
 We state the optimisation function for which we show lower bounds and for completeness provide also the optimisation
-function to which we compare in the Section \ref{sec:experiments}: 
+function to which we compare in Section \ref{sec:experiments}: 
 
 \begin{enumerate} 
     \item Let $z\in C$ be the class of additional cars that require no options with variable demand $d_z \in
@@ -130,9 +130,7 @@ function to which we compare in the Section \ref{sec:experiments}:
         position $i$, otherwise 0. Then the optimisation function is $$\min \sum_{l\in O} \sum_{i=1}^{n-q_l+1} v_i^l$$
 \end{enumerate} 
 
-A lower bound $lb$ for these functions is shown by proving unsatisfiability with a value of $lb-1$. Likewise an upper
-bound is shown by a certificate (a solution) with value $ub$. If lower and upper bound coincide, optimality of the
-solution is proven. 
+%Usually the values for both functions coincide and solutions are interchangeable. 
 
 \section{Modelling the Car Sequencing Problem}
 \label{sec:modelling}
@@ -141,7 +139,7 @@ In this section we introduce different ways to model the car sequencing problem 
 cardinality constraints of the form $\sum_{i\in \{1\ldots n\}} x_{i} = d$ and $ \sum_{i\in \{1\ldots n\}} x_{i} \leq d
 $.
 
-First we introduce how to translate cardinality constraints as a variant of the sequential counter encoding proposed by
+First we describe how to translate cardinality constraints as a variant of the sequential counter encoding proposed by
 \cite{Sinz05}. Then we show how to enforce a global view by integrating capacity constraint into the sequential counter.
 We then show that this combination of the demand and the capacity constraints can be used both for classes and options
 and we define three complete encodings for the car sequencing problem. 
@@ -149,7 +147,7 @@ and we define three complete encodings for the car sequencing problem.
 \subsection{Sequential Counter Encoding}
 \label{sub:card}
 
-We will show how to encode a cardinality constraint of the form $ \sum_{i\in \{1\ldots n\}} x_{i} = d $ where $x_i$ are
+We describe how to encode a cardinality constraint of the form $ \sum_{i\in \{1\ldots n\}} x_{i} = d $ where $x_i$ are
 0/1 variables and $d\in \mathbb{N}$ is a fixed demand. The key idea is to introduce auxiliary variables to represent
 cumulative sums.
 
@@ -206,12 +204,12 @@ before variable assignments, right: after variable assignment $x_2$ and $x_7$ to
 \label{ex:1}
 \end{example}
 
-The encoding in \cite{Sinz05} follows a similar idea and focuses on $\leq$ expressions. The encoding here can easily be
+The encoding in \cite{Sinz05} follows a similar idea and focuses on inequalities. The encoding here can easily be
 adapted to represent such constraints by removing $s_{n,d}$ from the conjunction (\ref{eq:5}). Then the counter accepts
 all assignments to $x_1 \ldots x_n$ with up to $d$ variables set to true. Comparing the resulting clauses there are
-certain differences between the encoding proposed here and the one in \cite{Sinz05}. We use twice as many clauses and
-ensure uniqueness by the auxiliary variables, i.e. we ensure the same model count. Our encoding also has similarities to
-the translation of cardinality constraints through Binary Decision Diagrams, see \cite{Een06}.
+small differences between the encoding proposed here and the one in \cite{Sinz05}. In particular, we use twice as many
+clauses and but ensure uniqueness by means of the auxiliary variables, i.e. we ensure the same model count. Our encoding
+also has similarities to the translation of cardinality constraints through Binary Decision Diagrams, see \cite{Een06}.
 
 \subsection{The Capacity Constraint}
 \label{sub-capacity}
@@ -239,30 +237,65 @@ $\forall {i \in \{q \ldots n\}}$, $\forall {j\in\{u\ldots d+1\}}$:
 \end{equation}               
 
 The clauses restrict the internal counting not to exceed the capacities constraints and the encoding detects
-dis-entailment by unit propagation. In particular such binary clauses  improve propagation when branched auxiliary
-variables.  The following example will demonstrate the way the binary clauses of (\ref{eq:6}) work. 
+dis-entailment on the conjunction of the demand constraint and the capacity constraints by unit propagation. In
+particular, these binary clauses improve propagation when branched on auxiliary variables. The following example will
+demonstrate the way the binary clauses of (\ref{eq:6}) work. It also demonstrates how much propagation is missing if the
+capacity constraints would be translated separately. 
 
 \begin{example}
-\label{ex:large} See tables in Figure \ref{fig3} for a visualisation of the variables. We construct the grid for a
-capacity constraint $4/8$ and a demand of $d=12$ on a sequence of 22 variables. Unit propagation will force $x_{7}$,
+\label{ex:large} See tables in Figure \ref{fig3} for a visualisation of the variables. We construct the grid for 
+capacity constraints with ratio $4/8$ and a demand of $d=12$ on a sequence of 22 variables. Unit propagation will force $x_{7}$,
 $x_{8}$, $x_{15}$ and $x_{16}$ to be false prior to search. The second table examines the variables after decisions
-$x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$ and $x_{21}$ to false. Notice the amount of propagation due to the
-clauses (\ref{eq:6}), the interesting two cases are shown by an arrow. (Configuration of this example taken from
-\cite{Siala12}). 
+$x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$ and $x_{21}$ to false.
 \end{example}
 
 \begin{figure}
 \centering 
 \caption{The grid of variables of Example \ref{ex:large}. Notation for bottom row: normal font = decision variable, bold
-= propagated, in brackets = propagated previously.}
+    = propagated, in brackets = propagated previously. Notice the amount of propagation due to the clauses (\ref{eq:6}),
+    the interesting two cases are shown by an arrow. These values would not have been found by unit propagation without
+    the clauses (\ref{eq:6}). (Configuration of this example taken from
+\cite{Siala12}).}
 \include{example3}
 \include{example4}
 \label{fig3}
 \end{figure}
 
-In fact, this translation is similar to a special case of the CNF encoding of the \gseq constraint in \cite{Bacchus07}.
-The difference lies in the auxiliary variables $q_{i,j}$ that encode equality $\sum_{l=1}^i x_l = j$. This changes the
-size and shape of the clauses. 
+It is easy to see that the number of auxiliary variables is not more than $n\cdot d$. Since clauses (\ref{eq:1}) to
+(\ref{eq:5}) and (\ref{eq:6}) are generated for each auxiliary variable, the encoding consists of $3\cdot n \cdot d$
+binary clauses and $2 \cdot n \cdot d$ ternary clauses. Note that many clauses become unit in preprocessing, this number
+increases the stricter the capacity constraints are. E.g. in Example \ref{ex:large} with $n=20$, $d=12$ and $4/8$ there are
+effectively only $24$ unassigned variables after the first unit propagation. 
+
+In the following example we show a situation where clauses (\ref{eq:6}) do not prune all values with unit propagation,
+whereas translating each capacity constraint to a counter would do so. 
+
+\begin{example}\label{ex:small}
+ \begin{minipage}[c]{.58\linewidth} Let $n=5$, $d=2$ with a capacity constraint of $1/2$, and let $x_3$ be true, then
+     unit propagation does not force $x_2$ nor $x_4$ to false. Setting them to true will lead to a conflict through
+     clauses (\ref{eq:4}) and (\ref{eq:6}) on positions 2, 3 and 4.
+   \end{minipage} \hfill
+   \begin{minipage}[c]{.36\linewidth}
+\begin{center}
+\begin{small}
+\begin{tabular}{c|cccccccccc}
+3   &   &   &   &U  &U  &U  \\
+2   &   &U  &U  &.  &.  &L  \\
+1   &U  &.  &.  &L  &L  &   \\
+0   &L  &L  &L  &   &   &   \\
+\hline
+$s_{i,j}$ &0  &1  &2  &3  &4  &5 \\
+$x_i$     &  &.  &.  &1  &.  &.  \\
+\end{tabular}
+\end{small} 
+\end{center}     
+   \end{minipage}
+\end{example}
+
+The encoding presented here is in fact similar to a special case of the encoding of the \gseq constraint in
+\cite{Bacchus07}. One difference lies in their auxiliary variables $q_i^j$ that encode the equality $\sum_{l=1}^i x_l =
+j$.  This also changes the size and shape of the clauses and will have different behaviour when branching on auxiliary
+variables. 
 
 \subsection{Link Cars and Options}
 \label{sub:link}
@@ -306,10 +339,10 @@ Furthermore, for each position an additional sequential counter is used to restr
 \label{sub:complete}
 
 
-The deman constraints for classes are translated through a cardinality constraint.  In fact, we can identify for each
+The demand constraints for classes are translated through cardinality constraints.  In fact, we can identify for each
 option $l \in O$ the implicit demand by adding up the demand of all classes $C_l$ that require this option.
 
-$$ \sum_{i=1}^n o^l_i = \sum_{k\in C_l} d_k$$                                                 
+$$ d_l = \sum_{i=1}^n o^l_i = \sum_{k\in C_l} d_k$$                                                 
 
 Moreover, for each class we may use one capacity constraint of its options as this restriction applies also to the
 class. To maximise pruning we choose the strictest capacity constraint with minimal (u/q), e.g. 1/5 restricts more than
@@ -317,10 +350,11 @@ class. To maximise pruning we choose the strictest capacity constraint with mini
 demand constraint and consecutive overlapping capacity constraints. In the following we refer to capacity constraints
 both for options and classes. 
  
-We define three CNF encodings E1,E2 and E3. All three encode the demand constraint by a sequential counter with clauses
+We define three CNF encodings E1, E2 and E3. All three encode the demand constraint by a sequential counter with clauses
 (\ref{eq:1}) to (\ref{eq:5}).  The link between classes and options for all three models is encoded by clauses
-(\ref{eq:7}),(\ref{eq:8}) and (\ref{eq:9}). We are interested in the influence of clauses (6) and for this we vary the
-translation of the capacity constraints: 
+(\ref{eq:7}),(\ref{eq:8}) and (\ref{eq:9}). As we have seen in Example \ref{ex:large} and \ref{ex:small}, unit
+propagation prunes different values on the translation of the capacity constraints. This motivates us to demonstrate the
+difference in the experimental section: 
 
 \begin{itemize}
     \item E1 translates each capacity constraint separately by the clauses (\ref{eq:1}) to (\ref{eq:5}) with a fresh set
@@ -329,7 +363,6 @@ translation of the capacity constraints:
         sequential counter on the demand constraint. 
     \item E3 uses both E1 and E2. 
 \end{itemize}
-
 
 
 \section{Lower Bounds by Preprocessing}
@@ -395,11 +428,9 @@ per class of 58.
 We have written a command line tool that generates CNF in DIMACS format from a problem description as provided by the
 CSPLib. The tool translates the specification by different sets of clauses and computes the lower bounds from the
 preprocessing as defined in Section \ref{sec:lower}. It is freely available at \\
-\verb+github.com/vale1410/car-sequencing+.
-
-For our experiments we choose the well-known SAT solver Minisat \cite{Een03} of version 2.2.0, that represents a
-canonical implementation of state-of-the-art CDCL solvers. All experiments are done on Linux 64bit, Intel Xeon CPUs at
-2.27GHs. 
+\verb+github.com/vale1410/car-sequencing+. For our experiments we choose the well-known SAT solver Minisat \cite{Een03}
+of version 2.2.0, that represents a canonical implementation of state-of-the-art CDCL solvers. All experiments are done
+on Linux 64bit, Intel Xeon CPUs at 2.27GHs. 
 
 \subsection{The Decision Problem}
 
@@ -411,16 +442,16 @@ E1.
       
 Clasp solves hardly any instance with the standard configuration. Instructing Clasp to ground all cardinality
 constraints to normal rules improves the number of solved instances (using the switch \verb+--trans-ext=all+), so we
-will report here on Clasp with this switch turned on. Apart from that we use the standard configuration for all solvers. 
+will report here with this switch turned on. Apart from that we use the standard configuration for all solvers. 
 
 Clasp and Minisat+ apply different translations for cardinality constraints. Clasp applies an encoding based on counters
-\cite{Gebser09} and Minisat+ uses three alternative encodings - through adders, sorting networks and binary decision
-diagrams \cite{Een06}. In Table \ref{tab:size} we compare the size of the resulting formula of the different approaches.
-Note that ASP and PB do not differ from model E1 in terms of higher level constraint. So the difference in size is
-mainly caused by the encoding of the cardinality expressions. We see that the internal translation of Minisat+ prefers a
-more compact encoding (probably sacrificing propagation) and Clasps encoding is the largest. The sizes of the direct CNF
-models do not vary much since the difference is in whether to use clauses (6) and/or separate encodings of the capacity
-constraints and these are not the dominating factor for the size. 
+and Minisat+ uses encodings through adders, sorting networks and binary decision diagrams \cite{Een06}. In Table
+\ref{tab:size} we compare the size of the resulting formula of the different approaches.  Note that ASP and PB do not
+differ from model E1 in terms of higher level constraint. So the difference in size is mainly caused by the encoding of
+the cardinality expressions. We see that the internal translation of Minisat+ prefers a more compact encoding  and
+Clasps encoding is the largest. The sizes of the direct CNF models do not vary much since the difference is in whether
+to use clauses (6) and/or separate encodings of the capacity constraints. %and these are not the dominating factor for
+the size. 
 
 \begin{table}[htbp] 
     \caption{Comparison of number of variables and clauses after translation to CNF. Values (in thousands) are average
@@ -448,7 +479,7 @@ different seeds, * indicates that not all runs solved the instance).}
     \label{tab:runtime}
 \end{table}
 
-We show in Table \ref{tab:runtime} the results for the selected benchmark on models E1,E2,E3,ASP and PB with a timeout
+We show in Table \ref{tab:runtime} the results for the selected benchmark on models E1, E2, E3, ASP and PB with a timeout
 of 1800sec. The instances that can be solved by at least one method are shown and grouped into satisfiable and
 unsatisfiable. In total 11/39 instances cannot be solved by any approach. We see that the models E1 to E3 perform
 considerably better than the one generated through Minisat+ or Clasp (Running Clasp as a SAT solver on our models is
@@ -477,10 +508,9 @@ function and cannot directly be compared. Our result show that in many cases the
 upper and lower bound, in others we find that they are incomparable. See 400-03 for conflicting lower and upper bound
 between the definitions, this was also reported in \cite{Estellon06}. Instance 300-5 indicates that our version of the
 optimisation function allows smaller upper bounds due to a large gap between UB and UB*. For some instances there is
-still a large gap between lower and upper bound, and room for improvement. 
-
-The method for computing lower bound from Section \ref{sec:lower} is powerful and reports in many of the instances
-higher lower bounds than the SAT approach. Combining the two methods 21/30 of the new instances are solved to
+still a large gap between lower and upper bound, and room for improvement.  The method for computing lower bound from
+Section \ref{sec:lower} is powerful and reports for many of the instances higher lower bounds than the SAT approach.
+Combining the two methods 21/30 of the new instances are solved to
 optimality.
 
 \begin{table}[htbp]
@@ -494,44 +524,40 @@ optimality.
 \section{Conclusion and Future Work}
 
 We have introduced CNF encodings for the car sequencing problem based on sequential counters and demonstrated that SAT
-solvers perform well on the instances of the CSPLib. This special translation has advantages over automatic translations
+solvers perform well on the instances of the CSPLib. This specialised translation has advantages over automatic translations
 of cardinality constraints as done in Minisat+ and Clasp. Furthermore, for one type of the optimisation problem of car
-sequencing we have shown lower and upper bounds and provide the SAT community with a set of hard benchmarks. Our
+sequencing we have shown new lower and upper bounds and provide the SAT community with a set of hard benchmarks. Our
 approach is still work in progress and in the following we identify our next steps and future work. 
 
-The success of our method is based on the way we encode sequential counters. To better identify the advantages of this
-type of translation we will extend the comparison to other CNF encodings for cardinality constraints, as parallel
-counters and sorting networks \cite{Sinz05}\cite{Een06}. For this we also plan to contrast our encodings more deeply
-with \cite{Bacchus07}. We will also analyse the properties of the encodings on a more theoretical level and determine
-how the auxiliary variables are used in branching and conflict clauses. 
+To identify the precise advantages of our encodings we will extend the comparison to other CNF encodings for cardinality
+constraints, like parallel counters and various types of sorting networks \cite{Codish10}\cite{Asin11}.  We will also
+contrast our work in more depth with \cite{Bacchus07}.  We have pointed out some properties of the presented encodings
+and we plan to lift this analysis to a theoretical level and prove consistency properties. 
 
-Our analysis still lacks comparison to related paradigms as constraint programming, local search and integer
-programming.  We plan to conduct experiments with these approaches to identify better strength and weakness of either
-approach.
+Our experimental analysis still lacks comparison to related paradigms as constraint programming, local search and
+integer programming.  We plan to extend the evaluation by comparing these approaches. 
 
-The set of car sequencing benchmarks in the CSPLib contain the same type of capacity constraints for all options and we
-plan to collect instances from other sources and to generate new instances of greater variety. The benchmark referenced
-in \cite{Solnon08} contains industrial instances with rather complex definitions for the optimisation function and they
-report poor results for constraint programming approaches. A common definition of the optimisation problem is important
-for the research community such that lower and upper bounds can be compared properly. 
+%The set of car sequencing benchmarks in the CSPLib contain the same type of capacity constraints for all options and we
+%plan to collect instances from other sources and to generate new instances of greater variety. The benchmark referenced
+%in \cite{Solnon08} contains industrial instances with rather complex definitions for the optimisation function and they
+%report poor results for constraint programming approaches. A common definition of the optimisation problem is important
+%for the research community such that lower and upper bounds can be compared properly. 
 
 We believe there is a generalisation to the method in Section \ref{sec:lower} to arbitrary sets of options. Our results
 show evidence that such a structure can be beneficial in determining lower bounds. The analysis of subsets of options
 and their collective demand might not only help in preprocessing but also lead to interesting redundant constraints that
-can heavily improve early pruning in the search tree. The generation of such constraints would be based on an
-exponential method in the number of options, but typically this numbers is very small compared to the length of the
-sequence. 
+can heavily improve early pruning in the search tree. The generation of such constraints is based on an exponential
+method in the number of options, but typically this numbers is small compared to the length of the sequence. 
 
 \section*{Acknowledgement}
 
-We want to thank the reviewers for their constructive criticism and comments that helped us improving the paper.  We
-also want to thank Mohamed Siala and Emmanuel Hebrard for fruitful discussions on car sequencing and help on the
-evaluation. 
+We want to thank the reviewers for their comments that helped us improving the paper.  We also want to thank Mohamed
+Siala, Emmanuel Hebrard and Nina Narodytska for fruitful discussions on the car sequencing problem. 
 
-NICTA is funded by the Australian Government as represented by the Department of Broadband, Communications and the
-Digital Economy and the Australian Research Council through the ICT Centre of Excellence program.
+%NICTA is funded by the Australian Government as represented by the Department of Broadband, Communications and the
+%Digital Economy and the Australian Research Council through the ICT Centre of Excellence program.
 
-\newpage 
+%\newpage 
 
 \bibliography{p}
 \bibliographystyle{plain}
