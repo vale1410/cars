@@ -1,14 +1,6 @@
-% Valentin Mayer-Eichberger and Toby Walsh 
 % SAT Encodings for the Car Sequencing Problem
+% Valentin Mayer-Eichberger and Toby Walsh 
 % 08/07/2013 at Pragmatics of SAT
-
-Agenda
-======
-
-1) Car Sequencing
-2) Encodings
-3) Experimental Results
-4) Future Work
 
 Car Sequencing
 ======
@@ -20,18 +12,16 @@ Car Sequencing
 Car Sequencing from the CSPLib Benchmark
 ======
 
-\begin{definition} 
 Assemble a production line of cars such that capacity constraints on the
 workstations are not exceeded. 
-\end{definition} 
 
 Notation: 
 
 * Set of Classes $C$
-* Demand $d_i$ for class $i$
+* Demand $d_i$ for class $i\in C$
 * Set of Options $O$
-* Capacity constraint with ratio $u_l/q_l$ for option $l$
-
+* Capacity constraint with ratio $u_l/q_l$ for option $l\in O$
+* Set $O_i \subseteq O$ that is required by class $i\in C$
 
 Car Sequencing: Example
 ======
@@ -57,6 +47,10 @@ b & 1 & - & - & - & - & - & 1 \\
 \end{small} 
 \end{center}     
 
+\pause
+
+Car Sequencing is NP-Complete
+
 PB Model 
 ========
 
@@ -79,20 +73,21 @@ And in all positions $i \in \{1\ldots n\}$ of the sequence it must hold:
     \item Exactly one car:  $$\sum_{k\in C} c^k_i = 1$$  
 \end{itemize}
 
-Modelling in CNF: the CP view
-========= 
+Modelling in CNF
+================
 
-* This model with standard translation (minisat+,clasp ...) has bad performance
-* More redundant constraints
-* Global constraints and propagators
+* The PB model is the mostly used model in CP,IP and local search!
+* This model with standard translation to CNF (minisat+,clasp ...) has bad performance
+* Choose the right cardinality translation
+* More redundant constraints: $$ d_l = \sum_{i=1}^n o^l_i = \sum_{k\in C_l} d_k$$                                                 
+* Global constraint: Cardinality + Sequence
 
-Sequential Counter: Auxiliary Variables
+Sequential Counter: Variables
 ==================
 \begin{itemize}
     \item Translation of Boolean Cardinality: $$ \sum_{i\in \{1\ldots n\}} x_{i} = d $$ 
-    \item  $x_i$ is true iff an object is at position $i$
-    \item  $s_{i,j}$ is true iff in the positions $0,1 \ldots i$ the object exists at least $j$ times (for technical
-        reasons $0 \leq j \leq d+1$). 
+    \item  $x_i$ is true iff the object is at position $i$
+    \item  $s_{i,j}$ is true iff in the positions $0,1 \ldots i$ the object exists at least $j$ times 
 \end{itemize} 
 
 Sequential Counter
@@ -187,11 +182,10 @@ Results: Solved Instances
 Conclusion and Future Work
 ======
 
-* SAT can be very competitive on certain CP benchmarks
-* Spending time on the model pays off
-* Learning from Constraint Programming and global constraints
-* Choosing the right decomposition of cardinality constraint
-* Lower bound techniques are novel 
+* SAT can be very competitive on CP benchmarks
+* SAT is very strong on proving lower bounds
+* Global Constraints motivate for encodings
+* Choosing the right encoding of cardinality constraints is crucial
 
 Future work: 
 
@@ -210,7 +204,52 @@ Bibliography
 \bibliography{p}
 \bibliographystyle{plain}
 
-Backup Slides
+
+SAT instances
+============
+
+\include{exp11}
+
+UNSAT instances
+============
+
+\small
+
+\include{exp12}
+
+lower bounds
+============
+
+\tiny
+
+\include{lb3}
+
+Size
+============
+
+\tiny
+
+\include{size}
+
+Link between Cars and Options
+=============================
+
+$\forall i\in \{1\ldots n\}$: 
+
+\begin{equation} \label{eq:7}
+     \bigwedge_{\substack{k \in C \\ l \in O_k }} \neg c^k_{i} \vee o^l_{i}
+\end{equation}
+
+\begin{equation} \label{eq:8}
+    \bigwedge_{\substack{k \in C \\ l \not \in O_k}} \neg c^k_{i} \vee \neg o^l_{i}
+\end{equation}
+
+\begin{equation} \label{eq:9}
+    \bigwedge_{l\in O} \left(\neg o^l_{i} \vee \bigvee_{k \in C_l} c^k_{i}\right)
+\end{equation}
+
+
+Example for non GAC of E2
 ============
 
     

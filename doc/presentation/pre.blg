@@ -8,10 +8,14 @@ A level-1 auxiliary file: example4.aux
 A level-1 auxiliary file: table_ian_1.aux
 A level-1 auxiliary file: all.aux
 The style file: plain.bst
+A level-1 auxiliary file: exp11.aux
+A level-1 auxiliary file: exp12.aux
+A level-1 auxiliary file: lb3.aux
+A level-1 auxiliary file: size.aux
 Database file #1: p.bib
 You've used 4 entries,
             2118 wiz_defined-function locations,
-            530 strings with 4478 characters,
+            534 strings with 4511 characters,
 and the built_in function-call counts, 1362 in all, are:
 = -- 131
 > -- 34
