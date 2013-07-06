@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{Bacchus07}
+Fahiem Bacchus.
+\newblock {GAC Via Unit Propagation}.
+\newblock In {\em CP}, pages 133--147, 2007.
+
+\bibitem{Een06}
+Niklas E{\'e}n and Niklas S{\"o}rensson.
+\newblock {Translating Pseudo-Boolean Constraints into SAT}.
+\newblock {\em Journal on Satisfiability, Boolean Modeling and Computation},
+  2(1-4):1--26, 2006.
+
+\bibitem{Gent98}
+Ian~P. Gent.
+\newblock {Two Results on Car-sequencing Problems}.
+\newblock In {\em Report APES-02-1998}, 1998.
+
+\bibitem{Sinz05}
+Carsten Sinz.
+\newblock {Towards an Optimal CNF Encoding of Boolean Cardinality Constraints}.
+\newblock In {\em CP}, pages 827--831, 2005.
+
+\end{thebibliography}

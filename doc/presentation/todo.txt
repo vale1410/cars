@@ -1,0 +1,7 @@
+* ASPUNCUD
+* WIEN, shift scheduling
+* no_start und chaining einbauen, für Ruhezeiten
+* counter for nightshift rule
+* abstraction paid time for 44hrule
+* extended rules dynamisch wegtransformieren, clasp flag:
+* max/min equal distribution: ASPEED: ICLP2012

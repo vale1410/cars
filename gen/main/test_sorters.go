@@ -23,10 +23,10 @@ func main() {
 		printGraph(sorter, *dot)
 	}
 
-    if *debug { 
-        fmt.Println(sorter)
+	if *debug {
+		fmt.Println(sorter)
 
-    } 
+	}
 }
 
 func printGraph(sorter sorters.Sorter, filename string) {
@@ -36,34 +36,32 @@ func printGraph(sorter sorters.Sorter, filename string) {
 	}
 	file.Write([]byte(fmt.Sprintln("digraph {")))
 
-    rank := "{rank=same; "
+	rank := "{rank=same; "
 	for i := 0; i < len(sorter.Out); i++ {
-        rank += fmt.Sprintf(" t%v ",sorter.Out[i])
+		rank += fmt.Sprintf(" t%v ", sorter.Out[i])
 	}
-    rank += "}; "
+	rank += "}; "
 
 	for i := 0; i < len(sorter.Out); i++ {
 		file.Write([]byte(fmt.Sprintf("n%v -> t%v\n", i, i)))
 	}
 
-
 	file.Write([]byte(rank))
-    rank = "{rank=same; "
+	rank = "{rank=same; "
 	for i := 0; i < len(sorter.Out); i++ {
-        rank += fmt.Sprintf(" t%v ",i)
+		rank += fmt.Sprintf(" t%v ", i)
 	}
-    rank += "}; "
+	rank += "}; "
 	file.Write([]byte(rank))
 
-    //var rank string
+	//var rank string
 
 	for _, comp := range sorter.Comparators {
-        rank = "{rank=same; "
-        rank += fmt.Sprintf(" t%v t%v ",comp.A, comp.B)
-        rank += "}; "
-	    file.Write([]byte(rank))
-    } 
-
+		rank = "{rank=same; "
+		rank += fmt.Sprintf(" t%v t%v ", comp.A, comp.B)
+		rank += "}; "
+		file.Write([]byte(rank))
+	}
 
 	for _, comp := range sorter.Comparators {
 		//file.Write([]byte(fmt.Sprintf("n%v -> t%v \n", comp.A, comp.A)))
