@@ -17,6 +17,8 @@ pre:
 	sed -i 's/\[<+->\]//g' $(PRE).tex
 	pdflatex $(PRE).tex
 	bibtex $(PRE)
+	pdflatex $(PRE).tex
+	pdflatex $(PRE).tex
 #	apvlv $(PRE).pdf
 
 clean: 

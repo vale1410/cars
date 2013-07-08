@@ -2,10 +2,12 @@ $if(legacy-header)$
 $legacy-header$
 $else$
 \documentclass{beamer}
+\usepackage{multicol}
 \usepackage{amsmath}
 $if(xetex)$
 \usetheme{Boadilla}
 \usepackage{latexsym}
+\useoutertheme{infolines}
 \usepackage{ifxetex}
 \ifxetex
   \usepackage{fontspec,xltxtra,xunicode}
@@ -86,6 +88,8 @@ $endif$
 
 % transparent overlays
 %\setbeamercovered{transparent}
+
+\newcommand{\todo}[1]{ {\color{red}{#1} }}
 
 \begin{document}
 $if(title)$

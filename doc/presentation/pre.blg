@@ -13,44 +13,44 @@ A level-1 auxiliary file: exp12.aux
 A level-1 auxiliary file: lb3.aux
 A level-1 auxiliary file: size.aux
 Database file #1: p.bib
-You've used 4 entries,
+You've used 6 entries,
             2118 wiz_defined-function locations,
-            534 strings with 4511 characters,
-and the built_in function-call counts, 1362 in all, are:
-= -- 131
-> -- 34
-< -- 2
-+ -- 14
-- -- 10
-* -- 71
-:= -- 207
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 17
+            545 strings with 4836 characters,
+and the built_in function-call counts, 2330 in all, are:
+= -- 222
+> -- 80
+< -- 4
++ -- 32
+- -- 26
+* -- 133
+:= -- 348
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 31
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 71
-empty$ -- 135
-format.name$ -- 10
-if$ -- 313
+cite$ -- 6
+duplicate$ -- 115
+empty$ -- 214
+format.name$ -- 26
+if$ -- 535
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 25
+int.to.str$ -- 6
+missing$ -- 6
+newline$ -- 33
+num.names$ -- 12
+pop$ -- 45
 preamble$ -- 1
-purify$ -- 13
+purify$ -- 25
 quote$ -- 0
-skip$ -- 55
+skip$ -- 92
 stack$ -- 0
-substring$ -- 88
-swap$ -- 25
-text.length$ -- 2
+substring$ -- 146
+swap$ -- 45
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 24
 warning$ -- 0
-while$ -- 13
-width$ -- 5
-write$ -- 45
+while$ -- 21
+width$ -- 7
+write$ -- 67

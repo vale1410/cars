@@ -5,51 +5,51 @@
 Car Sequencing
 ======
 
-\includegraphics[scale=0.4]{cars.jpg}
+\begin{multicols}{2}
 
-\tiny Picture from Wikipedia
+\includegraphics[scale=0.23]{cars.jpg}
 
-Car Sequencing from the CSPLib Benchmark
-======
+{\tiny Source Wikipedia }
+\newpage
 
-Assemble a production line of cars such that capacity constraints on the
-workstations are not exceeded. 
+\begin{itemize}
+\item Cars require different options (air-conditioning, sun-roof, etc.)
+\item Is there a production sequence for cars on the assembly line satisfying the sliding capacity constraints?
+\item CSPLib Benchmark 
+\item CP, IP, local search
+\end{itemize}
 
-Notation: 
+\end{multicols}
 
-* Set of Classes $C$
-* Demand $d_i$ for class $i\in C$
-* Set of Options $O$
-* Capacity constraint with ratio $u_l/q_l$ for option $l\in O$
-* Set $O_i \subseteq O$ that is required by class $i\in C$
 
 Car Sequencing: Example
 ======
 
-* $C = \{1,2,3\}$ with demand $3,2,2$
+* $C = \{1,2,3\}$ with demand $d_1=3, d_2=2,d_ 3=2$
 * $O = \{a,b\}$ with capacity constraints $1/2$ and $1/5$
 * Class 1 no restriction
 * Class 2 requires option $a$
 * Class 3 requires option $a$ and $b$
 
-\pause
-
-\vspace{1cm}
+\vspace{0.5cm}
 
 \begin{center}
 \begin{small}
 \begin{tabular}{c|cccccccc}
-  & 3 & 1 & 2 & 1 & 2 & 1 & 3 \\
+Sequence of cars  & 3 & 1 & 2 & 1 & 2 & 1 & 3 \\
 \hline
-a & 1 & - & 1 & - & 1 & - & 1 \\
-b & 1 & - & - & - & - & - & 1 \\
+Option a & 1 & - & 1 & - & 1 & - & 1 \\
+Option b & 1 & - & - & - & - & - & 1 \\
 \end{tabular}
 \end{small} 
 \end{center}     
 
 \pause
 
-Car Sequencing is NP-Complete
+\begin{center}
+
+\todo{Car Sequencing is NP-Complete}
+\end{center}
 
 PB Model 
 ========
@@ -79,7 +79,7 @@ Modelling in CNF
 * The PB model is the mostly used model in CP,IP and local search!
 * This model with standard translation to CNF (minisat+,clasp ...) has bad performance
 * Choose the right cardinality translation
-* More redundant constraints: $$ d_l = \sum_{i=1}^n o^l_i = \sum_{k\in C_l} d_k$$                                                 
+* Uniform treatment of classes and options: $$ \sum_{i=1}^n o^l_i = d_l =  \sum_{k\in C_l} d_k$$                                                 
 * Global constraint: Cardinality + Sequence
 
 Sequential Counter: Variables
@@ -90,62 +90,107 @@ Sequential Counter: Variables
     \item  $s_{i,j}$ is true iff in the positions $0,1 \ldots i$ the object exists at least $j$ times 
 \end{itemize} 
 
-Sequential Counter
-==================
-
-
-$\forall i \in \{1\ldots n\}$ $\forall j \in\{0 \ldots d+1\}$: 
-\begin{equation} \label{eq:1}
-    \neg s_{i-1,j} \vee s_{i,j}
-\end{equation}
-\begin{equation} \label{eq:2}
-    x_{i} \vee \neg s_{i,j} \vee s_{i-1,j}
-\end{equation}
-
-$\forall {i \in \{1\ldots n\}} \forall {j\in \{1\ldots d+1\}}$: 
-\begin{equation} \label{eq:3}
-    \neg s_{i,j} \vee s_{i-1,j-1}
-\end{equation}
-\begin{equation} \label{eq:4}
-    \neg x_{i} \vee \neg s_{i-1,j-1} \vee s_{i,j}
-\end{equation}
-\begin{equation} \label{eq:5}
-     s_{0,0} \wedge \neg s_{0,1} \wedge s_{n,d} \wedge \neg s_{n,d+1}
-\end{equation}
-
 Sequential Counter: Example
 ==================
 
 \begin{center}
 \include{example1}
 \end{center}
+\vspace{-0.8cm}
 Setting $x_2$ and $x_7$ to 1:
+\vspace{-0.8cm}
 \begin{center}
 \include{example2}
 \end{center}
 
-
-Sequential Counter: Related Work
+Sequential Counter
 ==================
+\begin{center}
 
-* Carsten Sinz Sequential Counter \cite{Sinz05} 
-* Fahim Bacchus translation of AMONG by the Regular constraint \cite{Bacchus07}
-* Translation through BDDs \cite{Een06}
+\begin{tikzpicture}[node distance=1cm, auto,]
 
-Capacity Constraints: More Global
-=================================
+\coordinate (A) at (0.5,1.1);
+\coordinate (B) at (1.5,1.1);
+\coordinate (C) at (0.5,-0.1);
+\coordinate (D) at (1.5,-0.1);
+
+\draw (0, 0) rectangle (1, 1);
+\draw (1, 0) rectangle (2, 1);
+\draw[->,thick] (A) to [bend left] (B);
+\draw[->,thick] (D) to [bend left] (C);
+
+
+\node at (0.5,0.5) {$s_{i-1,j}$};
+\node at (1.5,0.5) {$s_{i,j}$};
+%\node at (1,1.5) {test};
+\node at (1,-0.5) {$\neg x_i$};
+
+\node at (5,1) {$\neg s_{i-1,j} \vee s_{i,j}$};
+\node at (5,0) {$x_{i} \vee \neg s_{i,j} \vee s_{i-1,j}$};
+
+\end{tikzpicture}
+
+\vspace{1cm}
+
+\begin{tikzpicture}[node distance=1cm, auto,]
+
+\coordinate (A) at (0.1,1.1);
+\coordinate (B) at (0.9,1.9);
+\coordinate (C) at (1.1,0.1);
+\coordinate (D) at (1.9,0.9);
+
+\draw (0, 0) rectangle (1, 1);
+\draw (1, 1) rectangle (2, 2);
+\draw[->,thick] (A) to [bend left] (B);
+\draw[->,thick] (D) to [bend left] (C);
+
+\node at (0.7,0.5) {$s_{i-1,j-1}$};
+\node at (1.5,1.5) {$s_{i,j}$};
+\node at (0,1.8) {$x_i$};
+%\node at (2,0) {test};
+
+\node at (5,1) {$\neg x_{i} \vee \neg s_{i-1,j-1} \vee s_{i,j}$};
+\node at (5,0) {$\neg s_{i,j} \vee s_{i-1,j-1}$};
+
+\end{tikzpicture}
+\end{center}
+
+
+* This idea can translate all cardinality constraints
+
+Demand Constraint + Capacity Constraint
+=======================================
 
 $$ (\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
 
+\pause
+\vspace{1cm}
 
-\vspace{3cm}
+\begin{center}
 
-$\forall {i \in \{q \ldots n\}}$, $\forall {j\in\{u\ldots d+1\}}$: 
+\begin{tikzpicture}[node distance=1cm, auto,]
 
-\begin{equation} \label{eq:6}
-    \neg s_{i,j} \vee s_{i-q,j-u}
-\end{equation}               
+\coordinate (A) at (0.5,1.1);
+\coordinate (B) at (3.9,3.5);
 
+\draw (0, 0) rectangle (1, 1);
+\draw (4, 3) rectangle (5, 4);
+\draw[->,thick] (B) to [bend right] (A);
+
+\draw[dashed] (4.5,0.5) -- (4.5,3);
+\draw[dashed] (1.5,0.5) -- (4.5,0.5);
+
+\node at (0.7,0.5) {$s_{i-q,j-u}$};
+\node at (4.5,3.5) {$s_{i,j}$};
+
+\node at (4.1,2) {$u$};
+\node at (2.5,0) {$q$};
+
+\node at (8,2) {$\neg s_{i,j} \vee s_{i-q,j-u}$};
+
+\end{tikzpicture}
+
+\end{center}
 
 Capacity Constraints: Example
 ====================
@@ -161,25 +206,43 @@ Partial Assignment: $x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$ and $x_{
 
 \include{example4}
 
+Discussion: Related Work
+==================
+
+* Sinz Sequential Counter \cite{Sinz05} 
+* Een and Soerensson: Translation through BDDs \cite{Een06}
+* Bacchus translation through DFAs \cite{Bacchus07}
+* CP: Decomposition to cumulative sums \cite{Brand07}
+* CP: Linear time propagator \cite{Siala12}
 
 A Trick for Lower Bounds (\cite{Gent98})
 =======================
 
-\begin{table}[htbp]
+\begin{table}
 \tiny
-    \caption{Overview of options and demands for instance 300-04}
-    \centering
     \include{table_ian_1}
     \label{tab:2}
 \end{table}
 
+* Class 21 and 23 have option 0,1,2,4 with a total demand of 9
+* All other classes share at least one option with 21 and 23
+* Potential neighbours of 21 and 23?
 
-Results: Solved Instances
-=======
 
+Results on CSPLib
+=================
+
+\begin{center}
 \include{all}
+\end{center}
 
-Conclusion and Future Work
+\vspace{1cm}
+
+* More propagation important for SAT instances, not so much for UNSAT
+* Combination of SAT and the Trick shows many lower bounds (additional empty
+  cars)
+
+Conclusions and Future Work
 ======
 
 * SAT can be very competitive on CP benchmarks
@@ -189,9 +252,13 @@ Conclusion and Future Work
 
 Future work: 
 
-* Exponential encoding in the number of options? 
+* Comparison to CP and IP
 * Theoretical analysis of the decompositions and usage in other domains
+* Exponential encoding in the number of options? 
 
+\appendix
+\newcounter{finalframe}
+\setcounter{finalframe}{\value{framenumber}}
 
 End
 ======
@@ -203,6 +270,37 @@ Bibliography
 
 \bibliography{p}
 \bibliographystyle{plain}
+
+Backupslides
+======
+
+Sequential Counter: Comparison to \todo{Sinzs AtMost}
+==================
+
+
+$\forall i \in \{1\ldots n\}$ $\forall j \in\{0 \ldots d+1\}$: 
+\todo{
+\begin{equation} \label{eq:1}
+    \neg s_{i-1,j} \vee s_{i,j}
+\end{equation}
+}
+\begin{equation} \label{eq:2}
+    x_{i} \vee \neg s_{i,j} \vee s_{i-1,j}
+\end{equation}
+
+$\forall {i \in \{1\ldots n\}} \forall {j\in \{1\ldots d+1\}}$: 
+\begin{equation} \label{eq:3}
+    \neg s_{i,j} \vee s_{i-1,j-1}
+\end{equation}
+\todo{
+\begin{equation} \label{eq:4}
+    \neg x_{i} \vee \neg s_{i-1,j-1} \vee s_{i,j}
+\end{equation}
+
+\begin{equation} \label{eq:5}
+     s_{0,0} \wedge \neg s_{0,1} \wedge \neg s_{n,d+1}
+\end{equation}
+}
 
 
 SAT instances
@@ -273,3 +371,24 @@ $x_i$     &  &.  &.  &1  &.  &.  \\
 \end{center}     
 \end{example}
 
+Sequential Counter
+==================
+
+$\forall i \in \{1\ldots n\}$ $\forall j \in\{0 \ldots d+1\}$: 
+\begin{equation} \label{eq:1}
+    \neg s_{i-1,j} \vee s_{i,j}
+\end{equation}
+\begin{equation} \label{eq:2}
+    x_{i} \vee \neg s_{i,j} \vee s_{i-1,j}
+\end{equation}
+
+$\forall {i \in \{1\ldots n\}} \forall {j\in \{1\ldots d+1\}}$: 
+\begin{equation} \label{eq:3}
+    \neg s_{i,j} \vee s_{i-1,j-1}
+\end{equation}
+\begin{equation} \label{eq:4}
+    \neg x_{i} \vee \neg s_{i-1,j-1} \vee s_{i,j}
+\end{equation}
+\begin{equation} \label{eq:5}
+     s_{0,0} \wedge \neg s_{0,1} \wedge s_{n,d} \wedge \neg s_{n,d+1}
+\end{equation}

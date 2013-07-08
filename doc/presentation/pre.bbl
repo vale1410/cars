@@ -5,6 +5,12 @@ Fahiem Bacchus.
 \newblock {GAC Via Unit Propagation}.
 \newblock In {\em CP}, pages 133--147, 2007.
 
+\bibitem{Brand07}
+Sebastian Brand, Nina Narodytska, Claude-Guy Quimper, Peter~J. Stuckey, and
+  Toby Walsh.
+\newblock {Encodings of the Sequence Constraint}.
+\newblock In {\em CP}, pages 210--224, 2007.
+
 \bibitem{Een06}
 Niklas E{\'e}n and Niklas S{\"o}rensson.
 \newblock {Translating Pseudo-Boolean Constraints into SAT}.
@@ -15,6 +21,12 @@ Niklas E{\'e}n and Niklas S{\"o}rensson.
 Ian~P. Gent.
 \newblock {Two Results on Car-sequencing Problems}.
 \newblock In {\em Report APES-02-1998}, 1998.
+
+\bibitem{Siala12}
+Mohamed Siala, Emmanuel Hebrard, and Marie-Jos{\'e} Huguet.
+\newblock {An Optimal Arc Consistency Algorithm for a Chain of Atmost
+  Constraints with Cardinality}.
+\newblock In {\em CP}, pages 55--69, 2012.
 
 \bibitem{Sinz05}
 Carsten Sinz.
