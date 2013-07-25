@@ -209,11 +209,11 @@ Partial Assignment: $x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$ and $x_{
 Discussion: Related Work
 ==================
 
-* Sinz Sequential Counter \cite{Sinz05} 
-* Een and Soerensson: Translation through BDDs \cite{Een06}
-* Bacchus translation through DFAs \cite{Bacchus07}
-* CP: Decomposition to cumulative sums \cite{Brand07}
-* CP: Linear time propagator \cite{Siala12}
+* Sinz: Sequential Counter CNF \cite{Sinz05} 
+* Een and Soerensson: Translation through BDDs to CNF \cite{Een06}
+* Bacchus: Decomposition through DFAs to CNF \cite{Bacchus07}
+* Brand et al: Decomposition to cumulative sums for CP \cite{Brand07}
+* Siala et al: Linear time propagator for CP \cite{Siala12}
 
 A Trick for Lower Bounds (\cite{Gent98})
 =======================
