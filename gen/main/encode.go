@@ -3,10 +3,12 @@ package main
 import (
 	"../base"
 	"../pbo"
+	"bufio"
 	"bytes"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -43,6 +45,7 @@ var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to ge
 var opt = flag.Int("opt", -1, "Adds optimization statement with value given. Should be used with -sbd and without -re1 -re2.")
 var add = flag.Int("add", 0, "Add n dummy cars without any option. (simulates optimization).")
 var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses).")
+var symbol = flag.String("symbol", "", "Outputs the symbol table; meaning of the variables.")
 var pb = flag.Bool("pbo", false, "Create Pseudo Boolean Model; simple version")
 
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
@@ -68,7 +71,7 @@ There is NO WARRANTY, to the extent permitted by law.`)
 	options, classes, class2option := parse(*name)
 
 	if *pb {
-		pbo.CreatePBOModel(size,options, classes, class2option)
+		pbo.CreatePBOModel(size, options, classes, class2option)
 	} else {
 		createSATModel(options, classes, class2option)
 	}
@@ -138,7 +141,7 @@ type IdGen struct {
 func NewIdGen() {
 	gen.Id = 0
 	gen.PosVarMap = make(map[base.PosVar]int, size*(class_count+option_count)) //just an approximation of size of map
-	gen.CountVarMap = make(map[base.CountVar]int, size*class_count^2)          //just an approximation of size of map  
+	gen.CountVarMap = make(map[base.CountVar]int, size*class_count^2)          //just an approximation of size of map
 	gen.AtMostVarMap = make(map[base.AtMostVar]int, size*class_count^2)        //just an approximation of size of map
 	return
 }
@@ -155,7 +158,7 @@ func printClausesDIMACS(clauses []clause) {
 	}
 }
 
-func printDebug(clauses []clause) {
+func generateSymbolTable() []string {
 
 	symbolTable := make([]string, len(gen.CountVarMap)+len(gen.PosVarMap)+len(gen.AtMostVarMap)+1)
 
@@ -218,6 +221,41 @@ func printDebug(clauses []clause) {
 		symbolTable[valueInt] = s
 	}
 
+	return symbolTable
+}
+
+func printSymbolTable(symbolTable []string, filename string) {
+
+	symbolFile, err := os.Create(filename)
+	if err != nil {
+		panic(err)
+	}
+	// close fo on exit and check for its returned error
+	defer func() {
+		if err := symbolFile.Close(); err != nil {
+			panic(err)
+		}
+	}()
+
+	// make a write buffer
+	w := bufio.NewWriter(symbolFile)
+
+	for i, s := range symbolTable {
+		// write a chunk
+		if _, err := w.Write([]byte(fmt.Sprintln(i, "\t:", s))); err != nil {
+			panic(err)
+		}
+	}
+
+	if err = w.Flush(); err != nil {
+		panic(err)
+	}
+
+}
+
+func printDebug(symbolTable []string, clauses []clause) {
+
+	// first print symbol table into file
 	fmt.Println("c pos(Type,Id,Position).")
 	fmt.Println("c count(Type,Id,Position,Count).")
 	fmt.Println("c atMost(Type,Id,First,Position,Count).")
@@ -245,6 +283,7 @@ func printDebug(clauses []clause) {
 			first = false
 			if l < 0 {
 				fmt.Printf("-%s", symbolTable[-l])
+
 			} else {
 				fmt.Printf("+%s", symbolTable[l])
 			}
@@ -524,11 +563,21 @@ func createSATModel(options, classes []base.Countable, class2option [][]bool) bo
 	if len(clauses) > 0 {
 		printClausesDIMACS(clauses)
 	}
-	if *debug {
-		fmt.Println("c options: ", options)
-		fmt.Println("c classes: ", classes)
-		fmt.Println("c class2option: ", class2option)
-		printDebug(clauses)
+
+	if *debug || *symbol != "" {
+
+		symbolTable := generateSymbolTable()
+
+		if *debug {
+			fmt.Println("c options: ", options)
+			fmt.Println("c classes: ", classes)
+			fmt.Println("c class2option: ", class2option)
+			printDebug(symbolTable, clauses)
+		}
+
+		if *symbol != "" {
+			printSymbolTable(symbolTable, *symbol)
+		}
 	}
 
 	return true
@@ -1086,7 +1135,7 @@ func createOptCounter(c base.Countable) (clauses []clause) {
 
 	clauses = make([]clause, 0)
 
-	{ // set upper and lower bound for counters 
+	{ // set upper and lower bound for counters
 		c.Lower = make([]int, size)
 		c.Upper = make([]int, size)
 
