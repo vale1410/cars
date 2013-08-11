@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-var name = flag.String("file", "", "Path of the file specifying the car sequencing according to the CSPlib.")
+var name = flag.String("f", "", "Path of the file specifying the car sequencing according to the CSPlib.")
 var ver = flag.Bool("ver", false, "Show version info.")
 var e1 = flag.Bool("e1", false, "Collection of flags: -ex1 -cnt -ca    -id7 -id8 -id9.")
 var e2 = flag.Bool("e2", false, "Collection of flags: -ex1 -cnt -id6 3 -id7 -id8 -id9.")
@@ -25,12 +25,12 @@ var id1 = flag.Bool("id1", false, "Sequential Counter for cardinality, clauses 1
 var id2 = flag.Bool("id2", false, "Sequential Counter for cardinality, clauses 2 (see paper).")
 var id3 = flag.Bool("id3", false, "Sequential Counter for cardinality, clauses 3 (see paper).")
 var id4 = flag.Bool("id4", false, "Sequential Counter for cardinality, clauses 4 (see paper).")
-var id5 = flag.Bool("id5", false, "Initializes the counter to be a cardinality constraint.")
+var id5 = flag.Bool("id5", false, "Sequential Counter for cardinality, clauses 4 (see paper).")
 var ca = flag.Bool("ca", false, "Meta flag: sets ca1, ca2, ca3, ca4, ca5.")
-var ca1 = flag.Bool("ca1", false, "Sequential Counter for.Capacity constraints, type 1.")
-var ca2 = flag.Bool("ca2", false, "Sequential Counter for.Capacity constraints, type 2.")
-var ca3 = flag.Bool("ca3", false, "Sequential Counter for.Capacity constraints, type 3.")
-var ca4 = flag.Bool("ca4", false, "Sequential Counter for.Capacity constraints, type 4.")
+var ca1 = flag.Bool("ca1", false, "Sequential Counter for Capacity constraints, clauses 1 (see paper).")
+var ca2 = flag.Bool("ca2", false, "Sequential Counter for Capacity constraints, clauses 2 (see paper).")
+var ca3 = flag.Bool("ca3", false, "Sequential Counter for Capacity constraints, clauses 3 (see paper).")
+var ca4 = flag.Bool("ca4", false, "Sequential Counter for Capacity constraints, clauses 4 (see paper).")
 var ca5 = flag.Bool("ca5", false, "Initializes the counter to be a AtMost constraint.")
 var id6 = flag.Int("id6", 0, "AtMostSeqCard reusing the aux variables of cardinality constraints on the demand. 0: none, 1: just on options; 2: just on classes; 3: on options and classes")
 var id7 = flag.Bool("id7", false, "Implications from Classes to Options.")
@@ -45,7 +45,7 @@ var sbd = flag.Bool("sbd", false, "For initial grounding use simple bounds to ge
 var opt = flag.Int("opt", -1, "Adds optimization statement with value given. Should be used with -sbd and without -re1 -re2.")
 var add = flag.Int("add", 0, "Add n dummy cars without any option. (simulates optimization).")
 var debug = flag.Bool("debug", false, "Adds debug information to the cnf (symbol table and textual clauses).")
-var symbol = flag.String("symbol", "", "Outputs the symbol table; meaning of the variables.")
+var symbolsFile = flag.String("symbols", "", "Outputs the symbol table; meaning of the variables.")
 var pb = flag.Bool("pbo", false, "Create Pseudo Boolean Model; simple version")
 
 var digitRegexp = regexp.MustCompile("([0-9]+ )*[0-9]+")
@@ -57,7 +57,7 @@ func main() {
 	flag.Parse()
 	if *ver {
 		fmt.Println(`CNF generator for car sequencing problem from CSPLib 
-Version tag: 1.2a
+Version tag: 1.3a
 For infos about flags use -help
 Copyright (C) NICTA and Valentin Mayer-Eichberger
 License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
@@ -564,7 +564,7 @@ func createSATModel(options, classes []base.Countable, class2option [][]bool) bo
 		printClausesDIMACS(clauses)
 	}
 
-	if *debug || *symbol != "" {
+	if *debug || *symbolsFile != "" {
 
 		symbolTable := generateSymbolTable()
 
@@ -575,8 +575,8 @@ func createSATModel(options, classes []base.Countable, class2option [][]bool) bo
 			printDebug(symbolTable, clauses)
 		}
 
-		if *symbol != "" {
-			printSymbolTable(symbolTable, *symbol)
+		if *symbolsFile != "" {
+			printSymbolTable(symbolTable, *symbolsFile)
 		}
 	}
 
