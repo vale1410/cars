@@ -8,12 +8,11 @@ import (
 var newId int
 var pos int
 
-type Sorter struct { 
-    Comparators []Comparator
-    In []int
-    Out []int
-} 
-
+type Sorter struct {
+	Comparators []Comparator
+	In          []int
+	Out         []int
+}
 
 // B --|-- D = A && B
 //     |
@@ -74,13 +73,10 @@ func CreateOddEvenEncoding(s int, cut int) Sorter {
 		array[i] = i
 	}
 
-	//fmt.Println(array)
-
-	//fmt.Println(array)
 	oddevenMergeRange(array, comparators, 0, len(array)-1)
-	//fmt.Println(array)
 
 	var last int
+
 	for i, comp := range comparators {
 		if comp.A == 0 && comp.B == 0 {
 			last = i
@@ -90,9 +86,8 @@ func CreateOddEvenEncoding(s int, cut int) Sorter {
 
 	comparators = comparators[:last]
 	fmt.Println("Number of comparators before shrinking:", last)
-	//printGraph(comparators)
 
-	// shrink the comparator to size s by setting the last n-s to 0 
+	// shrink the comparator to size s by setting the last n-s to 0
 	// and propagate through
 	mapping := make(map[int]int, n-s)
 
@@ -104,45 +99,33 @@ func CreateOddEvenEncoding(s int, cut int) Sorter {
 	comparators = propagateZeros(comparators, mapping)
 	fmt.Println("Number of comparators after propagating zeros:", len(comparators))
 
-	//fmt.Println(comparators)
-	//fmt.Println(mapping)
-
-	//printGraph(comparators)
-
-    for i,x := range array { 
-        if r,ok := mapping[x];ok { 
-            array[i] = r
-        } 
-    } 
-
-	//fmt.Println(array)
+	for i, x := range array {
+		if r, ok := mapping[x]; ok {
+			array[i] = r
+		}
+	}
 
 	mapping = make(map[int]int, n-s)
 
-    //
-    if cut >= 0 { 
-	    //fmt.Println(comparators)
-	    comparators = propagateOrdering(comparators, mapping, s, cut)
-	    fmt.Println("Number of comparators after propagating ordering:", len(comparators))
-	    //fmt.Println(comparators)
-    } 
+	if cut >= 0 {
+		comparators = propagateOrdering(comparators, mapping, s, cut)
+		fmt.Println("Number of comparators after propagating ordering:", len(comparators))
+	}
 
-    for i,x := range array { 
-        if r,ok := mapping[x];ok { 
-            array[i] = r
-        } 
-    } 
+	for i, x := range array {
+		if r, ok := mapping[x]; ok {
+			array[i] = r
+		}
+	}
 
-    input := make([]int,s)
+	input := make([]int, s)
 
 	for i, _ := range input {
 		input[i] = i
 	}
 
-
-    return Sorter{comparators,input,array[:s]}
+	return Sorter{comparators, input, array[:s]}
 }
-
 
 // from 0..cut-1 sorted and from cut .. length-1 sorted
 // propagated and remove comparators
@@ -157,24 +140,24 @@ func propagateOrdering(comparators []Comparator, mapping map[int]int, s int, cut
 
 		if aok {
 			comparators[i].A = a
-		} else { 
-            a = comp.A
-        } 
+		} else {
+			a = comp.A
+		}
 		if bok {
 			comparators[i].B = b
-		} else { 
-            b = comp.B
-        } 
+		} else {
+			b = comp.B
+		}
 
-        if a < s && b < s && (a >= cut || b < cut) { 
-            // we have an already sorted input
-            //fmt.Println("Sorted",a,b)
-            mapping[comp.C] = a
-            mapping[comp.D] = b
-            comparators[i] = zero
+		if a < s && b < s && (a >= cut || b < cut) {
+			// we have an already sorted input
+			//fmt.Println("Sorted",a,b)
+			mapping[comp.C] = a
+			mapping[comp.D] = b
+			comparators[i] = zero
 			l++
-        } 
-    } 
+		}
+	}
 
 	//remove zeros and then return comparators
 	out := make([]Comparator, 0, l)
@@ -186,8 +169,7 @@ func propagateOrdering(comparators []Comparator, mapping map[int]int, s int, cut
 	}
 
 	return out
-} 
-
+}
 
 //func propagateForward(sorter Sorter, zeros map[int]bool, ones map[int]bool) {
 //
@@ -195,15 +177,13 @@ func propagateOrdering(comparators []Comparator, mapping map[int]int, s int, cut
 //
 //	for i, comp := range comparators {
 //
-//} 
+//}
 //
 //func propagateBackwards(sorter Sorter, zeros map[int]bool, ones map[int]bool) {
 //
 //	mapping := make(map[int]int,len(sorter.comparators))
 //
-//} 
-
-
+//}
 
 func propagateZeros(comparators []Comparator, mapping map[int]int) []Comparator {
 
@@ -217,15 +197,15 @@ func propagateZeros(comparators []Comparator, mapping map[int]int) []Comparator 
 
 		if aok {
 			comparators[i].A = a
-		} else { 
-            a = comp.A
-        } 
+		} else {
+			a = comp.A
+		}
 
 		if bok {
 			comparators[i].B = b
-		} else { 
-            b = comp.B
-        } 
+		} else {
+			b = comp.B
+		}
 
 		if aok && a == -1 {
 			comparators[i] = zero
@@ -254,4 +234,3 @@ func propagateZeros(comparators []Comparator, mapping map[int]int) []Comparator 
 	}
 	return out
 }
-
