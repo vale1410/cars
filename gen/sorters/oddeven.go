@@ -89,6 +89,7 @@ func CreateOddEvenEncoding(s int, cut int) Sorter {
 
 	// shrink the comparator to size s by setting the last n-s to 0
 	// and propagate through
+
 	mapping := make(map[int]int, n-s)
 
 	for i := s; i < n; i++ {
