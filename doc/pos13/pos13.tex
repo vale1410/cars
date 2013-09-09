@@ -1,4 +1,4 @@
-\documentclass[]{llncs} 
+\documentclass[]{easychair} 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{verbatim}
@@ -7,6 +7,12 @@
 \usetikzlibrary{arrows,shapes}
 \usepackage{graphics}
 \usepackage{multirow}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
 
 \newcommand{\todo}[1]{ {\color{red}{#1} }}
 \def\min{{\texttt{minimise}}}
@@ -23,6 +29,9 @@ Locked Bag 6016, Sydney NSW 1466, Australia
 }
 
 \title{SAT Encodings for the Car Sequencing Problem}
+
+\titlerunning{SAT Encodings for the Car Sequencing Problem}
+\authorrunning{Mayer-Eichberger and Walsh}
 
 \begin{document} 
 
@@ -371,12 +380,13 @@ difference in the experimental section:
 The idea to this method goes back to the proof in \cite{Gent98} to show a lower bound of 2 for the instance 19/97. Here
 we will restate this technique to apply the method on all problems from the benchmark in \cite{Gravel05}. 
 
-We start with instance 300-04 as an example. The demands and options are given in Table \ref{tab:2}. 
+We start with instance 300-04 as an example. The demands and options are given in Table \ref{tab:2} . 
 
 \begin{table}[htbp]
-    \caption{Overview of options and demands for instance 300-04}
-    \centering
+    \caption{Instance 300-04}
+    \begin{center}
     \include{table_ian_1}
+    \end{center}
     \label{tab:2}
 \end{table}
 
@@ -422,13 +432,12 @@ demand and availability of such cars.
 First we will compare the SAT encodings of Section \ref{sec:modelling} with pseudo Boolean solvers on the CSPLib
 instances. Then we show our results for lower and upper bounds. Our focus is on the 9 traditional instances plus the 30
 hard instances proposed by \cite{Gravel05} and we leave out the set of 70 easy satisfiable instances. All instances have
-the same set of options: 1/2,2/3,1/3,2/5 and 1/5. The largest instances is 400 cars with 25 classes and a maximal demand
+the same set of options: 1/2, 2/3, 1/3, 2/5 and 1/5. The largest instances is 400 cars with 25 classes and a maximal demand
 per class of 58. 
 
 We have written a command line tool that generates CNF in DIMACS format from a problem description as provided by the
 CSPLib. The tool translates the specification by different sets of clauses and computes the lower bounds from the
-preprocessing as defined in Section \ref{sec:lower}. It is freely available at \\
-\verb+github.com/vale1410/car-sequencing+. For our experiments we choose the well-known SAT solver Minisat \cite{Een03}
+preprocessing as defined in Section \ref{sec:lower}. It is freely available at \verb+github.com/vale1410/car-sequencing+. For our experiments we choose the well-known SAT solver Minisat \cite{Een03}
 of version 2.2.0, that represents a canonical implementation of state-of-the-art CDCL solvers. All experiments are done
 on Linux 64bit, Intel Xeon CPUs at 2.27GHs. 
 
@@ -450,8 +459,7 @@ and Minisat+ uses encodings through adders, sorting networks and binary decision
 differ from model E1 in terms of higher level constraint. So the difference in size is mainly caused by the encoding of
 the cardinality expressions. We see that the internal translation of Minisat+ prefers a more compact encoding  and
 Clasps encoding is the largest. The sizes of the direct CNF models do not vary much since the difference is in whether
-to use clauses (6) and/or separate encodings of the capacity constraints. %and these are not the dominating factor for
-the size. 
+to use clauses (\ref{eq:6}) and/or separate encodings of the capacity constraints.
 
 \begin{table}[htbp] 
     \caption{Comparison of number of variables and clauses after translation to CNF. Values (in thousands) are average
@@ -552,10 +560,8 @@ method in the number of options, but typically this numbers is small compared to
 \section*{Acknowledgement}
 
 We want to thank the reviewers for their comments that helped us improving the paper.  We also want to thank Mohamed
-Siala, Emmanuel Hebrard and Nina Narodytska for fruitful discussions on the car sequencing problem. 
-
-%NICTA is funded by the Australian Government as represented by the Department of Broadband, Communications and the
-%Digital Economy and the Australian Research Council through the ICT Centre of Excellence program.
+Siala, Emmanuel Hebrard and Nina Narodytska for fruitful discussions on the car sequencing problem. NICTA is funded by the Australian Government as represented by the Department of Broadband, Communications and the
+Digital Economy and the Australian Research Council through the ICT Centre of Excellence program.
 
 %\newpage 
 
