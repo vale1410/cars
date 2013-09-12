@@ -5,7 +5,7 @@
 \usepackage{enumerate}
 
 \title{Yet Another SAT Encoding for Car Sequencing} 
-\author{Valentin Mayer-Eichberger and Martin Gebser}
+%\author{Valentin Mayer-Eichberger and Martin Gebser}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes}
@@ -40,17 +40,20 @@
 
 \maketitle
 
-The encoding is wrt. one object (car or option) for which we omit the
-subscript. We present an encoding for the constraint
-$$\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
-
 The encoding avoids a separate counter encoding for each cardinality
 constraint and  at the same time is an alternative to \cite{Mayer13}. 
 
+The encoding is wrt. one object (car or option) for which we omit the
+subscript. We present an encoding for the constraint
+
+$$\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
+
 \begin{itemize}
     \item $x_i$ is true (1) if the object is at position $i$. 
-    \item $s_{i,j}$ is true if in window $i-q+1, \ldots i$ there are at least $j$ objects. 
+    \item $s_{i,j}$ is true if in window $[i-q+1, \ldots i]$ there are at least $j$ objects. 
 \end{itemize}
+
+$$s_{i,j} \;\;\; \Leftrightarrow \;\;\; \sum_{l=i-q+1}^i x_l \geq j $$
 
 The idea behind the clauses is to express the relationship between $x_{i-q}$,
 $x_i$ and the counter $s_{i,j}$. 
@@ -66,8 +69,6 @@ $x_i$ and the counter $s_{i,j}$.
     \neg x_i \vee x_{i-q} & \vee \neg s_{i-1,j-1} \vee s_{i,j} \\
          x_i \vee \neg x_{i-q} & \vee \neg s_{i,j} \vee s_{i-1,j+1}
 \end{align}
-
-
 
 
 \bibliographystyle{plain}
