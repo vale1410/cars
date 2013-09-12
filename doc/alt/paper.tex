@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+
+\title{Yet Another SAT Encoding for Car Sequencing} 
+\author{Valentin Mayer-Eichberger and Martin Gebser}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphics}
+\usepackage[showboxes]{textpos}
+
+\def\qed{{\hfill $\Box$}}
+\def\proof{{\noindent \textit{Proof.~}}}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+
+\def\constraint#1{\mbox{{\rm\sc #1}}}
+\def\reachability{{\constraint{reachability }}}
+
+%\def\edge{\operatorname{edge}}
+%\def\reach{\operatorname{reach}}
+%\def\path{\operatorname{path}}
+%\def\start{\operatorname{start}}
+%\def\stop{\operatorname{end}}
+%\def\one#1{\constraint{Exactly1}(#1)}
+
+\def\implies{\Rightarrow}
+\def\when{\Leftarrow}
+\def\and{\wedge}
+
+\begin{document}
+
+\maketitle
+
+The encoding is wrt. one object (car or option) for which we omit the
+subscript. We present an encoding for the constraint
+$$\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
+
+The encoding avoids a separate counter encoding for each cardinality
+constraint and  at the same time is an alternative to \cite{Mayer13}. 
+
+\begin{itemize}
+    \item $x_i$ is true (1) if the object is at position $i$. 
+    \item $s_{i,j}$ is true if in window $i-q+1, \ldots i$ there are at least $j$ objects. 
+\end{itemize}
+
+The idea behind the clauses is to express the relationship between $x_{i-q}$,
+$x_i$ and the counter $s_{i,j}$. 
+
+\begin{align}
+    \neg s_{i,j} & \vee s_{i+1,j-1} \\
+    \neg s_{i+1,j+1} & \vee s_{i,j} \\
+    \neg s_{i,j+1} & \vee s_{i,j} \\
+    \neg x_i & \vee \neg s_{i-1,j} \vee s_{i,j} \\
+         x_i & \vee \neg s_{i,j} \vee s_{i-1,j} \\
+    \neg x_{i-q} & \vee \neg s_{i,j} \vee s_{i-1,j} \\
+         x_{i-q} & \vee \neg s_{i-1,j} \vee s_{i,j} \\
+    \neg x_i \vee x_{i-q} & \vee \neg s_{i-1,j-1} \vee s_{i,j} \\
+         x_i \vee \neg x_{i-q} & \vee \neg s_{i,j} \vee s_{i-1,j+1}
+\end{align}
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{p}
+
+\end{document}
