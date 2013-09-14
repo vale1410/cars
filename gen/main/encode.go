@@ -70,6 +70,15 @@ There is NO WARRANTY, to the extent permitted by law.`)
 	}
 	options, classes, class2option := parse(*name)
 
+	if *add > 0 {
+		cId := base.CountableId{base.ClassType, class_count}
+		dummy := base.Countable{CId: cId, Window: 1, Capacity: 1, Demand: *add}
+		classes = append(classes, dummy)
+		class2option = append(class2option, make([]bool, option_count))
+		class_count++
+		size += *add
+	}
+
 	if *pb {
 		pbo.CreatePBOModel(size, options, classes, class2option)
 	} else {
@@ -440,16 +449,153 @@ func parse(filename string) (options, classes []base.Countable, class2option [][
 
 }
 
-func createSATModel(options, classes []base.Countable, class2option [][]bool) bool {
+// TODO: this is just copy paste, needs added clauses from alternative stuff
+// also this will also be the first time a sorting network will be used.
+func createAltSATModel(options, classes []base.Countable, class2option [][]bool) bool {
 
-	if *add > 0 {
-		cId := base.CountableId{base.ClassType, class_count}
-		dummy := base.Countable{CId: cId, Window: 1, Capacity: 1, Demand: *add}
-		classes = append(classes, dummy)
-		class2option = append(class2option, make([]bool, option_count))
-		class_count++
-		size += *add
+	NewIdGen()
+
+	clauses := make([]clause, 0)
+
+	//clauses 7 and 9
+	for i := 0; i < class_count; i++ {
+		for j := 0; j < option_count; j++ {
+			if class2option[i][j] {
+				if *id7 {
+					clauses = append(clauses, createAtMostSeq7(classes[i].CId, options[j].CId)...)
+				}
+			} else {
+				if *id9 {
+					clauses = append(clauses, createAtMostSeq9(classes[i].CId, options[j].CId)...)
+				}
+			}
+		}
 	}
+
+	//clauses 8
+	if *id8 {
+		for j := 0; j < option_count; j++ {
+
+			ops := make([]base.CountableId, 0, class_count)
+
+			for i := 0; i < class_count; i++ {
+				if class2option[i][j] {
+					k := len(ops)
+					ops = ops[:k+1]
+					ops[k] = classes[i].CId
+				}
+			}
+			clauses = append(clauses, createAtMostSeq8(options[j].CId, ops)...)
+		}
+	}
+
+	//clauses exactly one class per position
+	if *ex1 {
+		clauses = append(clauses, createExactlyOne()...)
+	}
+
+	//symmetry breaking
+	if *sym {
+		clauses = append(clauses, createSymmetry()...)
+	}
+
+	//fmt.Println("number of clauses: ", len(clauses))
+	//fmt.Println("number of pos variables: ", len(gen.PosVarMap))
+	//fmt.Println("number of count variables: ", len(gen.CountVarMap))
+
+	if *ian {
+		createIanConstraints(options, classes, class2option)
+	}
+
+	if len(clauses) > 0 {
+		printClausesDIMACS(clauses)
+	}
+
+	if *debug || *symbolsFile != "" {
+
+		symbolTable := generateSymbolTable()
+
+		if *debug {
+			fmt.Println("c options: ", options)
+			fmt.Println("c classes: ", classes)
+			fmt.Println("c class2option: ", class2option)
+			printDebug(symbolTable, clauses)
+		}
+
+		if *symbolsFile != "" {
+			printSymbolTable(symbolTable, *symbolsFile)
+		}
+	}
+
+	return true
+}
+
+// TODO: this is just copy paste, needs added clauses from alternative stuff
+// also this will also be the first time a sorting network will be used.
+func createAlternative(c base.Countable) (clauses []clause) {
+
+	clauses = make([]clause, 0)
+
+	pV := base.PosVar{c.CId, 0}
+	cV2 := base.CountVar{c.CId, 0, 1}
+
+	if *id3 {
+		cn := clause{"id3", []int{getPosId(pV), -getCountId(cV2)}}
+		clauses = append(clauses, cn)
+	}
+
+	for i := 0; i < size-1; i++ {
+
+		cV1 := base.CountVar{c.CId, i, -1}
+		cV2.Pos = i + 1
+		pV.Pos = i + 1
+
+		for j := c.Lower[i]; j <= c.Upper[i]; j++ {
+			cV1.Count = j
+			cV2.Count = j
+			if *id1 {
+				c1 := clause{"id1", []int{-1 * getCountId(cV1), getCountId(cV2)}}
+				clauses = append(clauses, c1)
+			}
+			if *id3 {
+				c3 := clause{"id3", []int{getPosId(pV), getCountId(cV1), -getCountId(cV2)}}
+				clauses = append(clauses, c3)
+			}
+		}
+	}
+
+	pV = base.PosVar{c.CId, 0}
+	cV2 = base.CountVar{c.CId, 0, 1}
+
+	if *id4 {
+		cn := clause{"id4", []int{-getPosId(pV), getCountId(cV2)}}
+		clauses = append(clauses, cn)
+	}
+
+	for i := 0; i < size-1; i++ {
+
+		cV1 := base.CountVar{c.CId, i, -1}
+		cV2.Pos = i + 1
+		pV.Pos = i + 1
+
+		for j := c.Lower[i]; j < c.Upper[i]; j++ {
+			cV1.Count = j
+			cV2.Count = j + 1
+			if *id2 {
+				c2 := clause{"id2", []int{getCountId(cV1), -getCountId(cV2)}}
+				clauses = append(clauses, c2)
+			}
+			if *id4 {
+				c4 := clause{"id4", []int{-getPosId(pV), -getCountId(cV1), getCountId(cV2)}}
+				clauses = append(clauses, c4)
+			}
+		}
+	}
+
+	return
+}
+
+func createSATModel(options, classes []base.Countable, class2option [][]bool) bool {
 
 	for i := range options {
 		if *sbd {

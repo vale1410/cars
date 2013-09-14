@@ -1,5 +1,5 @@
 NAME=test
-PRE=pre
+PRE=pos13
 OUTPUT=$(NAME).pdf
 
 all: pre
