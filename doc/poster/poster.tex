@@ -59,11 +59,7 @@
                 \item
                   Options $O = \{a,b\}$ with capacity constraints $1/2$ and $1/5$
                 \item
-                  Class 1 no restriction
-                \item
-                  Class 2 requires option $a$
-                \item
-                  Class 3 requires option $a$ and $b$
+                    Class 1: $\emptyset$, Class 2: $\{a\}$, Class 3: $\{a,b\}$
                 \end{itemize}
                 
                 \vspace{0.5cm}
@@ -72,8 +68,8 @@
                 \begin{tabular}{c|cccccccc}
                 Sequence of cars  & 3 & 1 & 2 & 1 & 2 & 1 & 3 \\
                 \hline
-                Option a & 1 & - & 1 & - & 1 & - & 1 \\
-                Option b & 1 & - & - & - & - & - & 1 \\
+                Option $a$ & 1 & - & 1 & - & 1 & - & 1 \\
+                Option $b$ & 1 & - & - & - & - & - & 1 \\
                 \end{tabular}
                 \end{center}
 
@@ -106,7 +102,7 @@
                 \end{itemize}
             \end{block}
             \vfill
-            \begin{block}{The SAT Approach: The Ultimate Decomposition}
+            \begin{block}{SAT Approach: The Ultimate Decomposition}
                 \begin{itemize}
                 \itemsep1pt\parskip0pt\parsep0pt
                 \item
@@ -114,13 +110,16 @@
                 \item
                   ONE propagator: e.g. $a$ and $\neg a \vee b$ then propagate $b$.
                 \item
-                  Using SAT solvers as blackboxes.
+                  Use SAT solver as a blackbox and inherit all good properties!
                 \item
-                  Central constraint in car sequencing representing cars and
-options:
+                  Central constraint: $(\sum_{i=1}^n x_{i} = d) \wedge\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$
+                \item
+                  Use cumulative sums:
                 \end{itemize}
+
+                    $$ s_{i,j} \iff (j \leq \sum_{l=1}^{i} x_{l}) $$
                 
-                \[ (\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )\]
+                
 
             \end{block}
             \vfill
@@ -237,7 +236,7 @@ options:
             \vfill
             \begin{block}{Conclusions and Future Work}
                 \begin{itemize}
-                \item Conclusion
+                \item Conclusions
                     \begin{itemize}
                     \itemsep1pt\parskip0pt\parsep0pt
                     \item
@@ -249,13 +248,13 @@ options:
                     \item
                       Choosing the right encoding of cardinality constraints is crucial
                     \end{itemize}
-                \item Future work:
+                \item Current and Future work:
                     \begin{itemize}
                     \itemsep1pt\parskip0pt\parsep0pt
                     \item
                       Fair Comparison to CP, IP, ASP, LS \ldots
                     \item
-                      Clean proof of GAC and lower bound on size
+                      Elegant proof of GAC and lower bound on size
                     \item
                       Idea useful in rostering, planning, scheduling?
                     \item

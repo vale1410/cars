@@ -25,8 +25,8 @@ Car Sequencing
 Car Sequencing: Example
 ======
 
-* $C = \{1,2,3\}$ with demand $d_1=3, d_2=2,d_ 3=2$
-* $O = \{a,b\}$ with capacity constraints $1/2$ and $1/5$
+* Classes $C = \{1,2,3\}$ with demand $d_1=3, d_2=2,d_ 3=2$
+* Options $O = \{a,b\}$ with capacity constraints $1/2$ and $1/5$
 * Class 1 no restriction
 * Class 2 requires option $a$
 * Class 3 requires option $a$ and $b$
@@ -54,13 +54,15 @@ Option b & 1 & - & - & - & - & - & 1 \\
 The SAT Approach: The Ultimate Decomposition
 ===============
 
-* ONE type of constraint: $a \vee b \vee \neg c$. 
-* ONE propogator: $a$ and $\neg a \vee b$ then propagate $b$.
+* ONE constraint, the clause (e.g. $a \vee b \vee \neg c$).
+* ONE propagator, unit propagation: (e.g. $a$ and $\neg a \vee b$ then propagate $b$).
 * Using SAT solvers as blackboxes. 
-* PhD Topic: What are good translations and why?
-* Central constraint in car sequencing:
+* \todo{Challenge: Finding good CNF representations.}
+\pause
+* Global constraint: $(\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$
+* Use cumulative sums:
 
-$$ (\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$$
+$$ s_{i,j} \iff (j \leq \sum_{l=1}^{i} x_{l}) $$
 
 Sequential Counter
 ==================
@@ -114,7 +116,6 @@ Sequential Counter
 \end{tikzpicture}
 \end{center}
 
-
 * This idea can translate all cardinality constraints
 
 Demand Constraint + Capacity Constraint
@@ -151,8 +152,30 @@ $$ (\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \l
 
 \end{center}
 
+Results on CSPLib
+====== 
 
-Discussion: Related Work
+* 30+9 hard solved 28 within 20min
+* Largest: 400 cars, 5 options, 23 classes: 200K Var, 1M Clauses
+* Several variations of this encoding
+
+\begin{center}
+\begin{tabular}{ l|ccc}
+	&E1	&E2	&E3	\\
+\hline
+\#solved UNSAT	& 17	&15	& 17 \\
+\#fastest UNSAT	& 5	&4	& 4 \\
+\#solved SAT	& 11	& 11	& 11  \\
+\#fastest SAT	& 0	&4	& 7  \\
+\hline
+\end{tabular}
+\end{center}
+
+* With another trick 36 decision problems in the CSPLib can be solved (3 left
+  open)
+* Decoder and encoder available \verb+github.com/vale1410/car-sequencing+
+
+Related Work
 ==================
 
 * Sinz: Sequential Counter CNF \cite{Sinz05} 
@@ -161,21 +184,23 @@ Discussion: Related Work
 * Brand et al: Decomposition to cumulative sums for CP \cite{Brand07}
 * Siala et al: Linear time propagator for CP \cite{Siala12}
 
-Conclusions and Future Work
+Conclusions 
 ======
+
+Conclusion
 
 * SAT is strong on instances of the CSPLib
 * Global Constraints motivate for encodings
 * Choosing the right encoding of cardinality constraints is crucial
 * SAT can be very competitive on CP benchmarks
 
-Future work: 
+Current and Future work
 
 * Fair Comparison to CP, IP, ASP, LS \ldots
-* Prove of GAC and lower bound on size
+* Elegant proof of GAC and lower bound on size. 
 * Idea useful in rostering, planning, scheduling?
 * Exponential encoding in the number of options? 
-* New instances!
+* Treat the optimization problem. 
 
 \appendix
 \newcounter{finalframe}

@@ -1,14 +1,7 @@
-NAME=test
 PRE=pre
 OUTPUT=$(NAME).pdf
 
 all: pre
-
-compile:
-	pdflatex $(NAME).tex 
-
-show: compile
-	apvlv $(OUTPUT)
 
 pre:
 	pandoc --template beamer.template -i $(PRE).md -o $(PRE).tex
@@ -16,10 +9,10 @@ pre:
 	perl -pe 's/\\end{document}/\\end{frame}\n\\end{document}/' -i $(PRE).tex
 	sed -i 's/\[<+->\]//g' $(PRE).tex
 	pdflatex $(PRE).tex
-	bibtex $(PRE)
-	pdflatex $(PRE).tex
-	pdflatex $(PRE).tex
-#	apvlv $(PRE).pdf
+#	bibtex $(PRE)
+#	pdflatex $(PRE).tex
+#	pdflatex $(PRE).tex
+	evince $(PRE).pdf 2>/dev/null &
 
 clean: 
 	rm -f pre.tex
