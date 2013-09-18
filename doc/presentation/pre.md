@@ -54,13 +54,13 @@ Option b & 1 & - & - & - & - & - & 1 \\
 The SAT Approach: The Ultimate Decomposition
 ===============
 
-* ONE constraint, the clause (e.g. $a \vee b \vee \neg c$).
-* ONE propagator, unit propagation: (e.g. $a$ and $\neg a \vee b$ then propagate $b$).
-* Using SAT solvers as blackboxes. 
-* \todo{Challenge: Finding good CNF representations.}
+* ONE constraint (clause): e.g. $a \vee b \vee \neg c$
+* ONE propagator (unit propagation): e.g. $a$ and $\neg a \vee b$ then propagate $b$
+* Use SAT solver as a blackbox. 
+* \todo{Challenge: To find good CNF representations.}
 \pause
 * Global constraint: $(\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$
-* Use cumulative sums:
+* Use cumulative sums and auxiliary variables: 
 
 $$ s_{i,j} \iff (j \leq \sum_{l=1}^{i} x_{l}) $$
 
@@ -155,7 +155,7 @@ $$ (\sum_{i=1}^n x_{i} = d) \wedge \bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \l
 Results on CSPLib
 ====== 
 
-* 30+9 hard solved 28 within 20min
+* Out of 30+9 hard instances solved 28 within 20min
 * Largest: 400 cars, 5 options, 23 classes: 200K Var, 1M Clauses
 * Several variations of this encoding
 
@@ -164,25 +164,15 @@ Results on CSPLib
 	&E1	&E2	&E3	\\
 \hline
 \#solved UNSAT	& 17	&15	& 17 \\
-\#fastest UNSAT	& 5	&4	& 4 \\
+\#fastest UNSAT	& 8	&4	& 5 \\
 \#solved SAT	& 11	& 11	& 11  \\
 \#fastest SAT	& 0	&4	& 7  \\
 \hline
 \end{tabular}
 \end{center}
 
-* With another trick 36 decision problems in the CSPLib can be solved (3 left
-  open)
 * Decoder and encoder available \verb+github.com/vale1410/car-sequencing+
 
-Related Work
-==================
-
-* Sinz: Sequential Counter CNF \cite{Sinz05} 
-* Een and Soerensson: Translation through BDDs to CNF \cite{Een06}
-* Bacchus: Decomposition through DFAs to CNF \cite{Bacchus07}
-* Brand et al: Decomposition to cumulative sums for CP \cite{Brand07}
-* Siala et al: Linear time propagator for CP \cite{Siala12}
 
 Conclusions 
 ======
@@ -205,6 +195,15 @@ Current and Future work
 \appendix
 \newcounter{finalframe}
 \setcounter{finalframe}{\value{framenumber}}
+
+Related Work
+==================
+
+* Sinz: Sequential Counter CNF \cite{Sinz05} 
+* Een and Soerensson: Translation through BDDs to CNF \cite{Een06}
+* Bacchus: Decomposition through DFAs to CNF \cite{Bacchus07}
+* Brand et al: Decomposition to cumulative sums for CP \cite{Brand07}
+* Siala et al: Linear time propagator for CP \cite{Siala12}
 
 Bibliography
 ============

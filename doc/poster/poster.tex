@@ -41,6 +41,7 @@
                         \item Cars require different options (air-conditioning, sun-roof, etc.)
                         \item Is there a production sequence for cars on the assembly line satisfying the sliding capacity constraints?
                         \item CSPLib Benchmark Nr. 1
+                            \cite{Regin97}\cite{Gent99}
                     \end{itemize}
                 \end{column}
                 \begin{column}{.44\textwidth}
@@ -105,22 +106,15 @@
             \begin{block}{SAT Approach: The Ultimate Decomposition}
                 \begin{itemize}
                 \itemsep1pt\parskip0pt\parsep0pt
-                \item
-                  ONE constraint: e.g. $a \vee b \vee \neg c$.
-                \item
-                  ONE propagator: e.g. $a$ and $\neg a \vee b$ then propagate $b$.
-                \item
-                  Use SAT solver as a blackbox and inherit all good properties!
-                \item
-                  Central constraint: $(\sum_{i=1}^n x_{i} = d) \wedge\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$
-                \item
-                  Use cumulative sums:
+                \item ONE constraint (clause): e.g. $x \vee y \vee \neg z$
+                \item ONE propagator (unit propagation): e.g. $x$ and $\neg x \vee y$ then propagate $y$
+                \item Use SAT solver as a blackbox and inherit all good properties!
+                \item Global constraint: $(\sum_{i=1}^n x_{i} = d) \wedge\bigwedge_{i=0}^{n-q}(\sum_{l=1}^q x_{i+l} \leq u )$
+                \item Use cumulative sums and auxiliary variables:
                 \end{itemize}
 
                     $$ s_{i,j} \iff (j \leq \sum_{l=1}^{i} x_{l}) $$
                 
-                
-
             \end{block}
             \vfill
             \begin{block}{Counter based Clause Set}%
@@ -219,53 +213,75 @@
             
             \begin{block}{Example: 22 Cars, Capacity $4/8$, Demand $d=12$}
 
-                %\include{example3}
-                
                 Partial Assignment: $x_{1}$ and $x_{13}$ to true and $x_{12}$, $x_{14}$
                 and $x_{21}$ to false.
                 
                 \include{example4}
             \end{block}
             \vfill
-            \begin{block}{Results on the harder CSPLib Instances}
-                \begin{center}
-                \include{all}
-                \end{center}
-                    E1-E3=variants of SAT, PB=minisat+, ASP=Clasp
-            \end{block}
-            \vfill
-            \begin{block}{Conclusions and Future Work}
+            \begin{block}{Results}
                 \begin{itemize}
-                \item Conclusions
-                    \begin{itemize}
-                    \itemsep1pt\parskip0pt\parsep0pt
-                    \item
-                      SAT can be very competitive on CP benchmarks
-                    \item
-                      SAT is very strong on showing unsatisfiability
-                    \item
-                      Global Constraints motivate for encodings
-                    \item
-                      Choosing the right encoding of cardinality constraints is crucial
-                    \end{itemize}
-                \item Current and Future work:
-                    \begin{itemize}
-                    \itemsep1pt\parskip0pt\parsep0pt
-                    \item
-                      Fair Comparison to CP, IP, ASP, LS \ldots
-                    \item
-                      Elegant proof of GAC and lower bound on size
-                    \item
-                      Idea useful in rostering, planning, scheduling?
-                    \item
-                      Exponential encoding in the number of options?
-                    \item
-                      New instances!
-                    \end{itemize}
+                \itemsep1pt\parskip0pt\parsep0pt
+                \item
+                    Out of 30+9 hard instances solved 28 within 20min
+                    \cite{Gravel05}
+                \item
+                  Largest: 400 cars, 5 options, 23 classes: 200K Var, 1M Clauses
+                \item
+                  Several variations of this encoding
+                \end{itemize}
+                
+                \begin{center}
+                \begin{tabular}{ l|ccc}
+                    &E1 &E2 &E3 \\
+                \hline
+                \#solved UNSAT  & 17    &15 & 17 \\
+                \#fastest UNSAT & 8 &4  & 5 \\
+                \#solved SAT    & 11    & 11    & 11  \\
+                \#fastest SAT   & 0 &4  & 7  \\
+                \hline
+                \end{tabular}
+                \end{center}
+
+                \begin{itemize}
+                \itemsep1pt\parskip0pt\parsep0pt
+                \item Decoder and encoder available \texttt{github.com/vale1410/car-sequencing}
                 \end{itemize}
             \end{block}
             \vfill
-            \begin{block}{Discussion: Related Work}
+            \begin{block}{Conclusion and Future work}
+                \begin{itemize}
+                    \item Conclusion
+
+                \begin{itemize}
+                \itemsep1pt\parskip0pt\parsep0pt
+                \item SAT is strong on car sequencing instances of the CSPLib.
+                \item Global Constraints motivate for encodings.
+                \item Choosing the right encoding of cardinality constraints
+                    is crucial.
+                \item SAT can be very competitive on CP benchmarks with a good
+                    encoding.
+                \end{itemize}
+                
+            \item Current and Future work
+                
+                \begin{itemize}
+                \itemsep1pt\parskip0pt\parsep0pt
+                \item
+                  Fair Comparison to CP, IP, ASP, LS \ldots
+                \item
+                  Elegant proof of GAC and lower bound on size.
+                \item
+                  Idea useful in rostering, planning, scheduling?
+                \item
+                  Exponential encoding in the number of options?
+                \item
+                  Treat the optimization problem.
+                \end{itemize}
+                \end{itemize}
+            \end{block}
+            \vfill
+            \begin{block}{Related Work}
                 \begin{itemize}
                 \item
                   Sinz: Sequential Counter CNF \cite{Sinz05}
@@ -297,7 +313,7 @@
     \end{column}
   \end{columns}
   \vskip1ex
-  \tiny\hfill{Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php} \hskip1em}
+  \tiny\hfill{Photo: Wikipedia, Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php} \hskip1em}
 \end{frame}
 \end{document}
 
