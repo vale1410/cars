@@ -1,10 +1,10 @@
-package main
+package sorters
 
 import (
-	"../sorters"
 	"flag"
 	"fmt"
 	"os"
+	"testing"
 )
 
 var debug = flag.Bool("debug", false, "Adds debug information.")
@@ -12,24 +12,23 @@ var size = flag.Int("s", 8, "Size of the array to sort.")
 var cut = flag.Int("cut", -1, "Cut marks the position which devides the array in two sorted [:cut],[cut:]. -1 defines no cut.")
 var dot = flag.String("dot", "", "Create dot compatible output of graph")
 
-func main() {
+func TestSimple(t *testing.T) {
 
 	flag.Parse()
 
-	sorter := sorters.CreateOddEvenEncoding(*size, *cut)
+	sorter := CreateSortingNetwork(*size, *cut, OddEven)
 
-	fmt.Println()
+	//fmt.Println()
 	if *dot != "" {
 		printGraph(sorter, *dot)
 	}
 
 	if *debug {
 		fmt.Println(sorter)
-
 	}
 }
 
-func printGraph(sorter sorters.Sorter, filename string) {
+func printGraph(sorter Sorter, filename string) {
 	file, ok := os.Create(filename)
 	if ok != nil {
 		panic("Can open file to write.")
