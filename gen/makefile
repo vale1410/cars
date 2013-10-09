@@ -1,7 +1,7 @@
 NAME=p
 
-test: main/test_sorters.go sorters/oddeven.go sorters/sorters.go
-	go run main/test_sorters.go
+test: sorters/sorters_test.go sorters/oddeven.go sorters/sorters.go
+	go test sorters
 
 clean: 
 	rm -fr *.dot
