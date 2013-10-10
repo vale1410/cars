@@ -1,77 +1,140 @@
 package sorters
 
 import (
-	"flag"
-	"fmt"
-	"os"
+	"log"
+	"math/rand"
+	"sort"
 	"testing"
 )
 
-var debug = flag.Bool("debug", false, "Adds debug information.")
-var size = flag.Int("s", 8, "Size of the array to sort.")
-var cut = flag.Int("cut", -1, "Cut marks the position which devides the array in two sorted [:cut],[cut:]. -1 defines no cut.")
-var dot = flag.String("dot", "", "Create dot compatible output of graph")
+// TestCardinality check constraint sum n <= k
+func TestCardinality(t *testing.T) {
 
-func TestSimple(t *testing.T) {
+	size := 8
+	k := 3
 
-	flag.Parse()
+	array1 := make([]int, size)
+	array2 := make([]int, size)
 
-	sorter := CreateSortingNetwork(*size, *cut, OddEven)
+	copy(array2, array1)
+	sort.Ints(array2)
 
-	//fmt.Println()
-	if *dot != "" {
-		printGraph(sorter, *dot)
+	mapping := make(map[int]int, size)
+
+	sorter := CreateSortingNetwork(size, -1, OddEven)
+
+	for i := size - k; i < size; i++ {
+		mapping[sorter.Out[i]] = 0
+		sorter.Out[i] = 0
 	}
 
-	if *debug {
-		fmt.Println(sorter)
+	sorter.PropagateBackwards(mapping)
+
+	log.Println(sorter)
+
+}
+
+func TestSorting(t *testing.T) {
+
+	sizes := []int{3, 4, 6, 8, 123, 234, 256, 1024, 1025}
+
+	for _, size := range sizes {
+		normalSorting(size, t)
+	}
+
+}
+
+func TestCut(t *testing.T) {
+
+	sizes := []int{3, 4, 6, 8, 123, 234, 256, 1024, 1025}
+	cuts := []int{2, 2, 3, 2, 68, 123, 250, 543, 800}
+
+	for i, size := range sizes {
+		cutSorting(size, cuts[i], t)
 	}
 }
 
-func printGraph(sorter Sorter, filename string) {
-	file, ok := os.Create(filename)
-	if ok != nil {
-		panic("Can open file to write.")
-	}
-	file.Write([]byte(fmt.Sprintln("digraph {")))
+func cutSorting(size int, cut int, t *testing.T) {
+	array1 := make([]int, size)
+	array2 := make([]int, size)
 
-	rank := "{rank=same; "
-	for i := 0; i < len(sorter.Out); i++ {
-		rank += fmt.Sprintf(" t%v ", sorter.Out[i])
-	}
-	rank += "}; "
+	element := 0
 
-	for i := 0; i < len(sorter.Out); i++ {
-		file.Write([]byte(fmt.Sprintf("n%v -> t%v\n", i, i)))
+	for i, _ := range array1 {
+		if i == cut {
+			element = 0
+		}
+		array1[i] = element
+		element++
 	}
 
-	file.Write([]byte(rank))
-	rank = "{rank=same; "
-	for i := 0; i < len(sorter.Out); i++ {
-		rank += fmt.Sprintf(" t%v ", i)
-	}
-	rank += "}; "
-	file.Write([]byte(rank))
+	copy(array2, array1)
+	sort.Ints(array2)
+	sorter := CreateSortingNetwork(len(array1), cut, OddEven)
+	compareArrays(sorter, array1, array2, t)
+}
 
-	//var rank string
+func normalSorting(size int, t *testing.T) {
+
+	array1 := rand.Perm(size)
+	array2 := make([]int, size)
+	copy(array2, array1)
+	sort.Ints(array2)
+	sorter := CreateSortingNetwork(len(array1), -1, OddEven)
+	compareArrays(sorter, array1, array2, t)
+}
+
+func compareArrays(sorter Sorter, array1, array2 []int, t *testing.T) {
+
+	mapping := make(map[int]int, len(sorter.Comparators))
+
+	for i, x := range sorter.In {
+		mapping[x] = array1[i]
+	}
 
 	for _, comp := range sorter.Comparators {
-		rank = "{rank=same; "
-		rank += fmt.Sprintf(" t%v t%v ", comp.A, comp.B)
-		rank += "}; "
-		file.Write([]byte(rank))
+
+		b, bok := mapping[comp.B]
+		a, aok := mapping[comp.A]
+
+		if !aok {
+			t.Error("not in mapping", comp.A)
+		}
+
+		if !bok {
+			t.Error("not in mapping", comp.B)
+		}
+
+		mapping[comp.D] = max(a, b)
+		mapping[comp.C] = min(a, b)
+
 	}
 
-	for _, comp := range sorter.Comparators {
-		//file.Write([]byte(fmt.Sprintf("n%v -> t%v \n", comp.A, comp.A)))
-		//file.Write([]byte(fmt.Sprintf("n%v -> t%v \n", comp.B, comp.B)))
-		//file.Write([]byte(fmt.Sprintf("t%v -> t%v [dir=none]\n", comp.A, comp.B)))
-		//file.Write([]byte(fmt.Sprintf("t%v -> n%v \n", comp.A, comp.C)))
-		//file.Write([]byte(fmt.Sprintf("t%v -> n%v \n", comp.B, comp.D)))
+	output := make([]int, len(array1))
 
-		file.Write([]byte(fmt.Sprintf("t%v -> t%v [dir=none]\n", comp.A, comp.B)))
-		file.Write([]byte(fmt.Sprintf("t%v -> t%v \n", comp.A, comp.C)))
-		file.Write([]byte(fmt.Sprintf("t%v -> t%v \n", comp.B, comp.D)))
+	for i, x := range sorter.Out {
+		output[i] = mapping[x]
+		if output[i] != array2[i] {
+			t.Error(output[i], array2[i], "Output array does not coincide")
+		}
 	}
-	file.Write([]byte(fmt.Sprintln("}")))
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func min(a, b int) int {
+	if a > b {
+		return b
+	} else {
+		return a
+	}
+}
+
+func TestGenerateSAT(t *testing.T) {
 }

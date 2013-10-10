@@ -1,7 +1,7 @@
 package sorters
 
 import (
-	"log"
+//	"log"
 	"math"
 )
 
@@ -50,11 +50,11 @@ func createOddEvenEncoding(n int) Sorter {
 
 	comparators := make([]Comparator, size)
 	output := make([]int, n)
-	newId = n
+	newId = n+2
 	pos = 0
 
 	for i, _ := range output {
-		output[i] = i
+		output[i] = i+2
 	}
 
 	oddevenMergeRange(output, comparators, 0, n-1)
@@ -69,12 +69,12 @@ func createOddEvenEncoding(n int) Sorter {
 	}
 
 	comparators = comparators[:last]
-	log.Println("Created Sorter of size: ", n, "with comparators:", last)
+	//log.Println("Created Sorter of size: ", n, "with comparators:", last)
 
 	input := make([]int, n)
 
 	for i, _ := range input {
-		input[i] = i
+		input[i] = i+2
 	}
 
 	return Sorter{comparators, input, output}

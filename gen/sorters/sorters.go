@@ -15,15 +15,23 @@ const (
 
 type SortingNetworkType int
 
+// The slice of comparators must be in correct order,
+// meaning that the comparator with input A and B must
+// occur after the comparator with output A and B.
+// expection are 0 and 1, that define true and false. They may only occur as
+// output of a comparator (C or D), but not as input (as will be propagated
+// and the comparator removed).
 type Sorter struct {
 	Comparators []Comparator
 	In          []int
 	Out         []int
 }
 
+// Ids for the connections (A,B,C,D) start at 2 and are incremented.
+// Id 0 and 1 are reserved for true and false respectively
 // B --|-- D = A && B
 //     |
-// A --|-- C = A || B       
+// A --|-- C = A || B
 type Comparator struct {
 	A, B, C, D int
 }
@@ -36,13 +44,13 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 		n *= 2
 	}
 
-	log.Println("Input: ", s, "Power of 2: ", n)
+	//log.Println("Input: ", s, "Power of 2: ", n)
 
 	switch typ {
 	case OddEven:
 		sorter = createOddEvenEncoding(n)
 	default:
-		log.Panic("Type of sorting network not implemented")
+		log.Panic("Type of sorting network not implemented yet")
 	}
 
 	sorter.changeSize(s)
@@ -56,10 +64,10 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 func (sorter *Sorter) propagateOrdering(cut int) {
 
 	if cut <= 0 || cut >= len(sorter.In) {
-		return 
+		return
 	} else {
 
-		mapping := make(map[int]int, 0)
+		mapping := make(map[int]int, len(sorter.Comparators))
 		l := 0
 		s := len(sorter.In)
 		comparators := sorter.Comparators
@@ -83,7 +91,7 @@ func (sorter *Sorter) propagateOrdering(cut int) {
 				b = comp.B
 			}
 
-			if a < s && b < s && (a >= cut || b < cut) {
+			if a < s && b < s && (a >= sorter.In[cut] || b < sorter.In[cut]) {
 				// we have an already sorted input
 				mapping[comp.C] = a
 				mapping[comp.D] = b
@@ -101,7 +109,7 @@ func (sorter *Sorter) propagateOrdering(cut int) {
 			}
 		}
 
-		log.Println("Propagate Ordering with cut", cut, ", removed ", len(comparators)-l, "sorters")
+		//log.Println("Propagate Ordering with cut", cut, ", after size ", len(comparators)-l, "sorters")
 
 		sorter.Comparators = out
 
@@ -110,7 +118,7 @@ func (sorter *Sorter) propagateOrdering(cut int) {
 }
 
 // PropagteZeros propagates from left to right a given set of zeros in mapping
-// mapping contains the set of zeros in the input vector of sorter (-1 stands for zero)
+// mapping contains the set of zeros in the input vector of sorter (0 stands for zero)
 func (sorter *Sorter) propagateZeros(mapping map[int]int) {
 
 	l := 0
@@ -133,15 +141,15 @@ func (sorter *Sorter) propagateZeros(mapping map[int]int) {
 			b = comp.B
 		}
 
-		if aok && a == -1 {
+		if aok && a == 0 {
 			comparators[i] = zero
-			mapping[comp.D] = -1
+			mapping[comp.D] = 0
 			mapping[comp.C] = b
 		}
 
-		if bok && b == -1 {
+		if bok && b == 0 {
 			comparators[i] = zero
-			mapping[comp.D] = -1
+			mapping[comp.D] = 0
 			mapping[comp.C] = a
 		}
 
@@ -159,12 +167,12 @@ func (sorter *Sorter) propagateZeros(mapping map[int]int) {
 	}
 	sorter.Comparators = out
 
-	log.Println("Propagate Zeros; removed ", len(comparators)-l, "sorters")
+	//log.Println("Propagate Zeros; new size ", l, "sorters")
 
 	return
 }
 
-// ChangeSize shrinkes the sorter to a size s
+// ChangeSize shrinks the sorter to a size s
 func (sorter *Sorter) changeSize(s int) {
 
 	n := len(sorter.In)
@@ -172,12 +180,13 @@ func (sorter *Sorter) changeSize(s int) {
 	mapping := make(map[int]int, n-s)
 
 	for i := s; i < n; i++ {
-		mapping[i] = -1
+		//setting the top n-s elements to zero
+		mapping[sorter.In[i]] = 0
 	}
 
 	sorter.propagateZeros(mapping)
 
-	//potential check for s..n being -1
+	//potential check for s..n being 0
 
 	for i, x := range sorter.Out {
 		if r, ok := mapping[x]; ok {
@@ -191,11 +200,11 @@ func (sorter *Sorter) changeSize(s int) {
 	return
 }
 
-func (sorter *Sorter) propagateForward(zeros map[int]bool, ones map[int]bool) {
+func (sorter *Sorter) PropagateForward(mapping map[int]int) {
 
-	mapping := make(map[int]int, 0) next step
 	l := 0
 	comparators := sorter.Comparators
+	// remove is a comparator with no functionality
 	remove := Comparator{0, 0, 0, 0}
 
 	for i, comp := range comparators {
@@ -217,49 +226,45 @@ func (sorter *Sorter) propagateForward(zeros map[int]bool, ones map[int]bool) {
 
 		removed := false
 
-		if zeros[comp.A]  {
-			zeros[comp.D] = true
-            // C is like B
-            mapping[comp.C] = comp.B
+		if a == 0 {
+			mapping[comp.D] = 0
+			mapping[comp.C] = b
 			removed = true
 		}
 
-		if zeros[comp.B]  {
-			zeros[comp.D] = true
-            //C is like A
-            mapping[comp.C] = comp.A
+		if b == 0 {
+			mapping[comp.D] = 0
+			mapping[comp.C] = a
 			removed = true
 		}
 
-		if ones[comp.A]  {
-			ones[comp.C] = true
-            // D is like B
-            mapping[comp.D] = comp.B
+		if a == 1 {
+			mapping[comp.C] = 1
+			mapping[comp.D] = b
 			removed = true
 		}
 
-		if ones[comp.B]  {
-			ones[comp.C] = true
-            //D is like A
-            mapping[comp.D] = comp.A
+		if b == 1 {
+			mapping[comp.C] = 1
+			mapping[comp.D] = a
 			removed = true
 		}
 
-		if zeros[comp.A] && zeros[comp.B] {
-			zeros[comp.C] = true
+		if a == 0 && b == 0 {
+			mapping[comp.C] = 0
 			removed = true
 		}
 
-		if ones[comp.A] && ones[comp.B] {
-			ones[comp.D] = true
+		if a == 0 && b == 0 {
+			mapping[comp.D] = 1
 			removed = true
 		}
 
 		if removed {
 			l++
 			comparators[i] = remove
+			removed = false
 		}
-
 	}
 
 	//remove zeros and then return comparators
@@ -270,11 +275,10 @@ func (sorter *Sorter) propagateForward(zeros map[int]bool, ones map[int]bool) {
 		}
 	}
 
-
 	sorter.Comparators = out
 }
 
-func propagateBackwards(sorter Sorter, zeros map[int]bool, ones map[int]bool) {
+func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 
 	l := 0
 	comparators := sorter.Comparators
@@ -286,23 +290,23 @@ func propagateBackwards(sorter Sorter, zeros map[int]bool, ones map[int]bool) {
 
 		removed := false
 
-		if zeros[comp.C] {
-			zeros[comp.A] = true
-			zeros[comp.B] = true
-			if ones[comp.C] {
+		if mapping[comp.C] == 0 {
+			mapping[comp.A] = 0
+			mapping[comp.B] = 0
+			if mapping[comp.D] == 1 {
 				log.Panic("Sorting network has problems in propagateBackwards", comp)
 			}
-			zeros[comp.D] = true
+			mapping[comp.D] = 0
 			removed = true
 		}
 
-		if ones[comp.D] {
-			ones[comp.A] = true
-			ones[comp.B] = true
-			if zeros[comp.C] {
+		if mapping[comp.D] == 1 {
+			mapping[comp.A] = 1
+			mapping[comp.B] = 1
+			if mapping[comp.C] == 0 {
 				log.Panic("Sorting network has problems in propagateBackwards", comp)
 			}
-			ones[comp.C] = true
+			mapping[comp.C] = 1
 			removed = true
 		}
 
