@@ -20,7 +20,7 @@ func main() {
 
 	//fmt.Println()
 	if *dot != "" {
-		printGraph(s, *dot)
+		printSorter(s, *dot)
 	}
 
 	if *debug {
@@ -28,7 +28,7 @@ func main() {
 	}
 }
 
-func printGraph(sorter sorters.Sorter, filename string) {
+func printSorter(sorter sorters.Sorter, filename string) {
 	file, ok := os.Create(filename)
 	if ok != nil {
 		panic("Can open file to write.")

@@ -54,14 +54,14 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 	}
 
 	sorter.changeSize(s)
-	sorter.propagateOrdering(cut)
+	sorter.PropagateOrdering(cut)
 
 	return
 }
 
 // from 0..cut-1 sorted and from cut .. length-1 sorted
 // propagated and remove comparators
-func (sorter *Sorter) propagateOrdering(cut int) {
+func (sorter *Sorter) PropagateOrdering(cut int) {
 
 	if cut <= 0 || cut >= len(sorter.In) {
 		return
@@ -284,33 +284,47 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 	comparators := sorter.Comparators
 	remove := Comparator{0, 0, 0, 0}
 
+	cleanMapping := make(map[int]int, 0)
+
 	for i := len(comparators) - 1; i >= 0; i-- {
 
 		comp := comparators[i]
 
 		removed := false
 
-		if mapping[comp.C] == 0 {
+		if value, ok := mapping[comp.C]; ok && value == 0 {
 			mapping[comp.A] = 0
 			mapping[comp.B] = 0
 			if mapping[comp.D] == 1 {
 				log.Panic("Sorting network has problems in propagateBackwards", comp)
 			}
-			mapping[comp.D] = 0
+
+			//if value, ok := mapping[comp.D]; !ok || value != 0 {
+				//log.Println("special case", comp)
+				// do special mapping!
+				//mapping[comp.D] = 0
+				cleanMapping[comp.D] = 0
+			//}
 			removed = true
 		}
 
-		if mapping[comp.D] == 1 {
+		if value, ok := mapping[comp.D]; ok && value == 1 {
 			mapping[comp.A] = 1
 			mapping[comp.B] = 1
 			if mapping[comp.C] == 0 {
 				log.Panic("Sorting network has problems in propagateBackwards", comp)
 			}
-			mapping[comp.C] = 1
+
+			if value, ok := mapping[comp.D]; !ok || value != 1 {
+				//log.Println("special case", comp)
+				// do special mapping!
+				cleanMapping[comp.C] = 1
+			}
 			removed = true
 		}
 
 		if removed {
+
 			l++
 			comparators[i] = remove
 		}
@@ -321,8 +335,21 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 	out := make([]Comparator, 0, l)
 	for _, comp := range comparators {
 		if comp != remove {
+			if value, ok := mapping[comp.C]; ok {
+				comp.C = value
+			}
+
+			if value, ok := mapping[comp.D]; ok {
+				comp.D = value
+			}
 			out = append(out, comp)
 		}
 	}
+
 	sorter.Comparators = out
+
+	if len(cleanMapping) > 0 {
+		sorter.PropagateForward(cleanMapping)
+	}
+
 }

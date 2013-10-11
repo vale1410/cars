@@ -14,7 +14,6 @@ func compareAndSwap(array []int, comparators []Comparator, i int, j int) {
 	pos++
 	array[i] = newId - 2
 	array[j] = newId - 1
-	//	log.Println(array)
 }
 
 func oddevenMerge(array []int, comparators []Comparator, lo int, hi int, r int) {
