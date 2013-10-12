@@ -4,24 +4,41 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"os/exec"
 	"sort"
 	"testing"
 )
 
 // TestCardinality check constraint sum n <= k
+// TestAtLeast check constraint sum n >= k
 func TestCardinality(t *testing.T) {
 
-	sizes := []int{3, 4, 6, 9, 9, 9, 68, 123, 250, 543, 1024, 1025}
-	ks := []int{2, 2, 3, 2, 6, 7, 8, 8, 100, 200, 256, 800}
-	//sizes := []int{123}
-	//ks := []int{100}
+	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
+	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
 
 	for i, size := range sizes {
-		cardinalitySorting(size, ks[i], t)
+		cardinalityAtMost(size, ks[i], t)
+		cardinalityAtLeast(size, ks[i], t)
+		cutSorting(size, ks[i], t)
+		normalSorting(size, t)
+	}
+
+	for x := 5; x < 100; x = x + 20 {
+		for y := 1; y < x; y = y + 6 {
+			sizes = []int{x}
+			ks = []int{y}
+
+			for i, size := range sizes {
+				cardinalityAtMost(size, ks[i], t)
+				cardinalityAtLeast(size, ks[i], t)
+				cutSorting(size, ks[i], t)
+				normalSorting(size, t)
+			}
+		}
 	}
 }
 
-func cardinalitySorting(size int, k int, t *testing.T) {
+func cardinalityAtLeast(size int, k int, t *testing.T) {
 
 	array1 := rand.Perm(size)
 	array2 := make([]int, size)
@@ -33,39 +50,35 @@ func cardinalitySorting(size int, k int, t *testing.T) {
 
 	sorter := CreateSortingNetwork(size, -1, OddEven)
 
-	printSorter(sorter, "test1.dot")
+	for i := 0; i < k; i++ {
+		mapping[sorter.Out[i]] = 1
+		sorter.Out[i] = 1
+		array2[i] = 1
+	}
+
+	sorter.PropagateBackwards(mapping)
+	sortAndCompareArrays(sorter, array1, array2, t)
+}
+
+func cardinalityAtMost(size int, k int, t *testing.T) {
+
+	array1 := rand.Perm(size)
+	array2 := make([]int, size)
+
+	copy(array2, array1)
+	sort.Ints(array2)
+
+	mapping := make(map[int]int, size)
+
+	sorter := CreateSortingNetwork(size, -1, OddEven)
 
 	for i := size - k; i < size; i++ {
 		mapping[sorter.Out[i]] = 0
 		sorter.Out[i] = 0
 		array2[i] = 0
 	}
-
 	sorter.PropagateBackwards(mapping)
-	printSorter(sorter, "test2.dot")
-
 	sortAndCompareArrays(sorter, array1, array2, t)
-}
-
-func TestSorting(t *testing.T) {
-
-	sizes := []int{3, 4, 6, 8, 9, 31, 32, 33, 63, 65, 123, 234, 256, 1024, 1025}
-
-	for _, size := range sizes {
-		normalSorting(size, t)
-		normalSorting(size, t)
-	}
-
-}
-
-func TestCut(t *testing.T) {
-
-	sizes := []int{3, 4, 6, 9, 68, 123, 250, 543, 1024, 1025}
-	cuts := []int{2, 2, 3, 7, 2, 100, 100, 234, 256, 800}
-
-	for i, size := range sizes {
-		cutSorting(size, cuts[i], t)
-	}
 }
 
 func cutSorting(size int, cut int, t *testing.T) {
@@ -134,16 +147,25 @@ func sortAndCompareArrays(sorter Sorter, array1, array2 []int, t *testing.T) {
 	e := false
 
 	for i, x := range sorter.Out {
-		output[i] = mapping[x]
+		if x <= 1 {
+			output[i] = x
+		} else {
+			output[i] = mapping[x]
+		}
 		if output[i] != array2[i] {
 			t.Error("Output array does not coincide in position", i)
 			e = true
 		}
 	}
+
 	if e {
-		t.Error("ideal", array2)
-		t.Error("output", output)
-		//t.Error(mapping)
+		t.Error("ideal", len(array2), array2)
+		t.Error("output", len(output), output)
+		t.Error("sorter", sorter)
+		t.Error("mapping", mapping)
+		if len(sorter.Comparators) < 100 {
+			printSorter(sorter, "sorter.dot")
+		}
 	}
 }
 
@@ -163,10 +185,8 @@ func min(a, b int) int {
 	}
 }
 
-func TestGenerateSAT(t *testing.T) {
-}
-
 func printSorter(sorter Sorter, filename string) {
+
 	file, ok := os.Create(filename)
 	if ok != nil {
 		panic("Can open file to write.")
@@ -216,4 +236,7 @@ func printSorter(sorter Sorter, filename string) {
 		}
 	}
 	file.Write([]byte(fmt.Sprintln("}")))
+	// run dot stuff
+	dotPng := exec.Command("dot", "-Tpng", filename, "-O")
+	_ = dotPng.Run()
 }

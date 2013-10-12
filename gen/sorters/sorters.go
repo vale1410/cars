@@ -13,7 +13,14 @@ const (
 	Bubble
 )
 
+const (
+	AtMost CardinalityType = iota
+	AtLeast
+	Equal
+)
+
 type SortingNetworkType int
+type CardinalityType int
 
 // The slice of comparators must be in correct order,
 // meaning that the comparator with input A and B must
@@ -36,6 +43,43 @@ type Comparator struct {
 	A, B, C, D int
 }
 
+func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType SortingNetworkType) (sorter Sorter) {
+
+	mapping := make(map[int]int, size)
+
+	sorter = CreateSortingNetwork(size, -1, sType)
+
+	switch cType {
+	case AtMost:
+		for i := size - k; i < size; i++ {
+			mapping[sorter.Out[i]] = 0
+			sorter.Out[i] = 0
+		}
+	case AtLeast:
+		for i := 0; i < k; i++ {
+			mapping[sorter.Out[i]] = 1
+			sorter.Out[i] = 1
+		}
+	case Equal:
+		for i := size - k; i < size; i++ {
+			mapping[sorter.Out[i]] = 0
+			sorter.Out[i] = 0
+		}
+		for i := 0; i < k; i++ {
+			mapping[sorter.Out[i]] = 1
+			sorter.Out[i] = 1
+		}
+	default:
+		log.Panic("CardnalityNot implemented yet")
+	}
+
+	sorter.PropagateBackwards(mapping)
+
+	return
+}
+
+// CreateSorting Networks creates a sorting network of arbitrary size and cut
+// and of type.
 func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter) {
 
 	//grow to be 2^n
@@ -117,61 +161,6 @@ func (sorter *Sorter) PropagateOrdering(cut int) {
 	}
 }
 
-// PropagteZeros propagates from left to right a given set of zeros in mapping
-// mapping contains the set of zeros in the input vector of sorter (0 stands for zero)
-func (sorter *Sorter) propagateZeros(mapping map[int]int) {
-
-	l := 0
-	comparators := sorter.Comparators
-	zero := Comparator{0, 0, 0, 0}
-
-	for i, comp := range comparators {
-		a, aok := mapping[comp.A]
-		b, bok := mapping[comp.B]
-
-		if aok {
-			comparators[i].A = a
-		} else {
-			a = comp.A
-		}
-
-		if bok {
-			comparators[i].B = b
-		} else {
-			b = comp.B
-		}
-
-		if aok && a == 0 {
-			comparators[i] = zero
-			mapping[comp.D] = 0
-			mapping[comp.C] = b
-		}
-
-		if bok && b == 0 {
-			comparators[i] = zero
-			mapping[comp.D] = 0
-			mapping[comp.C] = a
-		}
-
-		if comparators[i] == zero {
-			l++
-		}
-	}
-
-	//remove zeros and then return comparators
-	out := make([]Comparator, 0, l)
-	for _, comp := range comparators {
-		if comp != zero {
-			out = append(out, comp)
-		}
-	}
-	sorter.Comparators = out
-
-	//log.Println("Propagate Zeros; new size ", l, "sorters")
-
-	return
-}
-
 // ChangeSize shrinks the sorter to a size s
 func (sorter *Sorter) changeSize(s int) {
 
@@ -184,7 +173,8 @@ func (sorter *Sorter) changeSize(s int) {
 		mapping[sorter.In[i]] = 0
 	}
 
-	sorter.propagateZeros(mapping)
+	//sorter.PropagateZeros(mapping)
+	sorter.PropagateForward(mapping)
 
 	//potential check for s..n being 0
 
@@ -255,7 +245,7 @@ func (sorter *Sorter) PropagateForward(mapping map[int]int) {
 			removed = true
 		}
 
-		if a == 0 && b == 0 {
+		if a == 1 && b == 1 {
 			mapping[comp.D] = 1
 			removed = true
 		}
@@ -267,7 +257,7 @@ func (sorter *Sorter) PropagateForward(mapping map[int]int) {
 		}
 	}
 
-	//remove zeros and then return comparators
+	//remove the unused comparators
 	out := make([]Comparator, 0, l)
 	for _, comp := range comparators {
 		if comp != remove {
@@ -295,31 +285,14 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 		if value, ok := mapping[comp.C]; ok && value == 0 {
 			mapping[comp.A] = 0
 			mapping[comp.B] = 0
-			if mapping[comp.D] == 1 {
-				log.Panic("Sorting network has problems in propagateBackwards", comp)
-			}
-
-			//if value, ok := mapping[comp.D]; !ok || value != 0 {
-				//log.Println("special case", comp)
-				// do special mapping!
-				//mapping[comp.D] = 0
-				cleanMapping[comp.D] = 0
-			//}
+			cleanMapping[comp.D] = 0
 			removed = true
 		}
 
 		if value, ok := mapping[comp.D]; ok && value == 1 {
 			mapping[comp.A] = 1
 			mapping[comp.B] = 1
-			if mapping[comp.C] == 0 {
-				log.Panic("Sorting network has problems in propagateBackwards", comp)
-			}
-
-			if value, ok := mapping[comp.D]; !ok || value != 1 {
-				//log.Println("special case", comp)
-				// do special mapping!
-				cleanMapping[comp.C] = 1
-			}
+			cleanMapping[comp.C] = 1
 			removed = true
 		}
 
@@ -328,10 +301,9 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 			l++
 			comparators[i] = remove
 		}
-
 	}
 
-	//remove zeros and then return comparators
+	//remove the unused comparators
 	out := make([]Comparator, 0, l)
 	for _, comp := range comparators {
 		if comp != remove {
