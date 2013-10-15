@@ -55,11 +55,15 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 			mapping[sorter.Out[i]] = 0
 			sorter.Out[i] = 0
 		}
+	    sorter.PropagateBackwards(mapping)
+        sorter.Out = sorter.Out[:k]
 	case AtLeast:
 		for i := 0; i < k; i++ {
 			mapping[sorter.Out[i]] = 1
 			sorter.Out[i] = 1
 		}
+	    sorter.PropagateBackwards(mapping)
+        sorter.Out = sorter.Out[k:]
 	case Equal:
 		for i := size - k; i < size; i++ {
 			mapping[sorter.Out[i]] = 0
@@ -69,12 +73,11 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 			mapping[sorter.Out[i]] = 1
 			sorter.Out[i] = 1
 		}
+	    sorter.PropagateBackwards(mapping)
+        sorter.Out = nil
 	default:
 		log.Panic("CardnalityNot implemented yet")
 	}
-
-	sorter.PropagateBackwards(mapping)
-
 	return
 }
 
