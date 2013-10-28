@@ -26,11 +26,11 @@ type Var struct {
 var gen idGen
 
 func TestGenerateSAT(t *testing.T) {
-    size := 8
-    k := 3
-
-    sorter := CreateCardinalityNetwork(size,k,Equal,OddEven)
-    fmt.Println(sorter)
+//    size := 8
+//    k := 3
+//
+//    sorter := CreateCardinalityNetwork(size,k,Equal,OddEven)
+//    fmt.Println(sorter)
 }
 
 func getId(v Var) (id int) {

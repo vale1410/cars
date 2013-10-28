@@ -1,7 +1,6 @@
 package sorters
 
 import (
-//	"log"
 	"math"
 )
 

@@ -96,6 +96,8 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 	switch typ {
 	case OddEven:
 		sorter = createOddEvenEncoding(n)
+	case Bitonic:
+		sorter = createBitonicEncoding(n)
 	default:
 		log.Panic("Type of sorting network not implemented yet")
 	}

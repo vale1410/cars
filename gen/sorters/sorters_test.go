@@ -9,18 +9,33 @@ import (
 	"testing"
 )
 
+func TestBitonic(t *testing.T) {
+	fmt.Println("TestBitonic")
+
+	//sorter := CreateSortingNetwork(8, -1, Bitonic)
+
+	//fmt.Println(sorter)
+
+	//printSorter(sorter, "sorter")
+
+	cutSorting(6,5, t, Bitonic)
+
+}
+
 // TestCardinality check constraint sum n <= k
 // TestAtLeast check constraint sum n >= k
 func TestCardinality(t *testing.T) {
+
+	typ := Bitonic
 
 	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
 	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
 
 	for i, size := range sizes {
-		cardinalityAtMost(size, ks[i], t)
-		cardinalityAtLeast(size, ks[i], t)
-		cutSorting(size, ks[i], t)
-		normalSorting(size, t)
+		cardinalityAtMost(size, ks[i], t, typ)
+		cardinalityAtLeast(size, ks[i], t, typ)
+		//cutSorting(size, ks[i], t, typ)
+		normalSorting(size, t, typ)
 	}
 
 	for x := 5; x < 100; x = x + 20 {
@@ -29,16 +44,16 @@ func TestCardinality(t *testing.T) {
 			ks = []int{y}
 
 			for i, size := range sizes {
-				cardinalityAtMost(size, ks[i], t)
-				cardinalityAtLeast(size, ks[i], t)
-				cutSorting(size, ks[i], t)
-				normalSorting(size, t)
+				cardinalityAtMost(size, ks[i], t, typ)
+				cardinalityAtLeast(size, ks[i], t, typ)
+				//cutSorting(size, ks[i], t, typ)
+				normalSorting(size, t, typ)
 			}
 		}
 	}
 }
 
-func cardinalityAtLeast(size int, k int, t *testing.T) {
+func cardinalityAtLeast(size int, k int, t *testing.T, typ SortingNetworkType) {
 
 	array1 := rand.Perm(size)
 	array2 := make([]int, size)
@@ -48,7 +63,7 @@ func cardinalityAtLeast(size int, k int, t *testing.T) {
 
 	mapping := make(map[int]int, size)
 
-	sorter := CreateSortingNetwork(size, -1, OddEven)
+	sorter := CreateSortingNetwork(size, -1, typ)
 
 	for i := 0; i < k; i++ {
 		mapping[sorter.Out[i]] = 1
@@ -60,7 +75,7 @@ func cardinalityAtLeast(size int, k int, t *testing.T) {
 	sortAndCompareArrays(sorter, array1, array2, t)
 }
 
-func cardinalityAtMost(size int, k int, t *testing.T) {
+func cardinalityAtMost(size int, k int, t *testing.T, typ SortingNetworkType) {
 
 	array1 := rand.Perm(size)
 	array2 := make([]int, size)
@@ -70,7 +85,7 @@ func cardinalityAtMost(size int, k int, t *testing.T) {
 
 	mapping := make(map[int]int, size)
 
-	sorter := CreateSortingNetwork(size, -1, OddEven)
+	sorter := CreateSortingNetwork(size, -1, typ)
 
 	for i := size - k; i < size; i++ {
 		mapping[sorter.Out[i]] = 0
@@ -81,7 +96,7 @@ func cardinalityAtMost(size int, k int, t *testing.T) {
 	sortAndCompareArrays(sorter, array1, array2, t)
 }
 
-func cutSorting(size int, cut int, t *testing.T) {
+func cutSorting(size int, cut int, t *testing.T, typ SortingNetworkType) {
 
 	array1 := rand.Perm(size)
 	array2 := make([]int, size)
@@ -98,17 +113,17 @@ func cutSorting(size int, cut int, t *testing.T) {
 
 	copy(array2, array1)
 	sort.Ints(array2)
-	sorter := CreateSortingNetwork(len(array1), cut, OddEven)
+	sorter := CreateSortingNetwork(len(array1), cut, typ)
 	sortAndCompareArrays(sorter, array1, array2, t)
 }
 
-func normalSorting(size int, t *testing.T) {
+func normalSorting(size int, t *testing.T, typ SortingNetworkType) {
 
 	array1 := rand.Perm(size)
 	array2 := make([]int, size)
 	copy(array2, array1)
 	sort.Ints(array2)
-	sorter := CreateSortingNetwork(len(array1), -1, OddEven)
+	sorter := CreateSortingNetwork(len(array1), -1, typ)
 	sortAndCompareArrays(sorter, array1, array2, t)
 }
 
@@ -164,7 +179,7 @@ func sortAndCompareArrays(sorter Sorter, array1, array2 []int, t *testing.T) {
 		t.Error("sorter", sorter)
 		t.Error("mapping", mapping)
 		if len(sorter.Comparators) < 100 {
-			printSorter(sorter, "sorter.dot")
+			printSorter(sorter, "sorter")
 		}
 	}
 }
@@ -239,4 +254,7 @@ func printSorter(sorter Sorter, filename string) {
 	// run dot stuff
 	dotPng := exec.Command("dot", "-Tpng", filename, "-O")
 	_ = dotPng.Run()
+
+	rmDot := exec.Command("rm", "-fr", filename)
+	_ = rmDot.Run()
 }
