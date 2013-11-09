@@ -3,8 +3,6 @@ package sorters
 import (
 	"fmt"
 	"math/rand"
-	"os"
-	"os/exec"
 	"sort"
 	"testing"
 )
@@ -12,46 +10,50 @@ import (
 func TestBitonic(t *testing.T) {
 	fmt.Println("TestBitonic")
 
-	//sorter := CreateSortingNetwork(8, -1, Bitonic)
+	sorter := CreateSortingNetwork(16, -1, OddEven)
+
+    printSorterTikZ(sorter,"pic.tex")
+
+   	//normalSorting(8, t, Bitonic)
+
 
 	//fmt.Println(sorter)
 
-	//printSorter(sorter, "sorter")
+	//printSorterDot(sorter, "sorter")
 
-	cutSorting(6,5, t, Bitonic)
-
+	//cutSorting(6,5, t, Bitonic)
 }
 
-// TestCardinality check constraint sum n <= k
-// TestAtLeast check constraint sum n >= k
-func TestCardinality(t *testing.T) {
-
-	typ := Bitonic
-
-	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
-	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
-
-	for i, size := range sizes {
-		cardinalityAtMost(size, ks[i], t, typ)
-		cardinalityAtLeast(size, ks[i], t, typ)
-		//cutSorting(size, ks[i], t, typ)
-		normalSorting(size, t, typ)
-	}
-
-	for x := 5; x < 100; x = x + 20 {
-		for y := 1; y < x; y = y + 6 {
-			sizes = []int{x}
-			ks = []int{y}
-
-			for i, size := range sizes {
-				cardinalityAtMost(size, ks[i], t, typ)
-				cardinalityAtLeast(size, ks[i], t, typ)
-				//cutSorting(size, ks[i], t, typ)
-				normalSorting(size, t, typ)
-			}
-		}
-	}
-}
+//// TestCardinality check constraint sum n <= k
+//// TestAtLeast check constraint sum n >= k
+//func TestCardinality(t *testing.T) {
+//
+//	typ := Bitonic
+//
+//	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
+//	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
+//
+//	for i, size := range sizes {
+//		cardinalityAtMost(size, ks[i], t, typ)
+//		cardinalityAtLeast(size, ks[i], t, typ)
+//		//cutSorting(size, ks[i], t, typ)
+//		normalSorting(size, t, typ)
+//	}
+//
+//	for x := 5; x < 100; x = x + 20 {
+//		for y := 1; y < x; y = y + 6 {
+//			sizes = []int{x}
+//			ks = []int{y}
+//
+//			for i, size := range sizes {
+//				cardinalityAtMost(size, ks[i], t, typ)
+//				cardinalityAtLeast(size, ks[i], t, typ)
+//				//cutSorting(size, ks[i], t, typ)
+//				normalSorting(size, t, typ)
+//			}
+//		}
+//	}
+//}
 
 func cardinalityAtLeast(size int, k int, t *testing.T, typ SortingNetworkType) {
 
@@ -179,7 +181,7 @@ func sortAndCompareArrays(sorter Sorter, array1, array2 []int, t *testing.T) {
 		t.Error("sorter", sorter)
 		t.Error("mapping", mapping)
 		if len(sorter.Comparators) < 100 {
-			printSorter(sorter, "sorter")
+			printSorterDot(sorter, "sorter")
 		}
 	}
 }
@@ -198,63 +200,4 @@ func min(a, b int) int {
 	} else {
 		return a
 	}
-}
-
-func printSorter(sorter Sorter, filename string) {
-
-	file, ok := os.Create(filename)
-	if ok != nil {
-		panic("Can open file to write.")
-	}
-	file.Write([]byte(fmt.Sprintln("digraph {")))
-	file.Write([]byte(fmt.Sprintln("  graph [rankdir = LR, splines=ortho];")))
-
-	rank := "{rank=same; "
-	for i := 0; i < len(sorter.Out); i++ {
-		if sorter.Out[i] > 1 {
-			rank += fmt.Sprintf(" t%v ", sorter.Out[i])
-		}
-	}
-	rank += "}; "
-
-	for i := 0; i < len(sorter.Out); i++ {
-		file.Write([]byte(fmt.Sprintf("n%v -> t%v\n", sorter.In[i], sorter.In[i])))
-	}
-
-	file.Write([]byte(rank))
-	rank = "{rank=same; "
-	for i := 0; i < len(sorter.Out); i++ {
-		rank += fmt.Sprintf(" t%v ", sorter.In[i])
-	}
-	rank += "}; "
-	file.Write([]byte(rank))
-
-	//var rank string
-	for _, comp := range sorter.Comparators {
-		rank = "{rank=same; "
-		rank += fmt.Sprintf(" t%v t%v ", comp.A, comp.B)
-		rank += "}; "
-		file.Write([]byte(rank))
-	}
-
-	for _, comp := range sorter.Comparators {
-		if comp.A > 1 && comp.B > 1 {
-			//file.Write([]byte(fmt.Sprintf("t%v -> t%v [dir=none]\n", comp.A, comp.B)))
-			file.Write([]byte(fmt.Sprintf("t%v -> t%v \n", comp.B, comp.A)))
-		}
-		if comp.C > 1 {
-			file.Write([]byte(fmt.Sprintf("t%v -> t%v \n", comp.A, comp.C)))
-		}
-		if comp.D > 1 {
-
-			file.Write([]byte(fmt.Sprintf("t%v -> t%v \n", comp.B, comp.D)))
-		}
-	}
-	file.Write([]byte(fmt.Sprintln("}")))
-	// run dot stuff
-	dotPng := exec.Command("dot", "-Tpng", filename, "-O")
-	_ = dotPng.Run()
-
-	rmDot := exec.Command("rm", "-fr", filename)
-	_ = rmDot.Run()
 }

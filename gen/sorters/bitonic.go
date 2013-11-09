@@ -13,19 +13,19 @@ func bitonicCompareAndSwap(up bool, array []int, comparators []Comparator, i int
 	bitonicNewId += 2
 	var C, D int
 
-	if !up {
-		C = bitonicNewId - 2
-		D = bitonicNewId - 1
-	} else {
+	//if !up {
+	//	C = bitonicNewId - 2
+	//	D = bitonicNewId - 1
+	//} else {
 		C = bitonicNewId - 1
 		D = bitonicNewId - 2
-	}
+	//}
 
 	comparators[bitonicPos] = Comparator{array[i], array[j], C, D}
 
 	if !up {
-		array[i] = D
-		array[j] = C
+		array[i] = C
+		array[j] = D
 	} else {
 		array[i] = C
 		array[j] = D
