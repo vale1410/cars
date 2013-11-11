@@ -8,9 +8,8 @@ import (
 )
 
 func TestBitonic(t *testing.T) {
-	fmt.Println("TestBitonic")
 
-	sorter := CreateSortingNetwork(16, -1, OddEven)
+	sorter := CreateSortingNetwork(32, -1, Bitonic)
 
     printSorterTikZ(sorter,"pic.tex")
 
@@ -24,36 +23,37 @@ func TestBitonic(t *testing.T) {
 	//cutSorting(6,5, t, Bitonic)
 }
 
-//// TestCardinality check constraint sum n <= k
-//// TestAtLeast check constraint sum n >= k
-//func TestCardinality(t *testing.T) {
-//
-//	typ := Bitonic
-//
-//	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
-//	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
-//
-//	for i, size := range sizes {
-//		cardinalityAtMost(size, ks[i], t, typ)
-//		cardinalityAtLeast(size, ks[i], t, typ)
-//		//cutSorting(size, ks[i], t, typ)
-//		normalSorting(size, t, typ)
-//	}
-//
-//	for x := 5; x < 100; x = x + 20 {
-//		for y := 1; y < x; y = y + 6 {
-//			sizes = []int{x}
-//			ks = []int{y}
-//
-//			for i, size := range sizes {
-//				cardinalityAtMost(size, ks[i], t, typ)
-//				cardinalityAtLeast(size, ks[i], t, typ)
-//				//cutSorting(size, ks[i], t, typ)
-//				normalSorting(size, t, typ)
-//			}
-//		}
-//	}
-//}
+// TestCardinality check constraint sum n <= k
+// TestAtLeast check constraint sum n >= k
+func TestCardinality(t *testing.T) {
+    fmt.Println("Test: Bitonic/OddEven")
+
+	typ := Bitonic
+
+	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
+	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
+
+	for i, size := range sizes {
+		cardinalityAtMost(size, ks[i], t, typ)
+		cardinalityAtLeast(size, ks[i], t, typ)
+		cutSorting(size, ks[i], t, typ)
+		normalSorting(size, t, typ)
+	}
+
+	for x := 5; x < 100; x = x + 20 {
+		for y := 1; y < x; y = y + 6 {
+			sizes = []int{x}
+			ks = []int{y}
+
+			for i, size := range sizes {
+				cardinalityAtMost(size, ks[i], t, typ)
+				cardinalityAtLeast(size, ks[i], t, typ)
+				cutSorting(size, ks[i], t, typ)
+				normalSorting(size, t, typ)
+			}
+		}
+	}
+}
 
 func cardinalityAtLeast(size int, k int, t *testing.T, typ SortingNetworkType) {
 

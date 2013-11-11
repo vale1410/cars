@@ -55,15 +55,15 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 			mapping[sorter.Out[i]] = 0
 			sorter.Out[i] = 0
 		}
-	    sorter.PropagateBackwards(mapping)
-        sorter.Out = sorter.Out[:k]
+		sorter.PropagateBackwards(mapping)
+		sorter.Out = sorter.Out[:k]
 	case AtLeast:
 		for i := 0; i < k; i++ {
 			mapping[sorter.Out[i]] = 1
 			sorter.Out[i] = 1
 		}
-	    sorter.PropagateBackwards(mapping)
-        sorter.Out = sorter.Out[k:]
+		sorter.PropagateBackwards(mapping)
+		sorter.Out = sorter.Out[k:]
 	case Equal:
 		for i := size - k; i < size; i++ {
 			mapping[sorter.Out[i]] = 0
@@ -73,8 +73,8 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 			mapping[sorter.Out[i]] = 1
 			sorter.Out[i] = 1
 		}
-	    sorter.PropagateBackwards(mapping)
-        sorter.Out = nil
+		sorter.PropagateBackwards(mapping)
+		sorter.Out = nil
 	default:
 		log.Panic("CardnalityNot implemented yet")
 	}
@@ -91,17 +91,29 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 		n *= 2
 	}
 
-	//log.Println("Input: ", s, "Power of 2: ", n)
+	comparators := make([]Comparator, 0)
+	output := make([]int, n)
+
+	offset := 2
+
+	for i, _ := range output {
+		output[i] = i + offset
+	}
+	input := make([]int, n)
+	copy(input, output)
+
+	newId := n + offset
 
 	switch typ {
 	case OddEven:
-		sorter = createOddEvenEncoding(n)
+		oddevenSort(&newId, output, &comparators, 0, n-1)
 	case Bitonic:
-		sorter = createBitonicEncoding(n)
+		triangleBitonic(&newId, output, &comparators, 0, n-1)
 	default:
 		log.Panic("Type of sorting network not implemented yet")
 	}
 
+	sorter = Sorter{comparators, input, output}
 	sorter.changeSize(s)
 	sorter.PropagateOrdering(cut)
 
@@ -329,4 +341,13 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 		sorter.PropagateForward(cleanMapping)
 	}
 
+}
+
+// Functions for creating sorters
+func compareAndSwap(newId *int, array []int, comparators *[]Comparator, i int, j int) {
+	*newId += 2
+	*comparators = append(*comparators, Comparator{array[i], array[j], *newId - 2, *newId - 1})
+
+	array[i] = *newId - 2
+	array[j] = *newId - 1
 }

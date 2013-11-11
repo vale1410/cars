@@ -107,7 +107,7 @@ func printSorterTikZ(sorter Sorter, filename string) {
 			l++
 		}
 		layers = append(layers, layer)
-		fmt.Println(group, layer)
+		//fmt.Println(group, layer)
 	}
 
 	// groups contains the comparators for each depth
