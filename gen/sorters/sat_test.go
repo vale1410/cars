@@ -1,5 +1,7 @@
 package sorters
 
+// test class, but will eventuall be turned into the sat package :-)
+
 import (
     "fmt"
     "testing"

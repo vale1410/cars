@@ -9,12 +9,11 @@ import (
 
 func TestBitonic(t *testing.T) {
 
-	sorter := CreateSortingNetwork(32, -1, Bitonic)
+	//sorter := CreateSortingNetwork(32, -1, Bitonic)
 
-    printSorterTikZ(sorter,"pic.tex")
+    //printSorterTikZ(sorter,"pic.tex")
 
    	//normalSorting(8, t, Bitonic)
-
 
 	//fmt.Println(sorter)
 
