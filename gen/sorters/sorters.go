@@ -6,11 +6,11 @@ import (
 
 const (
 	OddEven SortingNetworkType = iota
-	Pairwise
 	Bitonic
+	Bubble
+	Pairwise
 	ShellSort
 	Insertion
-	Bubble
 )
 
 const (
@@ -36,6 +36,7 @@ type Sorter struct {
 
 // Ids for the connections (A,B,C,D) start at 2 and are incremented.
 // Id 0 and 1 are reserved for true and false respectively
+// Id -1 means dont care
 // B --|-- D = A && B
 //     |
 // A --|-- C = A || B
@@ -51,7 +52,7 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 
 	switch cType {
 	case AtMost:
-		for i := size - k; i < size; i++ {
+		for i := k; i < size; i++ {
 			mapping[sorter.Out[i]] = 0
 			sorter.Out[i] = 0
 		}
@@ -65,7 +66,7 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 		sorter.PropagateBackwards(mapping)
 		sorter.Out = sorter.Out[k:]
 	case Equal:
-		for i := size - k; i < size; i++ {
+		for i := k; i < size; i++ {
 			mapping[sorter.Out[i]] = 0
 			sorter.Out[i] = 0
 		}
@@ -76,12 +77,14 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 		sorter.PropagateBackwards(mapping)
 		sorter.Out = nil
 	default:
-		log.Panic("CardnalityNot implemented yet")
+		log.Panic("Cardnality Not implemented yet")
 	}
 	return
 }
 
-// CreateSorting Networks creates a sorting network of arbitrary size and cut
+
+
+// CreateSortingNetworks creates a sorting network of arbitrary size and cut
 // and of type.
 func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter) {
 
@@ -109,7 +112,10 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 		oddevenSort(&newId, output, &comparators, 0, n-1)
 	case Bitonic:
 		triangleBitonic(&newId, output, &comparators, 0, n-1)
+	case Bubble:
+		bubbleSort(&newId, output, &comparators)
 	default:
+        log.Println(typ)
 		log.Panic("Type of sorting network not implemented yet")
 	}
 
@@ -120,6 +126,25 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 	return
 }
 
+
+// RemoveOutput()
+// Treats all Output Ids as DontCare and propagates backwards
+// This only makes sense for CardinalityNetworks
+// sets -1 at a comparator if output is dont care
+func (sorter *Sorter) RemoveOutput() {
+
+	mapping := make(map[int]int, len(sorter.Out))
+
+    for i,x := range sorter.Out { 
+	    mapping[x] = -1
+        sorter.Out[i] = -1
+    }
+
+	sorter.Out = nil
+	sorter.PropagateBackwards(mapping)
+} 
+
+// PropagateOrdering
 // from 0..cut-1 sorted and from cut .. length-1 sorted
 // propagated and remove comparators
 func (sorter *Sorter) PropagateOrdering(cut int) {
@@ -190,7 +215,6 @@ func (sorter *Sorter) changeSize(s int) {
 		mapping[sorter.In[i]] = 0
 	}
 
-	//sorter.PropagateZeros(mapping)
 	sorter.PropagateForward(mapping)
 
 	//potential check for s..n being 0
@@ -299,22 +323,30 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 
 		removed := false
 
-		if value, ok := mapping[comp.C]; ok && value == 0 {
+        valueC, okC := mapping[comp.C];
+        valueD, okD := mapping[comp.D];
+
+		if okC && valueC == 0 {
 			mapping[comp.A] = 0
 			mapping[comp.B] = 0
 			cleanMapping[comp.D] = 0
 			removed = true
 		}
 
-		if value, ok := mapping[comp.D]; ok && value == 1 {
+		if okD && valueD == 1 {
 			mapping[comp.A] = 1
 			mapping[comp.B] = 1
 			cleanMapping[comp.C] = 1
 			removed = true
 		}
 
-		if removed {
+		if okC && okD && valueC == -1 && valueD == -1 {
+			mapping[comp.A] = -1
+			mapping[comp.B] = -1
+			removed = true
+		}
 
+		if removed {
 			l++
 			comparators[i] = remove
 		}
@@ -344,6 +376,7 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 }
 
 // Functions for creating sorters
+// used in the implementations of bitonic, oddeven, pairwise etc. 
 func compareAndSwap(newId *int, array []int, comparators *[]Comparator, i int, j int) {
 	*newId += 2
 	*comparators = append(*comparators, Comparator{array[i], array[j], *newId - 2, *newId - 1})

@@ -7,48 +7,51 @@ import (
 	"testing"
 )
 
-func TestBitonic(t *testing.T) {
+func TestStuff(t *testing.T) {
 
-	//sorter := CreateSortingNetwork(32, -1, Bitonic)
+	//sorter := CreateCardinalityNetwork(16,7,AtMost,OddEven)
 
-    //printSorterTikZ(sorter,"pic.tex")
+	//printSorterTikZ(sorter,"pic.tex")
 
-   	//normalSorting(8, t, Bitonic)
-
+	//sorter := CreateCardinalityNetwork(16,5,AtMost,OddEven)
+	//sorter.RemoveOutput()
 	//fmt.Println(sorter)
-
-	//printSorterDot(sorter, "sorter")
-
-	//cutSorting(6,5, t, Bitonic)
+	//printSorterTikZ(sorter,"pic.tex")
 }
 
 // TestCardinality check constraint sum n <= k
 // TestAtLeast check constraint sum n >= k
 func TestCardinality(t *testing.T) {
-    fmt.Println("Test: Bitonic/OddEven")
+	fmt.Println("Test: Bitonic/OddEven")
 
-	typ := Bitonic
+	var typs [3]SortingNetworkType 
+    typs[0] = OddEven
+    typs[1] = Bitonic
+    typs[2] = Bubble
 
-	sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
-	ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
+	for _,typ := range typs {
 
-	for i, size := range sizes {
-		cardinalityAtMost(size, ks[i], t, typ)
-		cardinalityAtLeast(size, ks[i], t, typ)
-		cutSorting(size, ks[i], t, typ)
-		normalSorting(size, t, typ)
-	}
+		sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
+		ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
 
-	for x := 5; x < 100; x = x + 20 {
-		for y := 1; y < x; y = y + 6 {
-			sizes = []int{x}
-			ks = []int{y}
+		for i, size := range sizes {
+			cardinalityAtMost(size, ks[i], t, typ)
+			cardinalityAtLeast(size, ks[i], t, typ)
+			cutSorting(size, ks[i], t, typ)
+			normalSorting(size, t, typ)
+		}
 
-			for i, size := range sizes {
-				cardinalityAtMost(size, ks[i], t, typ)
-				cardinalityAtLeast(size, ks[i], t, typ)
-				cutSorting(size, ks[i], t, typ)
-				normalSorting(size, t, typ)
+		for x := 5; x < 100; x = x + 20 {
+			for y := 1; y < x; y = y + 6 {
+				sizes = []int{x}
+				ks = []int{y}
+
+				for i, size := range sizes {
+					cardinalityAtMost(size, ks[i], t, typ)
+					cardinalityAtLeast(size, ks[i], t, typ)
+					cutSorting(size, ks[i], t, typ)
+					normalSorting(size, t, typ)
+				}
 			}
 		}
 	}

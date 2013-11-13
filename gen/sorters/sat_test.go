@@ -3,78 +3,272 @@ package sorters
 // test class, but will eventuall be turned into the sat package :-)
 
 import (
-    "fmt"
-    "testing"
-    "os"
-    "bufio"
-    "strconv"
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"testing"
 )
 
-type clause struct {
+func TestGenerateSAT(t *testing.T) {
+	size := 50
+	k := size/2
+    typ := Bubble
+    //typ := Bitonic
+    //typ := OddEven
+
+	sorter1 := CreateCardinalityNetwork(size, k, AtMost, typ)
+	sorter2 := CreateCardinalityNetwork(size, k+1, AtLeast, typ)
+	sorter1.RemoveOutput()
+	sorter2.RemoveOutput()
+
+	input := make([]Literal, size)
+	for i, _ := range input {
+		input[i] = Literal{true, Atom{Pred("MainGuys"), i, 0}}
+	}
+
+	lt := Pred("AtMost")
+	gt := Pred("AtLeast")
+
+	clauses := createEncoding1(input, []Literal{}, "lt", lt, sorter1)
+	clauses.AddClauseSet(createEncoding1(input, []Literal{}, "gt", gt, sorter2))
+
+	g := IdGenerator(size * size)
+	g.GenerateIds(clauses)
+    g.filename = "test.cnf"
+	g.printClausesDIMACS(clauses)
+	//g.printDebug(clauses)
+}
+
+// Create Full Encoding Propagation Complete
+// 1) A or -D
+// 2) B or -D
+// 3) -A or -B or D
+// 4) -A or -C
+// 5) -B or -C
+// 6) A or B or -C
+// 7) C or -D
+// -1,0,1 mean dontCare, false, true
+func createEncoding1(input []Literal, output []Literal, tag string, pred Pred, sorter Sorter) (cs ClauseSet) {
+
+	cs = make([]Clause, 0, 7*len(sorter.Comparators))
+
+	backup := make(map[int]Literal, len(sorter.Out)+len(sorter.In))
+
+	for i, x := range sorter.In {
+		backup[x] = input[i]
+	}
+
+	for i, x := range sorter.Out {
+		backup[x] = output[i]
+	}
+
+	for _, comp := range sorter.Comparators {
+
+		if comp.D == 1 || comp.C == 0 {
+			panic("something is wrong with the comparator")
+		}
+
+		getLit := func(x int) Literal {
+			if lit, ok := backup[x]; ok {
+				return lit
+			} else {
+				return Literal{true, Atom{pred, x, 0}}
+			}
+		}
+
+		a := getLit(comp.A)
+		b := getLit(comp.B)
+		c := getLit(comp.C)
+		d := getLit(comp.D)
+
+		if comp.C == 1 { // 6) A or B
+			cs.AddClause(tag, a, b)
+		} else if comp.C > 0 { // 4) 5) 6)
+			//4)
+			cs.AddClause(tag, neg(a), c)
+			//5)
+			cs.AddClause(tag, neg(b), c)
+			//6)
+			cs.AddClause(tag, a, b, neg(c))
+		}
+		if comp.D == 0 { //3)
+			cs.AddClause(tag, neg(a), neg(b))
+		} else if comp.D > 0 { // 1) 2) 3)
+			//1)
+			cs.AddClause(tag, a, neg(d))
+			//2)
+			cs.AddClause(tag, b, neg(d))
+			//3)
+			cs.AddClause(tag, neg(a), neg(b), d)
+		}
+
+		if comp.D > 1 || comp.D > 1 { // 7)
+			cs.AddClause(tag, c, neg(d))
+		}
+	}
+	return
+}
+
+type Clause struct {
 	desc     string
-	literals []int
+	literals []Literal
 }
 
-type idGen struct {
-	nextId        int
-	mapping map[Var]int
+type ClauseSet []Clause
+
+func (cs *ClauseSet) AddClause(desc string, literals ...Literal) {
+	*cs = append(*cs, Clause{desc, literals})
 }
 
-type Var struct {
+func (cs *ClauseSet) AddClauseSet(cl ClauseSet) {
+	*cs = append(*cs, cl...)
+}
+
+type Literal struct {
+	sign bool
+	atom Atom
+}
+
+func neg(l Literal) Literal {
+	l.sign = !l.sign
+	return l
+}
+
+type Pred string
+
+// we only allow two dimensional predicates
+type Atom struct {
+	P  Pred
 	V1 int
 	V2 int
 }
 
-var gen idGen
-
-func TestGenerateSAT(t *testing.T) {
-//    size := 8
-//    k := 3
-//
-//    sorter := CreateCardinalityNetwork(size,k,Equal,OddEven)
-//    fmt.Println(sorter)
+type Gen struct {
+	nextId   int
+	mapping  map[Atom]int
+	filename string
+	out      *os.File
 }
 
-func getId(v Var) (id int) {
-	id, b := gen.mapping[v]
+func IdGenerator(m int) (g Gen) {
+	g.mapping = make(map[Atom]int, m)
+	return
+}
+
+func (g *Gen) GenerateIds(cl ClauseSet) {
+	for _, c := range cl {
+		for _, l := range c.literals {
+			g.putAtom(l.atom)
+		}
+	}
+}
+
+func (g *Gen) solve(cl []Clause) {
+	for _, c := range cl {
+		for _, l := range c.literals {
+			g.putAtom(l.atom)
+		}
+	}
+
+	g.printClausesDIMACS(cl)
+}
+
+func (g *Gen) putAtom(a Atom) {
+	if id, b := g.mapping[a]; !b {
+		g.nextId++
+		id = g.nextId
+		g.mapping[a] = id
+	}
+}
+
+func (g *Gen) getId(a Atom) (id int) {
+	id, b := g.mapping[a]
 
 	if !b {
-		gen.nextId++
-		id = gen.nextId
-		gen.mapping[v] = id
+		g.nextId++
+		id = g.nextId
+		g.mapping[a] = id
 	}
 
 	return id
 }
 
-
-func solve(clauses []clause) {
-
-    printClausesDIMACS(clauses)
-
-}
-
-func printClausesDIMACS(clauses []clause) {
-
-	fmt.Printf("p cnf %v %v\n", len(gen.mapping), len(clauses))
-
-	for _, c := range clauses {
-		for _, l := range c.literals {
-			fmt.Printf("%v ", l)
+func (g *Gen) Print(arg ...interface{}) {
+	if g.filename == "" {
+		for _, s := range arg {
+			fmt.Print(s, " ")
 		}
-		fmt.Printf("0\n")
+	} else {
+        var ss string
+		for _, s := range arg {
+			ss += fmt.Sprintf("%v", s) + " "
+		}
+		if _, err := g.out.Write([]byte(ss)); err != nil {
+			panic(err)
+		}
 	}
 }
 
-func generateSymbolTable() []string {
+func (g *Gen) Println(arg ...interface{}) {
+	if g.filename == "" {
+		for _, s := range arg {
+			fmt.Print(s, " ")
+		}
+		fmt.Println()
+	} else {
+        var ss string
+		for _, s := range arg {
+			ss += fmt.Sprintf("%v", s) + " "
+		}
+		ss += "\n"
 
-	symbolTable := make([]string, len(gen.mapping)+1)
+		if _, err := g.out.Write([]byte(ss)); err != nil {
+			panic(err)
+		}
+	}
+}
 
-	for key, cnfId := range gen.mapping {
-		s := "var" +"("
-		s += strconv.Itoa(key.V1)
+func (g *Gen) printClausesDIMACS(clauses ClauseSet) {
+
+	if g.filename != "" {
+		var err error
+		g.out, err = os.Create(g.filename)
+		if err != nil {
+			panic(err)
+		}
+	    defer func() {
+	    	if err := g.out.Close(); err != nil {
+	    		panic(err)
+	    	}
+	    }()
+	}
+
+	g.Println("p cnf", g.nextId, len(clauses))
+
+	for _, c := range clauses {
+		for _, l := range c.literals {
+            s :=  strconv.Itoa(g.mapping[l.atom])
+			if l.sign {
+				g.Print(" "+s)
+			} else {
+				g.Print("-"+s)
+			}
+		}
+		g.Println("0")
+	}
+	// close fo on exit and check for its returned error
+}
+
+func (g *Gen) generateSymbolTable() []string {
+
+	symbolTable := make([]string, len(g.mapping)+1)
+
+	for atom, cnfId := range g.mapping {
+		s := string(atom.P) + "("
+		s += strconv.Itoa(atom.V1)
 		s += ","
-		s += strconv.Itoa(key.V2)
+		s += strconv.Itoa(atom.V2)
 		s += ")"
 		symbolTable[cnfId] = s
 	}
@@ -82,9 +276,11 @@ func generateSymbolTable() []string {
 	return symbolTable
 }
 
-func printSymbolTable(symbolTable []string, filename string) {
+func (g *Gen) printSymbolTable(filename string) {
 
+	symbolTable := g.generateSymbolTable()
 	symbolFile, err := os.Create(filename)
+
 	if err != nil {
 		panic(err)
 	}
@@ -111,46 +307,48 @@ func printSymbolTable(symbolTable []string, filename string) {
 
 }
 
-func printDebug(symbolTable []string, clauses []clause) {
+func (g *Gen) printDebug(clauses []Clause) {
+
+	symbolTable := g.generateSymbolTable()
 
 	// first print symbol table into file
-	fmt.Println("c pred2(V1,V2).")
+	fmt.Println("c <atom>(V1,V2).")
 
 	for i, s := range symbolTable {
 		fmt.Println("c", i, "\t:", s)
 	}
 
 	stat := make(map[string]int, 0)
-    var keys []string
+	var descs []string
 
 	for _, c := range clauses {
 
 		count, ok := stat[c.desc]
 		if !ok {
 			stat[c.desc] = 1
-            keys = append(keys,c.desc)
+			descs = append(descs, c.desc)
 		} else {
 			stat[c.desc] = count + 1
 		}
 
-		fmt.Printf("c %s ", c.desc)
+		fmt.Printf("c %s\t", c.desc)
 		first := true
 		for _, l := range c.literals {
 			if !first {
 				fmt.Printf(",")
 			}
 			first = false
-			if l < 0 {
-				fmt.Printf("-%s", symbolTable[-l])
-
+			if l.sign {
+				fmt.Print(" ")
 			} else {
-				fmt.Printf("+%s", symbolTable[l])
+				fmt.Print("-")
 			}
+			fmt.Print(l.atom.P, "(", l.atom.V1, ",", l.atom.V2, ")")
 		}
 		fmt.Println(".")
 	}
 
-	for _,key := range keys {
+	for _, key := range descs {
 		fmt.Printf("c %v\t: %v\t%.1f \n", key, stat[key], 100*float64(stat[key])/float64(len(clauses)))
 	}
 	fmt.Printf("c %v\t: %v\t%.1f \n", "tot", len(clauses), 100.0)
