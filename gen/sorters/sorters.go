@@ -13,6 +13,26 @@ const (
 	Insertion
 )
 
+func (s SortingNetworkType) ToString() string {
+	switch s {
+	case OddEven:
+		return "OddEven"
+	case Bitonic:
+		return "Bitonic"
+	case Bubble:
+		return "Bubble"
+	case Pairwise:
+		return "Pairwise"
+	case ShellSort:
+		return "ShellSort"
+	case Insertion:
+		return "Insertion"
+	default:
+        panic("SortingNetworkType not existing")
+	}
+    return ""
+}
+
 const (
 	AtMost CardinalityType = iota
 	AtLeast
@@ -82,8 +102,6 @@ func CreateCardinalityNetwork(size int, k int, cType CardinalityType, sType Sort
 	return
 }
 
-
-
 // CreateSortingNetworks creates a sorting network of arbitrary size and cut
 // and of type.
 func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter) {
@@ -115,7 +133,7 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 	case Bubble:
 		bubbleSort(&newId, output, &comparators)
 	default:
-        log.Println(typ)
+		log.Println(typ)
 		log.Panic("Type of sorting network not implemented yet")
 	}
 
@@ -126,7 +144,6 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 	return
 }
 
-
 // RemoveOutput()
 // Treats all Output Ids as DontCare and propagates backwards
 // This only makes sense for CardinalityNetworks
@@ -135,14 +152,14 @@ func (sorter *Sorter) RemoveOutput() {
 
 	mapping := make(map[int]int, len(sorter.Out))
 
-    for i,x := range sorter.Out { 
-	    mapping[x] = -1
-        sorter.Out[i] = -1
-    }
+	for i, x := range sorter.Out {
+		mapping[x] = -1
+		sorter.Out[i] = -1
+	}
 
 	sorter.Out = nil
 	sorter.PropagateBackwards(mapping)
-} 
+}
 
 // PropagateOrdering
 // from 0..cut-1 sorted and from cut .. length-1 sorted
@@ -323,8 +340,8 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 
 		removed := false
 
-        valueC, okC := mapping[comp.C];
-        valueD, okD := mapping[comp.D];
+		valueC, okC := mapping[comp.C]
+		valueD, okD := mapping[comp.D]
 
 		if okC && valueC == 0 {
 			mapping[comp.A] = 0
@@ -376,7 +393,7 @@ func (sorter *Sorter) PropagateBackwards(mapping map[int]int) {
 }
 
 // Functions for creating sorters
-// used in the implementations of bitonic, oddeven, pairwise etc. 
+// used in the implementations of bitonic, oddeven, pairwise etc.
 func compareAndSwap(newId *int, array []int, comparators *[]Comparator, i int, j int) {
 	*newId += 2
 	*comparators = append(*comparators, Comparator{array[i], array[j], *newId - 2, *newId - 1})

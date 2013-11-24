@@ -10,46 +10,110 @@ import (
 	"testing"
 )
 
-func TestGenerateSAT(t *testing.T) {
-	size := 50
-	k := size/2
-    typ := Bubble
-    //typ := Bitonic
-    //typ := OddEven
-
-	sorter1 := CreateCardinalityNetwork(size, k, AtMost, typ)
-	sorter2 := CreateCardinalityNetwork(size, k+1, AtLeast, typ)
-	sorter1.RemoveOutput()
-	sorter2.RemoveOutput()
-
-	input := make([]Literal, size)
-	for i, _ := range input {
-		input[i] = Literal{true, Atom{Pred("MainGuys"), i, 0}}
-	}
-
-	lt := Pred("AtMost")
-	gt := Pred("AtLeast")
-
-	clauses := createEncoding1(input, []Literal{}, "lt", lt, sorter1)
-	clauses.AddClauseSet(createEncoding1(input, []Literal{}, "gt", gt, sorter2))
-
-	g := IdGenerator(size * size)
-	g.GenerateIds(clauses)
-    g.filename = "test.cnf"
-	g.printClausesDIMACS(clauses)
-	//g.printDebug(clauses)
+func TestWhichClauses(t *testing.T) {
+//
+//	sizes := []int{16,32,48,64,80,96}
+//	typs := []SortingNetworkType{Bubble, Bitonic, OddEven}
+//	whichT := []int{1, 2, 3, 4}
+//	lt := Pred("AtMost")
+//	gt := Pred("AtLeast")
+//
+//	for _, size := range sizes {
+//		for _, typ := range typs {
+//			for _, wh := range whichT {
+//				k := size / 2
+//				//k := size / 4
+//				//k := size - size/4
+//				sorter1 := CreateCardinalityNetwork(size, k, AtMost, typ)
+//				sorter2 := CreateCardinalityNetwork(size, k+1, AtLeast, typ)
+//				sorter1.RemoveOutput()
+//				sorter2.RemoveOutput()
+//
+//				var which1 [8]bool
+//				var which2 [8]bool
+//
+//				switch wh {
+//				case 1:
+//					which1 = [8]bool{false, false, false, true, true, true, false, false}
+//					which2 = [8]bool{false, true, true, false, false, false, true, false}
+//				case 2:
+//					which1 = [8]bool{false, false, false, true, true, true, false, true}
+//					which2 = [8]bool{false, true, true, false, false, false, true, true}
+//				case 3:
+//					which1 = [8]bool{false, true, true, true, true, true, true, false}
+//					which2 = [8]bool{false, true, true, true, true, true, true, false}
+//				case 4:
+//					which1 = [8]bool{false, true, true, true, true, true, true, true}
+//					which2 = [8]bool{false, true, true, true, true, true, true, true}
+//				}
+//
+//				input := make([]Literal, size)
+//				for i, _ := range input {
+//					input[i] = Literal{true, Atom{Pred("Input"), i, 0}}
+//				}
+//
+//				clauses := createEncoding(input, which1, []Literal{}, "lt", lt, sorter1)
+//				clauses.AddClauseSet(createEncoding(input, which2, []Literal{}, "gt", gt, sorter2))
+//	            g := IdGenerator(size * size)
+//	            g.GenerateIds(clauses)
+//	            g.filename = strconv.Itoa(size) + "_" + strconv.Itoa(k) + "_" + typ.ToString() + "_" + strconv.Itoa(wh)+".cnf"
+//	            g.printClausesDIMACS(clauses)
+//			}
+//		}
+//	}
+//
 }
 
-// Create Full Encoding Propagation Complete
-// 1) A or -D
-// 2) B or -D
+//func TestGenerateSAT(t *testing.T) {
+//	size := 128
+//	k := size / 2
+//	//typ := Bubble
+//	typ := Bitonic
+//	//typ := OddEven
+//
+//	sorter1 := CreateCardinalityNetwork(size, k, AtMost, typ)
+//	sorter2 := CreateCardinalityNetwork(size, k+1, AtLeast, typ)
+//	sorter1.RemoveOutput()
+//	sorter2.RemoveOutput()
+//
+//	input := make([]Literal, size)
+//	for i, _ := range input {
+//		input[i] = Literal{true, Atom{Pred("Input"), i, 0}}
+//	}
+//
+//	lt := Pred("AtMost")
+//	gt := Pred("AtLeast")
+//
+//	which := [8]bool{false, true, true, true, true, true, true, true}
+//
+//	// 3,4,5
+//	which = [8]bool{false, false, false, true, true, true, false, false}
+//	fmt.Println(which)
+//	clauses := createEncoding(input, which, []Literal{}, "lt", lt, sorter1)
+//
+//	// 1,2,6
+//	which = [8]bool{false, true, true, false, false, false, true, false}
+//	clauses.AddClauseSet(createEncoding(input, which, []Literal{}, "gt", gt, sorter2))
+//
+//	printSorterTikZ(sorter2, "pic.tex")
+//
+//	g := IdGenerator(size * size)
+//	g.GenerateIds(clauses)
+//	g.filename = "test.cnf"
+//	g.printClausesDIMACS(clauses)
+//	//g.printDebug(clauses)
+//}
+//
+// Create Encoding for Sorting Network
+// 1)  A or -D
+// 2)  B or -D
 // 3) -A or -B or D
-// 4) -A or -C
-// 5) -B or -C
-// 6) A or B or -C
-// 7) C or -D
+// 4) -A or  C
+// 5) -B or  C
+// 6)  A or  B or -C
+// 7)  C or -D
 // -1,0,1 mean dontCare, false, true
-func createEncoding1(input []Literal, output []Literal, tag string, pred Pred, sorter Sorter) (cs ClauseSet) {
+func createEncoding(input []Literal, which [8]bool, output []Literal, tag string, pred Pred, sorter Sorter) (cs ClauseSet) {
 
 	cs = make([]Clause, 0, 7*len(sorter.Comparators))
 
@@ -83,28 +147,44 @@ func createEncoding1(input []Literal, output []Literal, tag string, pred Pred, s
 		d := getLit(comp.D)
 
 		if comp.C == 1 { // 6) A or B
-			cs.AddClause(tag, a, b)
+			//if which[6] {
+			cs.AddClause(tag+"6-", a, b)
+			//}
 		} else if comp.C > 0 { // 4) 5) 6)
 			//4)
-			cs.AddClause(tag, neg(a), c)
+			if which[4] {
+				cs.AddClause(tag+"4", neg(a), c)
+			}
 			//5)
-			cs.AddClause(tag, neg(b), c)
+			if which[5] {
+				cs.AddClause(tag+"5", neg(b), c)
+			}
 			//6)
-			cs.AddClause(tag, a, b, neg(c))
+			if which[6] {
+				cs.AddClause(tag+"6", a, b, neg(c))
+			}
 		}
 		if comp.D == 0 { //3)
-			cs.AddClause(tag, neg(a), neg(b))
+			//if which[3] {
+			cs.AddClause(tag+"3-", neg(a), neg(b))
+			//}
 		} else if comp.D > 0 { // 1) 2) 3)
 			//1)
-			cs.AddClause(tag, a, neg(d))
+			if which[1] {
+				cs.AddClause(tag+"1", a, neg(d))
+			}
 			//2)
-			cs.AddClause(tag, b, neg(d))
+			if which[2] {
+				cs.AddClause(tag+"2", b, neg(d))
+			}
 			//3)
-			cs.AddClause(tag, neg(a), neg(b), d)
+			if which[3] {
+				cs.AddClause(tag+"3", neg(a), neg(b), d)
+			}
 		}
 
-		if comp.D > 1 || comp.D > 1 { // 7)
-			cs.AddClause(tag, c, neg(d))
+		if which[7] && (comp.D > 1 || comp.D > 1) { // 7)
+			cs.AddClause(tag+"7", c, neg(d))
 		}
 	}
 	return
@@ -200,7 +280,7 @@ func (g *Gen) Print(arg ...interface{}) {
 			fmt.Print(s, " ")
 		}
 	} else {
-        var ss string
+		var ss string
 		for _, s := range arg {
 			ss += fmt.Sprintf("%v", s) + " "
 		}
@@ -217,7 +297,7 @@ func (g *Gen) Println(arg ...interface{}) {
 		}
 		fmt.Println()
 	} else {
-        var ss string
+		var ss string
 		for _, s := range arg {
 			ss += fmt.Sprintf("%v", s) + " "
 		}
@@ -237,22 +317,22 @@ func (g *Gen) printClausesDIMACS(clauses ClauseSet) {
 		if err != nil {
 			panic(err)
 		}
-	    defer func() {
-	    	if err := g.out.Close(); err != nil {
-	    		panic(err)
-	    	}
-	    }()
+		defer func() {
+			if err := g.out.Close(); err != nil {
+				panic(err)
+			}
+		}()
 	}
 
 	g.Println("p cnf", g.nextId, len(clauses))
 
 	for _, c := range clauses {
 		for _, l := range c.literals {
-            s :=  strconv.Itoa(g.mapping[l.atom])
+			s := strconv.Itoa(g.mapping[l.atom])
 			if l.sign {
-				g.Print(" "+s)
+				g.Print(" " + s)
 			} else {
-				g.Print("-"+s)
+				g.Print("-" + s)
 			}
 		}
 		g.Println("0")

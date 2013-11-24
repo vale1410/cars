@@ -8,54 +8,67 @@ import (
 )
 
 func TestStuff(t *testing.T) {
+	fmt.Println("Test: Print size 16")
 
-	//sorter := CreateCardinalityNetwork(16,7,AtMost,OddEven)
+	//oe := CreateSortingNetwork(16,-1,OddEven)
+	//printSorterTikZ(oe,"16OddEven.tex")
 
-	//printSorterTikZ(sorter,"pic.tex")
+	//bubble := CreateSortingNetwork(8,-1,Bubble)
+	//printSorterTikZ(bubble,"8Bubble.tex")
 
-	//sorter := CreateCardinalityNetwork(16,5,AtMost,OddEven)
-	//sorter.RemoveOutput()
-	//fmt.Println(sorter)
-	//printSorterTikZ(sorter,"pic.tex")
+	bitonic := CreateSortingNetwork(4,-1,Bitonic)
+	printSorterTikZ(bitonic,"4.tex")
 }
+
+//func TestStuff(t *testing.T) {
+//
+//	sorter := CreateCardinalityNetwork(16,7,AtMost,OddEven)
+//
+//	printSorterTikZ(sorter,"pic.tex")
+//
+//	sorter := CreateCardinalityNetwork(16,5,AtMost,OddEven)
+//	sorter.RemoveOutput()
+//	fmt.Println(sorter)
+//	printSorterTikZ(sorter,"pic.tex")
+//}
 
 // TestCardinality check constraint sum n <= k
 // TestAtLeast check constraint sum n >= k
-func TestCardinality(t *testing.T) {
-	fmt.Println("Test: Bitonic/OddEven")
-
-	var typs [3]SortingNetworkType 
-    typs[0] = OddEven
-    typs[1] = Bitonic
-    typs[2] = Bubble
-
-	for _,typ := range typs {
-
-		sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
-		ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
-
-		for i, size := range sizes {
-			cardinalityAtMost(size, ks[i], t, typ)
-			cardinalityAtLeast(size, ks[i], t, typ)
-			cutSorting(size, ks[i], t, typ)
-			normalSorting(size, t, typ)
-		}
-
-		for x := 5; x < 100; x = x + 20 {
-			for y := 1; y < x; y = y + 6 {
-				sizes = []int{x}
-				ks = []int{y}
-
-				for i, size := range sizes {
-					cardinalityAtMost(size, ks[i], t, typ)
-					cardinalityAtLeast(size, ks[i], t, typ)
-					cutSorting(size, ks[i], t, typ)
-					normalSorting(size, t, typ)
-				}
-			}
-		}
-	}
-}
+//func TestCardinality(t *testing.T) {
+//	fmt.Println("Test: Bitonic/OddEven")
+//
+//	var typs [3]SortingNetworkType 
+//    typs[0] = OddEven
+//    typs[1] = Bitonic
+//    typs[2] = Bubble
+//
+//	for _,typ := range typs {
+//
+//		sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
+//		ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}
+//
+//		for i, size := range sizes {
+//			cardinalityAtMost(size, ks[i], t, typ)
+//			cardinalityAtLeast(size, ks[i], t, typ)
+//			cutSorting(size, ks[i], t, typ)
+//			normalSorting(size, t, typ)
+//		}
+//
+//		for x := 5; x < 100; x = x + 20 {
+//			for y := 1; y < x; y = y + 6 {
+//				sizes = []int{x}
+//				ks = []int{y}
+//
+//				for i, size := range sizes {
+//					cardinalityAtMost(size, ks[i], t, typ)
+//					cardinalityAtLeast(size, ks[i], t, typ)
+//					cutSorting(size, ks[i], t, typ)
+//					normalSorting(size, t, typ)
+//				}
+//			}
+//		}
+//	}
+//}
 
 func cardinalityAtLeast(size int, k int, t *testing.T, typ SortingNetworkType) {
 

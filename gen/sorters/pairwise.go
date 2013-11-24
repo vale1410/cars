@@ -21,7 +21,7 @@ package sorters
 //	}
 //}
 //
-//func pariwiseSplit(newId *int, array []int, comparators *[]Comparator, lo int, hi int, spread) {
+//func pairwiseSplit(newId *int, array []int, comparators *[]Comparator, lo int, hi int, spread) {
 //    mid := lo + ((hi - lo) / 2)
 //    for i := 0; i*spead <= mid-lo; i++ {
 //    	//fmt.Println("compare", lo+i, mid+i+1)
