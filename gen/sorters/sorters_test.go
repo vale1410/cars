@@ -7,42 +7,36 @@ import (
 	"testing"
 )
 
-func TestStuff(t *testing.T) {
-	fmt.Println("Test: Print size 16")
-
-	//oe := CreateSortingNetwork(16,-1,OddEven)
-	//printSorterTikZ(oe,"16OddEven.tex")
-
-	//bubble := CreateSortingNetwork(8,-1,Bubble)
-	//printSorterTikZ(bubble,"8Bubble.tex")
-
-	bitonic := CreateSortingNetwork(4,-1,Bitonic)
-	printSorterTikZ(bitonic,"4.tex")
-}
-
 //func TestStuff(t *testing.T) {
 //
-//	sorter := CreateCardinalityNetwork(16,7,AtMost,OddEven)
+//	k := 100
+//	fmt.Println("Test: Print size", k*k)
 //
-//	printSorterTikZ(sorter,"pic.tex")
+//	sorter := CreateSortingNetwork(k*k, -1, OddEven)
 //
-//	sorter := CreateCardinalityNetwork(16,5,AtMost,OddEven)
-//	sorter.RemoveOutput()
-//	fmt.Println(sorter)
-//	printSorterTikZ(sorter,"pic.tex")
+//	fmt.Println("sorter size", k*k, len(sorter.Comparators))
+//
 //}
+
+func TestStuff(t *testing.T) {
+
+	fmt.Println("Print to TeX shit")
+	sorter := CreateSortingNetwork(16,-1,Pairwise)
+	printSorterTikZ(sorter,"pairwise16.tex")
+}
 
 // TestCardinality check constraint sum n <= k
 // TestAtLeast check constraint sum n >= k
 //func TestCardinality(t *testing.T) {
 //	fmt.Println("Test: Bitonic/OddEven")
 //
-//	var typs [3]SortingNetworkType 
-//    typs[0] = OddEven
-//    typs[1] = Bitonic
-//    typs[2] = Bubble
+//	var typs [4]SortingNetworkType
+//	typs[0] = OddEven
+//	typs[1] = Bitonic
+//	typs[2] = Bubble
+//	typs[3] = Pairwise
 //
-//	for _,typ := range typs {
+//	for _, typ := range typs {
 //
 //		sizes := []int{3, 4, 6, 9, 9, 9, 33, 68, 123, 250}
 //		ks := []int{2, 2, 3, 2, 6, 7, 29, 8, 8, 100}

@@ -13,7 +13,7 @@ const (
 	Insertion
 )
 
-func (s SortingNetworkType) ToString() string {
+func (s SortingNetworkType) String() string {
 	switch s {
 	case OddEven:
 		return "OddEven"
@@ -28,9 +28,9 @@ func (s SortingNetworkType) ToString() string {
 	case Insertion:
 		return "Insertion"
 	default:
-        panic("SortingNetworkType not existing")
+		panic("SortingNetworkType not existing")
 	}
-    return ""
+	return ""
 }
 
 const (
@@ -132,6 +132,8 @@ func CreateSortingNetwork(s int, cut int, typ SortingNetworkType) (sorter Sorter
 		triangleBitonic(&newId, output, &comparators, 0, n-1)
 	case Bubble:
 		bubbleSort(&newId, output, &comparators)
+	case Pairwise:
+		pairwiseSort(&newId, output, &comparators, 0, n-1)
 	default:
 		log.Println(typ)
 		log.Panic("Type of sorting network not implemented yet")
