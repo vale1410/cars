@@ -2,7 +2,7 @@
 
 while read line
 do
-    for e in {e1,e2,e3,e4,e5}
+    for e in {e1,e2,e3}
     do 
         mkdir -p $e
         mkdir -p $e/cnf
@@ -11,7 +11,7 @@ do
         do
             typeset -i v=$x
             echo $a[1] $x
-            ../gen/gen_sat -file $a[1] -$e -sym -add $v > $e/cnf/$(basename $a[1] .txt)_lb_$x.cnf
+            ./encode -f $a[1] -$e -sym -add $v > cnf/$e/$(basename $a[1] .txt)_lb_$x.cnf
         done
     done
 done
