@@ -1,11 +1,12 @@
 #!/bin/zsh
+#
+mkdir -p cnf
 
 while read line
 do
     for e in {e1,e2,e3}
     do 
-        mkdir -p $e
-        mkdir -p $e/cnf
+        mkdir -p cnf/$e
         a=("${(s/ /)line}")
         for x in {00..$a[2]}
         do

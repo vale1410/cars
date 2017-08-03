@@ -27,7 +27,7 @@ do
        mkdir -p $folder
        for x in $instances/$enc/*
        do 
-           output=$folder/$(basename $x .txt)-$se.log
+           output=$folder/$(basename $x .cnf)-$se.log
            echo msat -seed $se -solver $sol -time $timelimit '<' $x '1>' $output '2>&1'
        done	
     done 

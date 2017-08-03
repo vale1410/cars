@@ -6,8 +6,8 @@ timelimit=$3
 
 mkdir -p $basefolder
 
-#encoding=('minisat' 'microsat' 'glucose' 'lingeling' 'cmsat' 'clasp')
-solver=('glucose' 'lingeling' 'cmsat' 'clasp')
+solver=(minisat microsat glucose lingeling cmsat clasp)
+#solver=(glucose lingeling cmsat clasp)
 
 case $4 in
     1) seed=(142) ;;
@@ -21,11 +21,11 @@ for se in $seed
 do 
     for sol in $solver
     do 
-       folder=$basefolder/$solver
+       folder=$basefolder/$sol
        mkdir -p $folder
        for x in $instances/*
        do 
-           output=$folder/$(basename $x .txt)-$se.log
+           output=$folder/$(basename $x .cnf)-$se.log
            echo msat -seed $se -solver $sol -time $timelimit '<' $x '1>' $output '2>&1'
        done	
     done 
